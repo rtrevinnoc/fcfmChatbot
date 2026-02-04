@@ -1,6 +1,6 @@
 import os
-from fastapi import FastAPI, Request
-from fastapi.responses import PlainTextResponse
+from fastapi import FastAPI, Request, Query
+from fastapi.responses import PlainTextResponse, JSONResponse, Response
 from twilio.twiml.messaging_response import MessagingResponse
 from utils.text_utils import CharacterTextSplitter, TextFileLoader, PDFLoader
 from utils.openai_utils.prompts import UserRolePrompt, SystemRolePrompt
@@ -11,6 +11,9 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
+PLATFORM = os.getenv("MESSAGING_PLATFORM", "twilio").lower()
+VERIFY_TOKEN = os.getenv("VERIFY_TOKEN")
+PAGE_ACCESS_TOKEN = os.getenv("PAGE_ACCESS_TOKEN")
 if not os.getenv("OPENAI_API_KEY"):
     raise ValueError("OPENAI_API_KEY environment variable is not set")
 
@@ -113,28 +116,62 @@ async def startup_event():
     vector_db = await prepare_vector_db(PDF_FILE_PATH)
     print("Vector DB initialized")
 
-@app.post("/webhook")
-async def twilio_webhook(request: Request):
-    form = await request.form()
-    print("##########################")
-    print(form)
-    incoming_msg = form.get('Body', '').strip()
-    user_id = form.get("From")
-    print(incoming_msg)
-    print(user_id)
+@app.get("/webhook")
+async def verify(
+    mode: str = Query(None, alias="hub.mode"),
+    token: str = Query(None, alias="hub.verify_token"),
+    challenge: str = Query(None, alias="hub.challenge")
+):
+    if PLATFORM == "meta" and mode == "subscribe" and token == VERIFY_TOKEN:
+        return PlainTextResponse(content=challenge)
+    return PlainTextResponse(content="Forbidden", status_code=403)
 
+# 2. Unified Webhook (POST)
+@app.post("/webhook")
+async def unified_webhook(request: Request):
+    user_id = None
+    incoming_msg = None
+
+    if PLATFORM == "meta":
+        # Meta JSON Logic
+        data = await request.json()
+        try:
+            entry = data["entry"][0]["messaging"][0]
+            user_id = entry["sender"]["id"]
+            incoming_msg = entry["message"].get("text")
+        except (KeyError, IndexError):
+            return JSONResponse({"status": "ignored"})
+
+    else:
+        # Twilio Form Logic
+        form = await request.form()
+        user_id = form.get("From")
+        incoming_msg = form.get("Body", "").strip()
+
+    if not incoming_msg:
+        return Response(status_code=200)
+
+    # --- SHARED RAG PIPELINE ---
     async with ChatOpenAI() as chat_openai:
         qa_pipeline = RetrievalAugmentedQAPipeline(
             llm=chat_openai,
             vector_db_retriever=vector_db
         )
         response_text = await qa_pipeline.arun_pipeline(incoming_msg, user_id)
-        print(response_text)
 
-    resp = MessagingResponse()
-    msg = resp.message()
-    msg.body(response_text)
+    # --- CONDITIONAL RESPONSE ---
+    if PLATFORM == "meta":
+        await send_meta_message(user_id, response_text)
+        return JSONResponse({"status": "ok"})
+    else:
+        twiml_resp = MessagingResponse()
+        twiml_resp.message(response_text)
+        return Response(content=str(twiml_resp), media_type="application/xml")
 
-    print("##########################")
-
-    return PlainTextResponse(content=str(resp), media_type="application/xml")
+async def send_meta_message(recipient_id: str, text: str):
+    url = f"https://graph.facebook.com/v19.0/me/messages?access_token={PAGE_ACCESS_TOKEN}"
+    async with httpx.AsyncClient() as client:
+        await client.post(url, json={
+            "recipient": {"id": recipient_id},
+            "message": {"text": text}
+        })
