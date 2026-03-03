@@ -1,12 +1,15 @@
-import os, math, sqlite3
-from fastapi import FastAPI, Request, Query
+import os, math, sqlite3, secrets
+from fastapi import FastAPI, Request, Query, Depends, HTTPException, status
 from fastapi.responses import PlainTextResponse, JSONResponse, Response, HTMLResponse
 from fastapi.templating import Jinja2Templates
+from fastapi.security import HTTPBasic, HTTPBasicCredentials
+from flask import request
 from twilio.twiml.messaging_response import MessagingResponse
 from utils.text_utils import CharacterTextSplitter, TextFileLoader, PDFLoader
 from utils.openai_utils.prompts import UserRolePrompt, SystemRolePrompt
 from utils.vectordatabase import VectorDatabase
 from utils.openai_utils.chatmodel import ChatOpenAI
+from passlib.context import CryptContext
 from dotenv import load_dotenv
 
 load_dotenv()
@@ -14,6 +17,7 @@ load_dotenv()
 PLATFORM = os.getenv("MESSAGING_PLATFORM", "twilio").lower()
 VERIFY_TOKEN = os.getenv("VERIFY_TOKEN")
 PAGE_ACCESS_TOKEN = os.getenv("PAGE_ACCESS_TOKEN")
+DEFAULT_ADMIN_PASSWORD = os.getenv("DEFAULT_ADMIN_PASSWORD")
 if not os.getenv("OPENAI_API_KEY"):
     raise ValueError("OPENAI_API_KEY environment variable is not set")
 
@@ -33,6 +37,9 @@ vector_dbs = {}
 DB_PATH = "chat_history.db"
 
 templates = Jinja2Templates(directory="templates")
+
+security = HTTPBasic()
+pwd_context = CryptContext(schemes=["pbkdf2_sha256"], deprecated="auto")
 
 def init_db():
     conn = sqlite3.connect(DB_PATH)
@@ -56,6 +63,21 @@ def init_db():
             step INTEGER DEFAULT 0
         )
     """)
+
+    # NEW: Admin Table
+    c.execute("""
+        CREATE TABLE IF NOT EXISTS admins (
+            username TEXT PRIMARY KEY,
+            hashed_password TEXT NOT NULL
+        )
+    """)
+    # Check if we need a default admin
+    c.execute("SELECT COUNT(*) FROM admins")
+    if c.fetchone()[0] == 0:
+        default_pw = pwd_context.hash(DEFAULT_ADMIN_PASSWORD)
+        c.execute("INSERT INTO admins (username, hashed_password) VALUES (?, ?)", ("admin", default_pw))
+        print("Default admin created: admin")
+
     conn.commit()
     conn.close()
 
@@ -99,6 +121,24 @@ def update_user_profile(user_id: str, status=None, level=None, step=0):
     """, (user_id, status, level, step, status, level, step))
     conn.commit()
     conn.close()
+
+def verify_password(plain_password, hashed_password):
+    return pwd_context.verify(plain_password, hashed_password)
+
+def get_current_username(credentials: HTTPBasicCredentials = Depends(security)):
+    conn = sqlite3.connect(DB_PATH)
+    c = conn.cursor()
+    c.execute("SELECT hashed_password FROM admins WHERE username = ?", (credentials.username,))
+    row = c.fetchone()
+    conn.close()
+
+    if row is None or not verify_password(credentials.password, row[0]):
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail="Incorrect username or password",
+            headers={"WWW-Authenticate": "Basic"},
+        )
+    return credentials.username
 
 class RetrievalAugmentedQAPipeline:
     def __init__(self, llm: ChatOpenAI, profile: dict):
@@ -289,12 +329,16 @@ async def send_meta_message(recipient_id: str, text: str):
         })
 
 @app.get("/admin", response_class=HTMLResponse)
-async def admin_dashboard(request: Request):
+async def admin_dashboard(request: Request, username: str = Depends(get_current_username)):
     # We pass the 'request' object because Jinja2 requires it
     return templates.TemplateResponse("admin.html", {"request": request})
 
 @app.get("/api/profiles")
-async def get_all_profiles(page: int = 1, size: int = 10):
+async def get_all_profiles(
+    page: int = 1, 
+    size: int = 10, 
+    username: str = Depends(get_current_username)
+):
     offset = (page - 1) * size
     conn = sqlite3.connect(DB_PATH)
     c = conn.cursor()
