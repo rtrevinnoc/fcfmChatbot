@@ -236,9 +236,10 @@ async def unified_webhook(request: Request):
     if not profile or profile['step'] == 0:
         menu_text = (
             "¡Hola! Para ayudarte mejor, selecciona tu situación actual:\n"
-            "1. Estoy aplicando (Aspirante)\n"
-            "2. Ya soy alumno y quiero inscribirme\n"
-            "3. Soy estudiante (Consulta de materias/plan)"
+            "1️⃣\tEstoy aplicando (Aspirante)\n"
+            "2️⃣\tYa soy alumno y quiero inscribirme\n"
+            "3️⃣\tSoy estudiante (Consulta de materias/plan)\n"
+            "\nConsulta nuestro aviso de privacidad en https://www.uanl.mx/aviso-de-privacidad/"
         )
         update_user_profile(user_id, step=1)
         return await respond_to_platform(user_id, menu_text)
@@ -255,10 +256,10 @@ async def unified_webhook(request: Request):
 
         elif "3" in incoming_msg or "estudiante" in incoming_msg.lower():
             update_user_profile(user_id, status="student", step=2)
-            return await respond_to_platform(user_id, "Excelente. ¿Eres de (1) Licenciatura o (2) Posgrado?")
+            return await respond_to_platform(user_id, "Excelente. ¿En qué grado estás?\n1️⃣\tLicenciatura\n2️⃣\tPosgrado")
         
         else:
-            return await respond_to_platform(user_id, "Por favor, selecciona una opción válida (1, 2 o 3).")
+            return await respond_to_platform(user_id, "Por favor, selecciona una opción válida (1 o 2).")
 
     # STEP 2: Handle Student Level (Undergrad vs Grad)
     if profile['step'] == 2:
