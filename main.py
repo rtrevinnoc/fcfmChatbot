@@ -125,6 +125,15 @@ class RetrievalAugmentedQAPipeline:
         
         current_role = role_desc.get(self.profile['level'] or self.profile['status'], "asistente administrativo")
 
+        omit_desc = {
+            "applying": "No incluyas información acerca de precios",
+            "enrolled": "No inlcuyas información promocional ni de costos, el alumno ya está inscrito",
+            "undergraduate": "No incluyas información acerca de precios, ni promociones, ni información de posgrado ya que el estudiante ya está inscrito en licenciatura",
+            "graduate": "No incluyas información de precios, ni promociones, ni información de licenciatura ya que el estudiante ya está inscrito en posgrado"
+        }
+        
+        current_omissions = omit_desc.get(self.profile['level'] or self.profile['status'], "")
+
         messages = [
             {
                 "role": "system",
@@ -132,7 +141,7 @@ class RetrievalAugmentedQAPipeline:
                     f"Eres un {current_role} en la Facultad de Ciencias Físico Matemáticas de la Universidad Autónoma de Nuevo León en Monterrey, México. "
                     f"Tu objetivo es ayudar exclusivamente con temas de {self.profile['status']}. "
                     "Realiza preguntas para averiguar lo que busca el usuario cuando no cuentes con información suficiente, ya que puede no saber qué es lo que necesita y debes apoyarlo."
-                    "No incluyas costos, ni precios en las respuestas."
+                    f"{current_omissions}."
                     "Responde siempre en español. Sé conciso. Mantén la conversación sencilla y haz solo una pregunta a la vez.\n\n"
                     f"Contexto relevante:\n{context_prompt}"
                 )
@@ -255,10 +264,10 @@ async def unified_webhook(request: Request):
     if profile['step'] == 2:
         if "1" in incoming_msg or "licenciatura" in incoming_msg.lower():
             update_user_profile(user_id, level="undergraduate", step=3)
-            return await respond_to_platform(user_id, "Cargando info de Licenciatura... ¿En qué puedo ayudarte?")
+            return await respond_to_platform(user_id, "¿En qué puedo ayudarte acerca de licenciatura?")
         elif "2" in incoming_msg or "posgrado" in incoming_msg.lower():
             update_user_profile(user_id, level="graduate", step=3)
-            return await respond_to_platform(user_id, "Cargando info de Posgrado... ¿Qué dudas tienes?")
+            return await respond_to_platform(user_id, "¿Qué dudas tienes respecto al posgrado?")
         else:
             return await respond_to_platform(user_id, "Por favor selecciona 1 para Licenciatura o 2 para Posgrado.")
 
