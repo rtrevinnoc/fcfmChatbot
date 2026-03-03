@@ -142,7 +142,7 @@ class RetrievalAugmentedQAPipeline:
                     f"Tu objetivo es ayudar exclusivamente con temas de {self.profile['status']}. "
                     "Realiza preguntas para averiguar lo que busca el usuario cuando no cuentes con información suficiente, ya que puede no saber qué es lo que necesita y debes apoyarlo."
                     f"{current_omissions}."
-                    "Responde siempre en español. Sé conciso. Mantén la conversación sencilla y haz solo una pregunta a la vez.\n\n"
+                    "Responde siempre en español. Sé conciso pero muestra toda la información relevante con la que cuentes. Mantén la conversación sencilla y haz solo una pregunta a la vez.\n\n"
                     f"Contexto relevante:\n{context_prompt}"
                 )
             }
