@@ -19,13 +19,23 @@ if not os.getenv("OPENAI_API_KEY"):
 
 app = FastAPI()
 
-vector_db = None  # global placeholder
-PDF_FILE_PATH = "catalog.pdf"
+# Configuration for different segments
+FILES_MAP = {
+    "applying": "catalog.pdf",
+    "enrolled": "catalog.pdf",
+    "undergraduate": "catalog.pdf",
+    "graduate": "catalog.pdf"
+}
+
+# Global dictionary to hold multiple vector databases
+vector_dbs = {}
+
 DB_PATH = "chat_history.db"
 
 def init_db():
     conn = sqlite3.connect(DB_PATH)
     c = conn.cursor()
+    # Existing history table
     c.execute("""
         CREATE TABLE IF NOT EXISTS history (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -33,6 +43,15 @@ def init_db():
             role TEXT NOT NULL,
             content TEXT NOT NULL,
             timestamp DATETIME DEFAULT CURRENT_TIMESTAMP
+        )
+    """)
+    # New table for User State
+    c.execute("""
+        CREATE TABLE IF NOT EXISTS user_profiles (
+            user_id TEXT PRIMARY KEY,
+            status TEXT, -- applying, enrolled, student
+            level TEXT,  -- undergraduate, graduate
+            step INTEGER DEFAULT 0
         )
     """)
     conn.commit()
@@ -55,28 +74,67 @@ def add_to_history(user_id: str, role: str, content: str):
     conn.commit()
     conn.close()
 
+def get_user_profile(user_id: str):
+    conn = sqlite3.connect(DB_PATH)
+    c = conn.cursor()
+    c.execute("SELECT status, level, step FROM user_profiles WHERE user_id = ?", (user_id,))
+    row = c.fetchone()
+    conn.close()
+    if row:
+        return {"status": row[0], "level": row[1], "step": row[2]}
+    return None
+
+def update_user_profile(user_id: str, status=None, level=None, step=0):
+    conn = sqlite3.connect(DB_PATH)
+    c = conn.cursor()
+    c.execute("""
+        INSERT INTO user_profiles (user_id, status, level, step) 
+        VALUES (?, ?, ?, ?)
+        ON CONFLICT(user_id) DO UPDATE SET 
+            status=COALESCE(?, status), 
+            level=COALESCE(?, level), 
+            step=?
+    """, (user_id, status, level, step, status, level, step))
+    conn.commit()
+    conn.close()
+
 class RetrievalAugmentedQAPipeline:
-    def __init__(self, llm: ChatOpenAI, vector_db_retriever: VectorDatabase):
+    def __init__(self, llm: ChatOpenAI, profile: dict):
         self.llm = llm
-        self.vector_db_retriever = vector_db_retriever
+        self.profile = profile
+        # Determine which vector DB to use
+        db_key = profile['level'] if profile['status'] == 'student' else profile['status']
+        self.vector_db = vector_dbs.get(db_key)
 
     async def arun_pipeline(self, user_query: str, user_id: str):
-        # Retrieve catalog context
-        context_list = self.vector_db_retriever.search_by_text(user_query, k=4)
-        context_prompt = "\n".join([context[0] for context in context_list])
+        # Retrieve context from the SPECIFIC vector DB
+        context_prompt = ""
+        if self.vector_db:
+            context_list = self.vector_db.search_by_text(user_query, k=4)
+            context_prompt = "\n".join([context[0] for context in context_list])
 
-        # Load past conversation from DB
         history = get_user_history(user_id)
+        
+        # Dynamic System Prompt based on situation
+        role_desc = {
+            "applying": "asistente de ADMISIONES para nuevos aspirantes",
+            "enrolled": "asistente de INSCRIPCIONES para alumnos de reingreso",
+            "undergraduate": "asistente académico de LICENCIATURA",
+            "graduate": "asistente académico de POSGRADO"
+        }
+        
+        current_role = role_desc.get(self.profile['level'] or self.profile['status'], "asistente administrativo")
 
-        # Build the messages list
         messages = [
             {
                 "role": "system",
                 "content": (
-                    "Eres un asistente experto en la administración de la Facultad de Ciencias Físico Matemáticas de la Universidad Autónoma de Nuevo León en Monterrey, México. Utiliza la información provista para responder preguntas a alumnos sobre los procesos de inscripción y materías."
+                    f"Eres un {current_role} en la Facultad de Ciencias Físico Matemáticas de la Universidad Autónoma de Nuevo León en Monterrey, México. "
+                    f"Tu objetivo es ayudar exclusivamente con temas de {self.profile['status']}. "
                     "Realiza preguntas para averiguar lo que busca el usuario cuando no cuentes con información suficiente, ya que puede no saber qué es lo que necesita y debes apoyarlo."
-                    "Responde siempre en español. Mantén la conversación sencilla y haz solo una pregunta a la vez.\n\n"
-                    f"Contexto:\n{context_prompt}"
+                    "No incluyas costos, ni precios en las respuestas."
+                    "Responde siempre en español. Sé conciso. Mantén la conversación sencilla y haz solo una pregunta a la vez.\n\n"
+                    f"Contexto relevante:\n{context_prompt}"
                 )
             }
         ] + history + [{"role": "user", "content": user_query}]
@@ -112,9 +170,11 @@ async def prepare_vector_db(file_path):
 
 @app.on_event("startup")
 async def startup_event():
-    global vector_db
-    vector_db = await prepare_vector_db(PDF_FILE_PATH)
-    print("Vector DB initialized")
+    global vector_dbs
+    for key, path in FILES_MAP.items():
+        if os.path.exists(path):
+            vector_dbs[key] = await prepare_vector_db(path)
+    print("All Vector DBs initialized")
 
 @app.get("/webhook")
 async def verify(
@@ -125,6 +185,16 @@ async def verify(
     if PLATFORM == "meta" and mode == "subscribe" and token == VERIFY_TOKEN:
         return PlainTextResponse(content=challenge)
     return PlainTextResponse(content="Forbidden", status_code=403)
+
+# Helper to keep the code clean
+async def respond_to_platform(user_id, text):
+    if PLATFORM == "meta":
+        await send_meta_message(user_id, text)
+        return JSONResponse({"status": "ok"})
+    else:
+        twiml_resp = MessagingResponse()
+        twiml_resp.message(text)
+        return Response(content=str(twiml_resp), media_type="application/xml")
 
 # 2. Unified Webhook (POST)
 @app.post("/webhook")
@@ -151,22 +221,52 @@ async def unified_webhook(request: Request):
     if not incoming_msg:
         return Response(status_code=200)
 
-    # --- SHARED RAG PIPELINE ---
-    async with ChatOpenAI() as chat_openai:
-        qa_pipeline = RetrievalAugmentedQAPipeline(
-            llm=chat_openai,
-            vector_db_retriever=vector_db
-        )
-        response_text = await qa_pipeline.arun_pipeline(incoming_msg, user_id)
+    profile = get_user_profile(user_id)
 
-    # --- CONDITIONAL RESPONSE ---
-    if PLATFORM == "meta":
-        await send_meta_message(user_id, response_text)
-        return JSONResponse({"status": "ok"})
-    else:
-        twiml_resp = MessagingResponse()
-        twiml_resp.message(response_text)
-        return Response(content=str(twiml_resp), media_type="application/xml")
+    # STEP 0: New User - Send Main Menu
+    if not profile or profile['step'] == 0:
+        menu_text = (
+            "¡Hola! Para ayudarte mejor, selecciona tu situación actual:\n"
+            "1. Estoy aplicando (Aspirante)\n"
+            "2. Ya soy alumno y quiero inscribirme\n"
+            "3. Soy estudiante (Consulta de materias/plan)"
+        )
+        update_user_profile(user_id, step=1)
+        return await respond_to_platform(user_id, menu_text)
+
+    # STEP 1: Handle Main Menu Response
+    if profile['step'] == 1:
+        if "1" in incoming_msg or "aplicando" in incoming_msg.lower():
+            update_user_profile(user_id, status="applying", step=3)
+            return await respond_to_platform(user_id, "Entendido. ¿Qué dudas tienes sobre el proceso de admisión?")
+        
+        elif "2" in incoming_msg or "inscribirme" in incoming_msg.lower():
+            update_user_profile(user_id, status="enrolled", step=3)
+            return await respond_to_platform(user_id, "Perfecto. Dime tus dudas sobre inscripciones y cuotas.")
+
+        elif "3" in incoming_msg or "estudiante" in incoming_msg.lower():
+            update_user_profile(user_id, status="student", step=2)
+            return await respond_to_platform(user_id, "Excelente. ¿Eres de (1) Licenciatura o (2) Posgrado?")
+        
+        else:
+            return await respond_to_platform(user_id, "Por favor, selecciona una opción válida (1, 2 o 3).")
+
+    # STEP 2: Handle Student Level (Undergrad vs Grad)
+    if profile['step'] == 2:
+        if "1" in incoming_msg or "licenciatura" in incoming_msg.lower():
+            update_user_profile(user_id, level="undergraduate", step=3)
+            return await respond_to_platform(user_id, "Cargando info de Licenciatura... ¿En qué puedo ayudarte?")
+        elif "2" in incoming_msg or "posgrado" in incoming_msg.lower():
+            update_user_profile(user_id, level="graduate", step=3)
+            return await respond_to_platform(user_id, "Cargando info de Posgrado... ¿Qué dudas tienes?")
+        else:
+            return await respond_to_platform(user_id, "Por favor selecciona 1 para Licenciatura o 2 para Posgrado.")
+
+    # STEP 3: Normal RAG Flow
+    async with ChatOpenAI() as chat_openai:
+        qa_pipeline = RetrievalAugmentedQAPipeline(llm=chat_openai, profile=profile)
+        response_text = await qa_pipeline.arun_pipeline(incoming_msg, user_id)
+        return await respond_to_platform(user_id, response_text)
 
 async def send_meta_message(recipient_id: str, text: str):
     url = f"https://graph.facebook.com/v19.0/me/messages?access_token={PAGE_ACCESS_TOKEN}"
