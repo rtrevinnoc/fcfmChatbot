@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Panel de Administración FCFM</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-50 p-4 md:p-10">
+    <div class="max-w-6xl mx-auto">
+        <div class="flex justify-between items-center mb-8">
+            <h1 class="text-3xl font-extrabold text-slate-800">Directorio de Estudiantes</h1>
+            <span class="bg-blue-100 text-blue-700 px-4 py-1 rounded-full text-sm font-semibold" id="totalCount">Cargando...</span>
+        </div>
+
+        <div class="bg-white shadow-xl rounded-xl overflow-hidden border border-slate-200">
+            <table class="w-full text-left border-collapse">
+                <thead>
+                    <tr class="bg-slate-800 text-white">
+                        <th class="p-4 font-semibold uppercase text-xs">ID / Teléfono</th>
+                        <th class="p-4 font-semibold uppercase text-xs">Situación</th>
+                        <th class="p-4 font-semibold uppercase text-xs">Nivel</th>
+                        <th class="p-4 font-semibold uppercase text-xs">Paso (Flujo)</th>
+                        <th class="p-4 font-semibold uppercase text-xs text-center">Mensajes</th>
+                    </tr>
+                </thead>
+                <tbody id="tableBody" class="divide-y divide-slate-100">
+                    </tbody>
+            </table>
+        </div>
+
+        <div class="flex justify-between items-center mt-6">
+            <button onclick="prevPage()" id="prevBtn" class="px-6 py-2 bg-white border rounded-lg hover:bg-gray-50 disabled:opacity-50 transition">Anterior</button>
+            <span class="text-slate-600 font-medium">Página <span id="currentPage">1</span> de <span id="totalPages">1</span></span>
+            <button onclick="nextPage()" id="nextBtn" class="px-6 py-2 bg-white border rounded-lg hover:bg-gray-50 disabled:opacity-50 transition">Siguiente</button>
+        </div>
+    </div>
+
+    <script>
+        let page = 1;
+        const size = 10;
+
+        async function loadTable() {
+            const res = await fetch(`/api/profiles?page=${page}&size=${size}`);
+            const data = await res.json();
+
+            const tbody = document.getElementById('tableBody');
+            tbody.innerHTML = '';
+
+            data.profiles.forEach(p => {
+                const statusColor = p.status === 'applying' ? 'bg-yellow-100 text-yellow-700' : 'bg-green-100 text-green-700';
+                tbody.innerHTML += `
+                    <tr class="hover:bg-slate-50 transition">
+                        <td class="p-4 font-mono text-sm">${p.user_id}</td>
+                        <td class="p-4">
+                            <span class="px-2 py-1 rounded-md text-xs font-bold uppercase ${statusColor}">${p.status || 'Nuevo'}</span>
+                        </td>
+                        <td class="p-4 text-slate-600 italic text-sm">${p.level || '-'}</td>
+                        <td class="p-4 text-center font-bold text-slate-500">${p.step}</td>
+                        <td class="p-4 text-center">
+                            <span class="bg-slate-100 px-3 py-1 rounded-full text-xs font-medium">${p.messages} msg</span>
+                        </td>
+                    </tr>
+                `;
+            });
+
+            document.getElementById('currentPage').innerText = data.current_page;
+            document.getElementById('totalPages').innerText = data.total_pages;
+            document.getElementById('totalCount').innerText = `${data.total_records} Usuarios`;
+            
+            document.getElementById('prevBtn').disabled = (page === 1);
+            document.getElementById('nextBtn').disabled = (page >= data.total_pages);
+        }
+
+        function nextPage() { page++; loadTable(); }
+        function prevPage() { page--; loadTable(); }
+
+        loadTable();
+    </script>
+</body>
+</html>

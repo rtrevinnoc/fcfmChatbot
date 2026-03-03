@@ -1,12 +1,12 @@
-import os
+import os, math, sqlite3
 from fastapi import FastAPI, Request, Query
-from fastapi.responses import PlainTextResponse, JSONResponse, Response
+from fastapi.responses import PlainTextResponse, JSONResponse, Response, HTMLResponse
+from fastapi.templating import Jinja2Templates
 from twilio.twiml.messaging_response import MessagingResponse
 from utils.text_utils import CharacterTextSplitter, TextFileLoader, PDFLoader
 from utils.openai_utils.prompts import UserRolePrompt, SystemRolePrompt
 from utils.vectordatabase import VectorDatabase
 from utils.openai_utils.chatmodel import ChatOpenAI
-import sqlite3
 from dotenv import load_dotenv
 
 load_dotenv()
@@ -31,6 +31,8 @@ FILES_MAP = {
 vector_dbs = {}
 
 DB_PATH = "chat_history.db"
+
+templates = Jinja2Templates(directory="templates")
 
 def init_db():
     conn = sqlite3.connect(DB_PATH)
@@ -285,3 +287,44 @@ async def send_meta_message(recipient_id: str, text: str):
             "recipient": {"id": recipient_id},
             "message": {"text": text}
         })
+
+@app.get("/admin", response_class=HTMLResponse)
+async def admin_dashboard(request: Request):
+    # We pass the 'request' object because Jinja2 requires it
+    return templates.TemplateResponse("admin.html", {"request": request})
+
+@app.get("/api/profiles")
+async def get_all_profiles(page: int = 1, size: int = 10):
+    offset = (page - 1) * size
+    conn = sqlite3.connect(DB_PATH)
+    c = conn.cursor()
+    
+    # Get total count for pagination math
+    c.execute("SELECT COUNT(*) FROM user_profiles")
+    total_records = c.fetchone()[0]
+    total_pages = math.ceil(total_records / size)
+
+    # Get paginated data with message counts
+    c.execute("""
+        SELECT p.user_id, p.status, p.level, p.step, COUNT(h.id) 
+        FROM user_profiles p
+        LEFT JOIN history h ON p.user_id = h.user_id
+        GROUP BY p.user_id
+        ORDER BY p.user_id DESC
+        LIMIT ? OFFSET ?
+    """, (size, offset))
+    
+    rows = c.fetchall()
+    conn.close()
+
+    profiles = [
+        {"user_id": r[0], "status": r[1], "level": r[2], "step": r[3], "messages": r[4]}
+        for r in rows
+    ]
+    
+    return {
+        "profiles": profiles,
+        "total_pages": total_pages,
+        "current_page": page,
+        "total_records": total_records
+    }
