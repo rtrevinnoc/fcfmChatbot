@@ -25,10 +25,11 @@ app = FastAPI()
 
 # Configuration for different segments
 FILES_MAP = {
-    "applying": "catalog.pdf",
-    "enrolled": "catalog.pdf",
-    "undergraduate": "catalog.pdf",
-    "graduate": "catalog.pdf"
+    "applying": "faqAspirantes.pdf",
+    "enrolled": "faqReingreso.pdf",
+    "undergraduate": "faqUndergraduate.pdf",
+    "graduate": "faqGraduate.pdf",
+    "alumni": "faqEgresados.pdf"
 }
 
 # Global dictionary to hold multiple vector databases
@@ -162,7 +163,8 @@ class RetrievalAugmentedQAPipeline:
             "applying": "asistente de ADMISIONES para nuevos aspirantes",
             "enrolled": "asistente de INSCRIPCIONES para alumnos de reingreso",
             "undergraduate": "asistente académico de LICENCIATURA",
-            "graduate": "asistente académico de POSGRADO"
+            "graduate": "asistente académico de POSGRADO",
+            "alumni": "asistente de TRAMITES Y TITULACION para egresados"
         }
         
         current_role = role_desc.get(self.profile['level'] or self.profile['status'], "asistente administrativo")
@@ -171,7 +173,8 @@ class RetrievalAugmentedQAPipeline:
             "applying": "No incluyas información acerca de precios",
             "enrolled": "No inlcuyas información promocional ni de costos, el alumno ya está inscrito",
             "undergraduate": "No incluyas información acerca de precios, ni promociones, ni información de posgrado ya que el estudiante ya está inscrito en licenciatura",
-            "graduate": "No incluyas información de precios, ni promociones, ni información de licenciatura ya que el estudiante ya está inscrito en posgrado"
+            "graduate": "No incluyas información de precios, ni promociones, ni información de licenciatura ya que el estudiante ya está inscrito en posgrado",
+            "alumni": "El usuario ya terminó sus estudios, enfócate en trámites de titulación o servicios para ex-alumnos"
         }
         
         current_omissions = omit_desc.get(self.profile['level'] or self.profile['status'], "")
@@ -279,9 +282,10 @@ async def unified_webhook(request: Request):
         menu_text = (
             "¡Hola! Para ayudarte mejor, selecciona tu situación actual:\n"
             "1️⃣\tEstoy aplicando (Aspirante)\n"
-            "2️⃣\tYa soy alumno y quiero inscribirme\n"
+            "2️⃣\tYa soy alumno, quiero consultar acerca del reingreso\n"
             "3️⃣\tSoy estudiante (Consulta de materias/plan)\n"
-            "\nConsulta nuestro aviso de privacidad en https://www.uanl.mx/aviso-de-privacidad/"
+            "4️⃣\tYa egresé (Trámites de titulación)"
+            "\nConsulta nuestro aviso de privacidad en https://www.uanl.mx/aviso-de-privacidad/",
         )
         update_user_profile(user_id, step=1)
         return await respond_to_platform(user_id, menu_text)
@@ -294,11 +298,15 @@ async def unified_webhook(request: Request):
         
         elif "2" in incoming_msg or "inscribirme" in incoming_msg.lower():
             update_user_profile(user_id, status="enrolled", step=3)
-            return await respond_to_platform(user_id, "Perfecto. Dime tus dudas sobre inscripciones y cuotas.")
+            return await respond_to_platform(user_id, "Perfecto. Dime tus dudas sobre el reingreso.")
 
         elif "3" in incoming_msg or "estudiante" in incoming_msg.lower():
             update_user_profile(user_id, status="student", step=2)
             return await respond_to_platform(user_id, "Excelente. ¿En qué grado estás?\n1️⃣\tLicenciatura\n2️⃣\tPosgrado")
+        
+        if "4" in incoming_msg or "egresado" in incoming_msg.lower() or "egresé" in incoming_msg.lower():
+            update_user_profile(user_id, status="alumni", step=3)
+            return await respond_to_platform(user_id, "¡Felicidades por egresar! ¿En qué trámite o consulta te puedo ayudar hoy?")
         
         else:
             return await respond_to_platform(user_id, "Por favor, selecciona una opción válida (1 o 2).")
