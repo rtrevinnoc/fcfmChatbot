@@ -285,7 +285,7 @@ async def unified_webhook(request: Request):
             "2️⃣\tYa soy alumno, quiero consultar acerca del reingreso\n"
             "3️⃣\tSoy estudiante (Consulta de materias/plan)\n"
             "4️⃣\tYa egresé (Trámites de titulación)"
-            "\nConsulta nuestro aviso de privacidad en https://www.uanl.mx/aviso-de-privacidad/",
+            "\nConsulta nuestro aviso de privacidad en https://www.uanl.mx/aviso-de-privacidad/"
         )
         update_user_profile(user_id, step=1)
         return await respond_to_platform(user_id, menu_text)
@@ -304,12 +304,12 @@ async def unified_webhook(request: Request):
             update_user_profile(user_id, status="student", step=2)
             return await respond_to_platform(user_id, "Excelente. ¿En qué grado estás?\n1️⃣\tLicenciatura\n2️⃣\tPosgrado")
         
-        if "4" in incoming_msg or "egresado" in incoming_msg.lower() or "egresé" in incoming_msg.lower():
+        elif "4" in incoming_msg or "egresado" in incoming_msg.lower() or "egresé" in incoming_msg.lower():
             update_user_profile(user_id, status="alumni", step=3)
             return await respond_to_platform(user_id, "¡Felicidades por egresar! ¿En qué trámite o consulta te puedo ayudar hoy?")
         
         else:
-            return await respond_to_platform(user_id, "Por favor, selecciona una opción válida (1 o 2).")
+            return await respond_to_platform(user_id, "Por favor, selecciona una opción válida (1, 2, 3 o 4).")
 
     # STEP 2: Handle Student Level (Undergrad vs Grad)
     if profile['step'] == 2:
