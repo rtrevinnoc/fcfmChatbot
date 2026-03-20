@@ -260,32 +260,36 @@ async def prepare_vector_db(file_path):
 
 async def build_programs_db() -> VectorDatabase | None:
     """
-    Build the programs VectorDatabase from three sources:
-      1. materias/*.txt  — semester-by-semester course plans (local, authoritative)
-      2. downloaded PDFs — plan de estudios / malla curricular fetched from UANL
-      3. live web pages  — program descriptions, requirements, career fields
-    """
-    try:
-        splitter = CharacterTextSplitter()
-        all_chunks: list[str] = []
+    Build the programs VectorDatabase from three independent sources.
+    Each source is wrapped in its own try/except so a network failure
+    never prevents the local materias files from being indexed.
 
-        # ── Source 1: materias/*.txt ──────────────────────────────────────
+      1. materias/*.txt  — semester-by-semester course plans (local, always first)
+      2. live web pages  — program descriptions, requirements, career fields
+      3. downloaded PDFs — plan de estudios / malla curricular from UANL
+    """
+    splitter = CharacterTextSplitter()
+    all_chunks: list[str] = []
+
+    # ── Source 1: materias/*.txt (local — must never fail) ────────────────
+    try:
         if os.path.isdir(MATERIAS_DIR):
             materias_loader = TextFileLoader(MATERIAS_DIR)
             materias_docs = materias_loader.load_documents()
             all_chunks.extend(splitter.split_texts(materias_docs))
-            print(f"[ProgramsDB] Loaded {len(materias_docs)} materias files")
+            print(f"[ProgramsDB] Loaded {len(materias_docs)} files from {MATERIAS_DIR}/")
         else:
-            print(f"[ProgramsDB] Warning: {MATERIAS_DIR}/ not found, skipping")
+            print(f"[ProgramsDB] Warning: {MATERIAS_DIR}/ not found")
+    except Exception as exc:
+        print(f"[ProgramsDB] Error loading materias/: {exc}")
 
-        # ── Sources 2 & 3: web scraping + PDF downloads ───────────────────
+    # ── Sources 2 & 3: web scraping + PDF downloads (network — may fail) ──
+    try:
         web_docs, pdf_paths = await scrape_program_pages()
 
-        # Web text chunks
         if web_docs:
             all_chunks.extend(splitter.split_texts(web_docs))
 
-        # Downloaded PDF chunks
         for pdf_path in pdf_paths:
             try:
                 pdf_loader = PDFLoader(pdf_path)
@@ -294,18 +298,17 @@ async def build_programs_db() -> VectorDatabase | None:
             except Exception as exc:
                 print(f"[ProgramsDB] Could not load PDF {pdf_path}: {exc}")
 
-        if not all_chunks:
-            print("[ProgramsDB] No content collected — programs_db not updated")
-            return None
-
-        db = VectorDatabase()
-        await db.abuild_from_list(all_chunks)
-        print(f"[ProgramsDB] Built with {len(all_chunks)} chunks total")
-        return db
-
     except Exception as exc:
-        print(f"[ProgramsDB] Failed to build: {exc}")
+        print(f"[ProgramsDB] Web scraping failed (materias data still loaded): {exc}")
+
+    if not all_chunks:
+        print("[ProgramsDB] No content collected — programs_db not updated")
         return None
+
+    db = VectorDatabase()
+    await db.abuild_from_list(all_chunks)
+    print(f"[ProgramsDB] Built with {len(all_chunks)} chunks total")
+    return db
 
 
 async def _programs_db_refresh_loop():
