@@ -1,0 +1,127 @@
+               09/03/26             UNIVERSIDAD AUTONOMA DE NUEVO LEON                                           Pag  1
+                                   FACULTAD DE CIENCIAS FÍSICO MATEMÁTICAS                                        16:23
+                                            SECRETARIA ESCOLAR
+                  REQUISITOS DE LIC. EN FISICA 430-02 DEL PLAN 430 Modelo Academico 2020 MIXTA                  430 - 02
+------------------------------------------------------------------------------------------------------------------------
+Opta  Materia                                      Requisito                  TReq F P  SP  FC FL VCC VCL CU UA O Act
+------------------------------------------------------------------------------------------------------------------------
+
+                                   Semestre:01
+       178 Álgebra                                                                 1 04 106 5  0  4.0  0  10 01 6 Si
+       177 Cálculo diferencial                                                     1 04 106 5  0  4.0  0  10 01 6 Si
+       180 Geometría analítica                                                     1 04 106 5  0  4.0  0  10 01 6 Si
+       179 Metodología de la programación                                          1 04 106 5  0  4.0  0  10 01 6 Si
+       008 Responsabilidad social y desarro                                        1 04 106 2  0  2.0  0  09 01 6 Si
+       010 Cultura de paz                                                          1 04 106 2  0  2.0  0  09 01 6 Si
+
+                                   Semestre:02
+       183 Tópicos de álgebra                                                      1 04 106 5  0  4.0  0  10 01 6 Si
+       182 Cálculo integral                                                        1 04 106 5  0  4.0  0  10 01 6 Si
+       502 Programación básica                                                     1 04 106 5  0  4.0  0  11 01 6 Si
+       009 Ética y cultura de la legalidad                                         1 04 106 2  0  2.0  0  09 01 6 Si
+       181 Mecánica traslacional y rotacion                                        1 04 106 5  0  4.0  0  10 01 6 Si
+       007 Liderazgo, emprendimiento e inno                                        1 04 106 2  0  2.0  0  09 01 6 Si
+       094 Cultura de género                                                       1 04 106 2  0  2.0  0  09 01 6 Si
+
+                                   Semestre:03
+       305 Cálculo de varias variables                                             1 04 106 5  0  4.0  0  12 01 6 Si
+       306 Álgebra lineal                                                          1 04 106 5  0  4.0  0  12 01 6 Si
+       401 Métodos diferenciales                                                   1 04 106 5  0  4.0  0  13 01 6 Si
+       402 Gravitación, fluidos y calor                                            1 04 106 5  0  4.0  0  12 01 6 Si
+       403 Laboratorio de gravitación, flui                                        1 04 106 2  0  2.0  0  12 01 6 Si
+       404 Probabilidad y estadística                                              1 04 106 5  0  4.0  0  12 01 6 Si
+       405 Lenguajes de programación                                               1 04 106 5  0  4.0  0  12 01 6 Si
+
+                                   Semestre:04
+       313 Cálculo vectorial                  305 Cálculo de varias variabl      1 1 04 106 5  0  4.0  0  13 01 6 Si
+       310 Variable compleja                  305 Cálculo de varias variabl      1 1 04 106 5  0  4.0  0  13 01 6 Si
+       406 Electricidad                       402 Gravitación, fluidos y ca      1 1 04 106 5  0  4.0  0  12 01 6 Si
+       407 Métodos numéricos                  405 Lenguajes de programación      1 1 04 106 3  0  3.0  0  12 01 6 Si
+       408 Mecánica teórica                                                        1 04 106 3  0  3.0  0  13 01 6 Si
+       409 Diseño experimental                404 Probabilidad y estadístic      1 1 04 106 3  0  3.0  0  13 01 6 Si
+       410 Didáctica de la física                                                  1 04 106 3  0  3.0  0  13 01 6 Si
+
+                                   Semestre:05
+       411 Métodos de la física teórica       313 Cálculo vectorial              1 1 04 106 5  0  4.0  0  12 01 6 Si
+       412 Termodinámica                                                           1 04 106 5  0  4.0  0  13 01 6 Si
+       413 Ondas y magnetismo                 406 Electricidad                   1 1 04 106 5  0  4.0  0  12 01 6 Si
+       414 Laboratorio de ondas y magnetism                                        1 04 106 2  0  2.0  0  12 01 6 Si
+       415 Mecánica de sistemas con restric   408 Mecánica teórica               1 1 04 106 3  0  3.0  0  13 01 6 Si
+       416 Física moderna                                                          1 04 106 5  0  4.0  0  13 01 6 Si
+01PF01 430 Fundamentos de astrofísica                                              1 04 106 3  0  3.0  0  13 02 6 Si
+01PF01 431 Introducción a la nanotecnología                                        1 04 106 3  0  3.0  0  13 02 6 Si
+01PF01 432 Historia de la física                                                   1 04 106 3  0  3.0  0  13 02 6 Si
+01PF01 433 Didáctica general                                                       1 04 106 3  0  3.0  0  13 02 6 Si
+01PF01 434 Química                                                                 1 04 106 3  0  3.0  0  13 02 6 Si
+
+                                   Semestre:06
+       417 Cálculo variacional y tensorial    411 Métodos de la física teór      1 1 04 106 3  0  3.0  0  13 01 6 Si
+       418 Física estadística                 412 Termodinámica                  1 1 04 106 5  0  4.0  0  13 01 6 Si
+       419 Teoría electrostática              413 Ondas y magnetismo             1 1 04 106 5  0  4.0  0  13 01 6 Si
+       420 Introducción a la mecánica cuánt   416 Física moderna                 1 1 04 106 3  0  3.0  0  13 01 6 Si
+       421 Circuitos eléctricos                                                    1 04 106 5  0  4.0  0  13 01 6 Si
+       422 Física computacional               407 Métodos numéricos              1 1 04 106 3  0  3.0  0  13 01 6 Si
+
+                                   Semestre:07
+02PF02 435 Astrofísica de galaxias                                                 1 04 106 3  0  3.0  0  13 02 6 Si
+02PF02 436 Práctica docente                                                        1 04 106 3  0  3.0  0  13 02 6 Si
+02PF02 437 Relatividad                                                             1 04 106 3  0  3.0  0  13 02 6 Si
+02PF02 438 Óptica y aplicaciones                                                   1 04 106 3  0  3.0  0  13 02 6 Si
+02PF02 439 Ciencia de materiales                                                   1 04 106 3  0  3.0  0  13 02 6 Si
+       423 Aplicaciones de física estadísti   418 Física estadística             1 1 04 106 3  0  3.0  0  13 01 6 Si
+       424 Teoría electrodinámica             419 Teoría electrostática          1 1 04 106 3  0  3.0  0  13 01 6 Si
+       425 Mecánica cuántica                  420 Introducción a la mecánic      1 1 04 106 3  0  3.0  0  13 01 6 Si
+       426 Electrónica                        421 Circuitos eléctricos           1 1 04 106 5  0  4.0  0  13 01 6 Si
+       427 Física experimental                                                     1 04 106 3  0  3.0  0  13 01 6 Si
+               09/03/26             UNIVERSIDAD AUTONOMA DE NUEVO LEON                                           Pag  2
+                                   FACULTAD DE CIENCIAS FÍSICO MATEMÁTICAS                                        16:23
+                                            SECRETARIA ESCOLAR
+                  REQUISITOS DE LIC. EN FISICA 430-02 DEL PLAN 430 Modelo Academico 2020 MIXTA                  430 - 02
+------------------------------------------------------------------------------------------------------------------------
+Opta  Materia                                      Requisito                  TReq F P  SP  FC FL VCC VCL CU UA O Act
+------------------------------------------------------------------------------------------------------------------------
+
+                                   Semestre:08
+       930 Servicio social                                                         1 04 106 2  0 16.0  0  14 01 6 Si
+       428 Óptica                                                                  1 04 106 3  0  3.0  0  13 01 6 Si
+       429 Física instrumental                427 Física experimental            1 1 04 106 3  0  3.0  0  13 01 6 Si
+03PF03 440 Estado sólido                                                           1 04 106 3  0  3.0  0  13 02 6 Si
+03PF03 441 Introducción a la nanobiotecnolo                                        1 04 106 3  0  3.0  0  13 02 6 Si
+03PF03 442 Física nuclear                                                          1 04 106 3  0  3.0  0  13 02 6 Si
+03PF03 443 Mecánica celeste                                                        1 04 106 3  0  3.0  0  13 02 6 Si
+03PF03 444 Física del medio interestelar                                           1 04 106 3  0  3.0  0  13 02 6 Si
+03PF03 445 Láseres                                                                 1 04 106 3  0  3.0  0  13 02 6 Si
+
+                                   Semestre:09
+       334 Seminario para el desempeño prof                                        1 04 106 2  0  2.0  0  14 01 6 Si
+04PF04 446 Estructura y evolución estelar                                          1 04 106 3  0  3.0  0  13 02 6 Si
+04PF04 447 Radioastronomía general                                                 1 04 106 3  0  3.0  0  13 02 6 Si
+04PF04 448 Seminario de física                                                     1 04 106 3  0  3.0  0  13 02 6 Si
+04PF04 449 Química computacional                                                   1 04 106 3  0  3.0  0  13 02 6 Si
+04PF04 450 Geometría diferencial: superfici                                        1 04 106 3  0  3.0  0  13 02 6 Si
+04PF04 451 Fibras ópticas y guías de ondas                                         1 04 106 3  0  3.0  0  13 02 6 Si
+05PF05 452 Modelado científico                                                     1 04 106 3  0  3.0  0  13 02 6 Si
+05PF05 453 Materiales nanoestructurados                                            1 04 106 3  0  3.0  0  13 02 6 Si
+05PF05 454 Física del sistema solar                                                1 04 106 3  0  3.0  0  13 02 6 Si
+05PF05 455 Astrofísica a orden de magnitud                                         1 04 106 3  0  3.0  0  13 02 6 Si
+05PF05 456 Dispositivos fotónicos                                                  1 04 106 3  0  3.0  0  13 02 6 Si
+05PF05 457 Física de procesos estocásticos                                         1 04 106 3  0  3.0  0  13 02 6 Si
+06PF06 458 Física médica                                                           1 04 106 3  0  3.0  0  13 02 6 Si
+06PF06 459 Computación cuántica                                                    1 04 106 3  0  3.0  0  13 02 6 Si
+06PF06 460 Fundamentos de física espacial                                          1 04 106 3  0  3.0  0  13 02 6 Si
+06PF06 461 Astrofísica multimensajero                                              1 04 106 3  0  3.0  0  13 02 6 Si
+06PF06 462 Instrumentación optoelectrónica                                         1 04 106 3  0  3.0  0  13 02 6 Si
+06PF06 463 Aplicaciones en nanociencia y na                                        1 04 106 3  0  3.0  0  13 02 6 Si
+
+                                   Semestre:11
+07PI01 464 Seminario de investigación                                              1 04 106 2  0 16.0  0  14 02 6 Si
+07PI01 P15 Prácticas profesionales                                                 1 04 106 2  0 16.0  0  14 02 6 Si
+
+
+
+
+    F  = Funcion                  P  = Programa                   SP = Subprograma
+    FC = Frecuencia Clase         VC = Valor Creditos Clase       O = Oportunidad a Cursar
+    CU = Formacion Curricular     UA = Unidad de Aprendizaje      TReq = Tipo Requisito 1 = Obligatorio 2 = Cursando
+
+

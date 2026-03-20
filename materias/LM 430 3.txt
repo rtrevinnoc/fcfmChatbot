@@ -1,0 +1,170 @@
+               09/03/26             UNIVERSIDAD AUTONOMA DE NUEVO LEON                                           Pag  1
+                                   FACULTAD DE CIENCIAS FÍSICO MATEMÁTICAS                                        16:21
+                                            SECRETARIA ESCOLAR
+               REQUISITOS DE LIC. EN MATEMATICAS 430-01 DEL PLAN 430 Modelo Academico 2020 MIXTA                430 - 01
+------------------------------------------------------------------------------------------------------------------------
+Opta  Materia                                      Requisito                  TReq F P  SP  FC FL VCC VCL CU UA O Act
+------------------------------------------------------------------------------------------------------------------------
+
+                                   Semestre:01
+       178 Álgebra                                                                 1 04 107 5  0  4.0  0  10 01 6 Si
+       177 Cálculo diferencial                                                     1 04 107 5  0  4.0  0  10 01 6 Si
+       180 Geometría analítica                                                     1 04 107 5  0  4.0  0  10 01 6 Si
+       179 Metodología de la programación                                          1 04 107 5  0  4.0  0  10 01 6 Si
+       008 Responsabilidad social y desarro                                        1 04 107 2  0  2.0  0  09 01 6 Si
+       010 Cultura de paz                                                          1 04 107 2  0  2.0  0  09 01 6 Si
+
+                                   Semestre:02
+       183 Tópicos de álgebra                                                      1 04 107 5  0  4.0  0  10 01 6 Si
+       182 Cálculo integral                                                        1 04 107 5  0  4.0  0  10 01 6 Si
+       502 Programación básica                                                     1 04 107 5  0  4.0  0  11 01 6 Si
+       181 Mecánica traslacional y rotacion                                        1 04 107 5  0  4.0  0  10 01 6 Si
+       009 Ética y cultura de la legalidad                                         1 04 107 2  0  2.0  0  09 01 6 Si
+       007 Liderazgo, emprendimiento e inno                                        1 04 107 2  0  2.0  0  09 01 6 Si
+       094 Cultura de género                                                       1 04 107 2  0  2.0  0  09 01 6 Si
+
+                                   Semestre:03
+       305 Cálculo de varias variables                                             1 04 107 5  0  4.0  0  12 01 6 Si
+       306 Álgebra lineal                                                          1 04 107 5  0  4.0  0  12 01 6 Si
+       503 Programación estructurada                                               1 04 107 5  0  4.0  0  12 01 6 Si
+       504 Laboratorio de programación estr                                        1 04 107 2  0  2.0  0  12 01 6 Si
+       307 Matemáticas discretas                                                   1 04 107 5  0  4.0  0  12 01 6 Si
+       308 Geometría moderna                                                       1 04 107 5  0  4.0  0  12 01 6 Si
+
+                                   Semestre:04
+       309 Ecuaciones diferenciales           305 Cálculo de varias variabl      2 1 04 107 5  0  4.0  0  13 01 6 Si
+                                              306 Álgebra lineal                 2
+       310 Variable compleja                  305 Cálculo de varias variabl      2 1 04 107 5  0  4.0  0  13 01 6 Si
+       311 Matemáticas computacionales        503 Programación estructurada      2 1 04 107 5  0  4.0  0  12 01 6 Si
+       312 Tópicos de álgebra lineal          306 Álgebra lineal                 2 1 04 107 5  0  4.0  0  13 01 6 Si
+       313 Cálculo vectorial                  305 Cálculo de varias variabl      2 1 04 107 5  0  4.0  0  13 01 6 Si
+       314 Probabilidad                       305 Cálculo de varias variabl      2 1 04 107 5  0  4.0  0  13 01 6 Si
+                                              306 Álgebra lineal                 2
+
+                                   Semestre:05
+       315 Estadística                        314 Probabilidad                   2 1 04 107 5  0  4.0  0  13 01 6 Si
+       316 Teoría de grupos                   312 Tópicos de álgebra lineal      2 1 04 107 5  0  4.0  0  13 01 6 Si
+       317 Tópicos de ecuaciones diferencia   309 Ecuaciones diferenciales       2 1 04 107 5  0  4.0  0  13 01 6 Si
+       318 Historia de las matemáticas        309 Ecuaciones diferenciales       2 1 04 107 5  0  4.0  0  13 01 6 Si
+       319 Tópicos de variable compleja       310 Variable compleja              2 1 04 107 5  0  4.0  0  13 01 6 Si
+
+                                   Semestre:06
+       320 Análisis matemático                305 Cálculo de varias variabl      2 1 04 107 5  0  4.0  0  13 01 6 Si
+                                              310 Variable compleja              2
+       321 Minería de datos                   315 Estadística                    2 1 04 107 5  0  4.0  0  13 01 6 Si
+       322 Programación lineal                312 Tópicos de álgebra lineal      2 1 04 107 5  0  4.0  0  13 01 6 Si
+       323 Teoría de anillos y campos         316 Teoría de grupos               2 1 04 107 5  0  4.0  0  13 01 6 Si
+       324 Matemática educativa               318 Historia de las matemátic      2 1 04 107 5  0  4.0  0  13 01 6 Si
+
+                                   Semestre:07
+       325 Tópicos de análisis matemático     320 Análisis matemático            2 1 04 107 5  0  4.0  0  13 01 6 Si
+       326 Topología                          320 Análisis matemático            2 1 04 107 5  0  4.0  0  13 01 6 Si
+       327 Enseñanza de las ciencias físico   324 Matemática educativa           2 1 04 107 5  0  4.0  0  13 01 6 Si
+       328 Investigación de operaciones       314 Probabilidad                   2 1 04 107 5  0  4.0  0  13 01 6 Si
+                                              322 Programación lineal            2
+01PF01 335 Programación entera                322 Programación lineal            2 1 04 107 5  0  4.0  0  13 02 6 Si
+01PF01 336 Estructura de datos                                                     1 04 107 5  0  4.0  0  13 02 6 Si
+01PF01 337 Análisis numérico                  322 Programación lineal            2 1 04 107 5  0  4.0  0  13 02 6 Si
+02PF02 338 Teoría de grafos                   307 Matemáticas discretas          2 1 04 107 5  0  4.0  0  13 02 6 Si
+02PF02 339 Muestreo                           315 Estadística                    2 1 04 107 5  0  4.0  0  13 02 6 Si
+02PF02 340 Teoría de juegos                   320 Análisis matemático            2 1 04 107 5  0  4.0  0  13 02 6 Si
+                                              322 Programación lineal            2
+02PF02 341 Lógica y conjuntos                                                      1 04 107 5  0  4.0  0  13 02 6 Si
+02PF02 342 Didáctica de las matemáticas       324 Matemática educativa           2 1 04 107 5  0  4.0  0  13 02 6 Si
+
+                                   Semestre:08
+               09/03/26             UNIVERSIDAD AUTONOMA DE NUEVO LEON                                           Pag  2
+                                   FACULTAD DE CIENCIAS FÍSICO MATEMÁTICAS                                        16:21
+                                            SECRETARIA ESCOLAR
+               REQUISITOS DE LIC. EN MATEMATICAS 430-01 DEL PLAN 430 Modelo Academico 2020 MIXTA                430 - 01
+------------------------------------------------------------------------------------------------------------------------
+Opta  Materia                                      Requisito                  TReq F P  SP  FC FL VCC VCL CU UA O Act
+------------------------------------------------------------------------------------------------------------------------
+       329 Teoría de la medida                325 Tópicos de análisis matem      2 1 04 107 5  0  4.0  0  13 01 6 Si
+       930 Servicio social                                                         1 04 107 2  0 16.0  0  14 01 6 Si
+       330 Seminario de investigación         325 Tópicos de análisis matem      2 1 04 107 3  0  6.0  0  14 01 6 Si
+                                              327 Enseñanza de las ciencias      2
+                                              328 Investigación de operacio      2
+       331 Geometría diferencial              326 Topología                      2 1 04 107 5  0  4.0  0  13 01 6 Si
+
+                                   Semestre:09
+03PF03 343 Análisis funcional                 329 Teoría de la medida            2 1 04 107 5  0  4.0  0  13 02 6 Si
+03PF03 344 Simulación                         322 Programación lineal            2 1 04 107 5  0  4.0  0  13 02 6 Si
+                                              328 Investigación de operacio      2
+03PF03 345 Tópicos de álgebra abstracta       323 Teoría de anillos y campo      2 1 04 107 5  0  4.0  0  13 02 6 Si
+03PF03 346 Diseño de experimentos             315 Estadística                    2 1 04 107 5  0  4.0  0  13 02 6 Si
+03PF03 347 Tópicos de topología               326 Topología                      2 1 04 107 5  0  4.0  0  13 02 6 Si
+03PF03 348 Optimización de aplicaciones ind   328 Investigación de operacio      2 1 04 107 5  0  4.0  0  13 02 6 Si
+03PF03 349 Optimización heurística aplicada   328 Investigación de operacio      2 1 04 107 5  0  4.0  0  13 02 6 Si
+03PF03 350 Teoría de control                  317 Tópicos de ecuaciones dif      2 1 04 107 5  0  4.0  0  13 02 6 Si
+                                              325 Tópicos de análisis matem      2
+03PF03 351 Tópicos de optimización            328 Investigación de operacio      2 1 04 107 5  0  4.0  0  13 02 6 Si
+03PF03 352 Introducción a la geometría alge   323 Teoría de anillos y campo      2 1 04 107 5  0  4.0  0  13 02 6 Si
+                                              326 Topología                      2
+03PF03 353 Análisis de algoritmos                                                  1 04 107 5  0  4.0  0  13 02 6 Si
+03PF03 354 Investigación educativa            327 Enseñanza de las ciencias      2 1 04 107 5  0  4.0  0  13 02 6 Si
+04PF04 343 Análisis funcional                 329 Teoría de la medida            2 1 04 107 5  0  4.0  0  13 02 6 Si
+04PF04 344 Simulación                         322 Programación lineal            2 1 04 107 5  0  4.0  0  13 02 6 Si
+                                              328 Investigación de operacio      2
+04PF04 345 Tópicos de álgebra abstracta       323 Teoría de anillos y campo      2 1 04 107 5  0  4.0  0  13 02 6 Si
+04PF04 346 Diseño de experimentos             315 Estadística                    2 1 04 107 5  0  4.0  0  13 02 6 Si
+04PF04 347 Tópicos de topología               326 Topología                      2 1 04 107 5  0  4.0  0  13 02 6 Si
+04PF04 348 Optimización de aplicaciones ind   328 Investigación de operacio      2 1 04 107 5  0  4.0  0  13 02 6 Si
+04PF04 349 Optimización heurística aplicada   328 Investigación de operacio      2 1 04 107 5  0  4.0  0  13 02 6 Si
+04PF04 350 Teoría de control                  317 Tópicos de ecuaciones dif      2 1 04 107 5  0  4.0  0  13 02 6 Si
+                                              325 Tópicos de análisis matem      2
+04PF04 351 Tópicos de optimización            328 Investigación de operacio      2 1 04 107 5  0  4.0  0  13 02 6 Si
+04PF04 352 Introducción a la geometría alge   323 Teoría de anillos y campo      2 1 04 107 5  0  4.0  0  13 02 6 Si
+                                              326 Topología                      2
+04PF04 353 Análisis de algoritmos                                                  1 04 107 5  0  4.0  0  13 02 6 Si
+04PF04 354 Investigación educativa            327 Enseñanza de las ciencias      2 1 04 107 5  0  4.0  0  13 02 6 Si
+05PF05 343 Análisis funcional                 329 Teoría de la medida            2 1 04 107 5  0  4.0  0  13 02 6 Si
+05PF05 344 Simulación                         322 Programación lineal            2 1 04 107 5  0  4.0  0  13 02 6 Si
+                                              328 Investigación de operacio      2
+05PF05 345 Tópicos de álgebra abstracta       323 Teoría de anillos y campo      2 1 04 107 5  0  4.0  0  13 02 6 Si
+05PF05 346 Diseño de experimentos             315 Estadística                    2 1 04 107 5  0  4.0  0  13 02 6 Si
+05PF05 347 Tópicos de topología               326 Topología                      2 1 04 107 5  0  4.0  0  13 02 6 Si
+05PF05 348 Optimización de aplicaciones ind   328 Investigación de operacio      2 1 04 107 5  0  4.0  0  13 02 6 Si
+05PF05 349 Optimización heurística aplicada   328 Investigación de operacio      2 1 04 107 5  0  4.0  0  13 02 6 Si
+05PF05 350 Teoría de control                  317 Tópicos de ecuaciones dif      2 1 04 107 5  0  4.0  0  13 02 6 Si
+                                              325 Tópicos de análisis matem      2
+05PF05 351 Tópicos de optimización            328 Investigación de operacio      2 1 04 107 5  0  4.0  0  13 02 6 Si
+05PF05 352 Introducción a la geometría alge   323 Teoría de anillos y campo      2 1 04 107 5  0  4.0  0  13 02 6 Si
+                                              326 Topología                      2
+05PF05 353 Análisis de algoritmos                                                  1 04 107 5  0  4.0  0  13 02 6 Si
+05PF05 354 Investigación educativa            327 Enseñanza de las ciencias      2 1 04 107 5  0  4.0  0  13 02 6 Si
+06PF06 343 Análisis funcional                 329 Teoría de la medida            2 1 04 107 5  0  4.0  0  13 02 6 Si
+06PF06 344 Simulación                         322 Programación lineal            2 1 04 107 5  0  4.0  0  13 02 6 Si
+                                              328 Investigación de operacio      2
+06PF06 345 Tópicos de álgebra abstracta       323 Teoría de anillos y campo      2 1 04 107 5  0  4.0  0  13 02 6 Si
+06PF06 346 Diseño de experimentos             315 Estadística                    2 1 04 107 5  0  4.0  0  13 02 6 Si
+06PF06 347 Tópicos de topología               326 Topología                      2 1 04 107 5  0  4.0  0  13 02 6 Si
+06PF06 348 Optimización de aplicaciones ind   328 Investigación de operacio      2 1 04 107 5  0  4.0  0  13 02 6 Si
+06PF06 349 Optimización heurística aplicada   328 Investigación de operacio      2 1 04 107 5  0  4.0  0  13 02 6 Si
+06PF06 350 Teoría de control                  317 Tópicos de ecuaciones dif      2 1 04 107 5  0  4.0  0  13 02 6 Si
+                                              325 Tópicos de análisis matem      2
+06PF06 351 Tópicos de optimización            328 Investigación de operacio      2 1 04 107 5  0  4.0  0  13 02 6 Si
+06PF06 352 Introducción a la geometría alge   323 Teoría de anillos y campo      2 1 04 107 5  0  4.0  0  13 02 6 Si
+                                              326 Topología                      2
+06PF06 353 Análisis de algoritmos                                                  1 04 107 5  0  4.0  0  13 02 6 Si
+06PF06 354 Investigación educativa            327 Enseñanza de las ciencias      2 1 04 107 5  0  4.0  0  13 02 6 Si
+               09/03/26             UNIVERSIDAD AUTONOMA DE NUEVO LEON                                           Pag  3
+                                   FACULTAD DE CIENCIAS FÍSICO MATEMÁTICAS                                        16:21
+                                            SECRETARIA ESCOLAR
+               REQUISITOS DE LIC. EN MATEMATICAS 430-01 DEL PLAN 430 Modelo Academico 2020 MIXTA                430 - 01
+------------------------------------------------------------------------------------------------------------------------
+Opta  Materia                                      Requisito                  TReq F P  SP  FC FL VCC VCL CU UA O Act
+------------------------------------------------------------------------------------------------------------------------
+       332 Métodos de optimización            325 Tópicos de análisis matem      2 1 04 107 5  0  4.0  0  13 01 6 Si
+                                              328 Investigación de operacio      2
+       333 Taller para examen de egreso                                            1 04 107 1  0  3.0  0  14 01 6 Si
+       334 Seminario para el desempeño prof                                        1 04 107 2  0  2.0  0  14 01 6 Si
+
+
+
+
+    F  = Funcion                  P  = Programa                   SP = Subprograma
+    FC = Frecuencia Clase         VC = Valor Creditos Clase       O = Oportunidad a Cursar
+    CU = Formacion Curricular     UA = Unidad de Aprendizaje      TReq = Tipo Requisito 1 = Obligatorio 2 = Cursando
+
+

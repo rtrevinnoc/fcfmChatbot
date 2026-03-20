@@ -1,0 +1,142 @@
+               09/03/26             UNIVERSIDAD AUTONOMA DE NUEVO LEON                                           Pag  1
+                                   FACULTAD DE CIENCIAS FÍSICO MATEMÁTICAS                                        16:27
+                                            SECRETARIA ESCOLAR
+            REQUISITOS DE LICENCIADO EN FISICA DEL PLAN 420 Mod. Edu V2 / Mod. Acad. V3 ESCOLARIZADA            420 - 02
+------------------------------------------------------------------------------------------------------------------------
+Opta  Materia                                      Requisito                  TReq F P  SP  FC FL VCC VCL CU UA O Act
+------------------------------------------------------------------------------------------------------------------------
+
+                                   Semestre:01
+       A01 Álgebra                                                                 1 04 106 5  0  4.0  0  06 01 6 Si
+       A02 Cálculo diferencial                                                     1 04 106 5  0  4.0  0  06 01 6 Si
+       A03 Geometría analítica                                                     1 04 106 5  0  4.0  0  06 01 6 Si
+       A05 Física básica                                                           1 04 106 5  0  4.0  0  06 01 6 Si
+       A04 Metodología de la programación                                          1 04 106 5  0  4.0  0  06 01 6 Si
+
+                                   Semestre:02
+       A06 Tópicos de álgebra                 A01 Álgebra                        1 1 04 106 5  0  4.0  0  06 01 6 Si
+       A07 Cálculo integral                   A02 Cálculo diferencial            1 1 04 106 5  0  4.0  0  06 01 6 Si
+       400 Mecánica traslacional y rotacion   A05 Física básica                  1 1 04 106 7  0  6.0  0  06 01 6 Si
+       401 Lenguajes de programación          A04 Metodología de la program      1 1 04 106 5  0  4.0  0  06 01 6 Si
+       010 Cultura de Paz                                                          1 04 106 2  0  2.0  0  01 01 6 Si
+
+                                   Semestre:03
+       A12 Álgebra lineal                     A06 Tópicos de álgebra             1 1 04 106 5  0  4.0  0  06 01 6 Si
+       A13 Cálculo de varias variables        A07 Cálculo integral               1 1 04 106 5  0  4.0  0  06 01 6 Si
+       A18 Ecuaciones diferenciales           A07 Cálculo integral               1 1 04 106 5  0  4.0  0  06 01 6 Si
+       402 Gravitación, fluídos y calor       400 Mecánica traslacional y r      1 1 04 106 7  0  6.0  0  06 01 6 Si
+       403 Probabilidad y estadística         A07 Cálculo integral               1 1 04 106 5  0  4.0  0  06 01 6 Si
+       009 Ética y Cultura de la Legalidad                                         1 04 106 2  0  2.0  0  01 01 6 Si
+
+                                   Semestre:04
+       406 Cálculo vectorial                  A13 Cálculo de varias variabl      1 1 04 106 5  0  4.0  0  06 01 6 Si
+       407 Variable compleja                  A13 Cálculo de varias variabl      1 1 04 106 5  0  4.0  0  06 01 6 Si
+       404 Electricidad                       402 Gravitación, fluídos y ca      1 1 04 106 7  0  6.0  0  06 01 6 Si
+       405 Mecánica teórica                   400 Mecánica traslacional y r      1 1 04 106 3  0  3.0  0  07 01 6 Si
+       408 Diseño experimental                403 Probabilidad y estadístic      1 1 04 106 3  0  3.0  0  07 01 6 Si
+       008 Responsabilidad Social y Desarro                                        1 04 106 2  0  2.0  0  01 01 6 Si
+       409 Didáctica de la física                                                  1 04 106 3  0  3.0  0  07 01 6 Si
+
+                                   Semestre:05
+       410 Métodos de la física teórica       406 Cálculo vectorial              1 1 04 106 5  0  4.0  0  06 01 6 Si
+                                              407 Variable compleja              1
+                                              A18 Ecuaciones diferenciales       1
+       411 Termodinámica                      A13 Cálculo de varias variabl      1 1 04 106 5  0  4.0  0  07 01 6 Si
+       412 Ondas y magnetísmo                 404 Electricidad                   1 1 04 106 7  0  6.0  0  06 01 6 Si
+                                              406 Cálculo vectorial              1
+       413 Mecánica de sistemas con restric   405 Mecánica teórica               1 1 04 106 3  0  3.0  0  07 01 6 Si
+       414 Física moderna                     404 Electricidad                   1 1 04 106 5  0  4.0  0  07 01 6 Si
+01ACFPF427 Fundamentos de astrofísica                                              1 04 106 3  0  3.0  0  07 02 6 Si
+01ACFPF428 Introducción a la nanotecnología                                        1 04 106 3  0  3.0  0  07 02 6 Si
+01ACFPF429 Historia de la física                                                   1 04 106 3  0  3.0  0  07 02 6 Si
+01ACFPF430 Didáctica general                                                       1 04 106 3  0  3.0  0  07 02 6 Si
+01ACFPF431 Química                                                                 1 04 106 3  0  3.0  0  07 02 6 Si
+
+                                   Semestre:06
+       415 Cálculo variacional y tensorial    410 Métodos de la física teór      1 1 04 106 3  0  3.0  0  07 01 6 Si
+       416 Física estadística                 411 Termodinámica                  1 1 04 106 5  0  4.0  0  07 01 6 Si
+       417 Teoría electrostática              412 Ondas y magnetísmo             1 1 04 106 5  0  4.0  0  07 01 6 Si
+       418 Introducción a la mecánica cuánt   414 Física moderna                 1 1 04 106 3  0  3.0  0  07 01 6 Si
+       419 Circuitos electrónicos             404 Electricidad                   1 1 04 106 5  0  4.0  0  07 01 6 Si
+       420 Óptica                             412 Ondas y magnetísmo             1 1 04 106 5  0  4.0  0  07 01 6 Si
+
+                                   Semestre:07
+02ACFPF432 Astrofísica de galaxias                                                 1 04 106 3  0  3.0  0  07 02 6 Si
+02ACFPF433 Práctica docente                                                        1 04 106 3  0  3.0  0  07 02 6 Si
+02ACFPF434 Relatividad                                                             1 04 106 3  0  3.0  0  07 02 6 Si
+02ACFPF435 Óptica y aplicaciones                                                   1 04 106 3  0  3.0  0  07 02 6 Si
+02ACFPF436 Ciencia de materiales                                                   1 04 106 3  0  3.0  0  07 02 6 Si
+       421 Aplicaciones de física estadísti   416 Física estadística             1 1 04 106 3  0  3.0  0  07 01 6 Si
+       422 Teoría electrodinámica             417 Teoría electrostática          1 1 04 106 3  0  3.0  0  07 01 6 Si
+       423 Mecánica cuántica                  418 Introducción a la mecánic      1 1 04 106 3  0  3.0  0  07 01 6 Si
+       424 Electrónica                        419 Circuitos electrónicos         1 1 04 106 5  0  4.0  0  07 01 6 Si
+       007 Liderazgo Emprendimiento e Innov                                        1 04 106 2  0  2.0  0  01 01 6 Si
+
+                                   Semestre:08
+               09/03/26             UNIVERSIDAD AUTONOMA DE NUEVO LEON                                           Pag  2
+                                   FACULTAD DE CIENCIAS FÍSICO MATEMÁTICAS                                        16:27
+                                            SECRETARIA ESCOLAR
+            REQUISITOS DE LICENCIADO EN FISICA DEL PLAN 420 Mod. Edu V2 / Mod. Acad. V3 ESCOLARIZADA            420 - 02
+------------------------------------------------------------------------------------------------------------------------
+Opta  Materia                                      Requisito                  TReq F P  SP  FC FL VCC VCL CU UA O Act
+------------------------------------------------------------------------------------------------------------------------
+       930 Servicio social                                                         1 04 106 2  0 16.0  0  08 01 6 Si
+       425 Física computacional                                                    1 04 106 5  0  4.0  0  07 01 6 Si
+       426 Física experimental                                                     1 04 106 3  0  3.0  0  07 01 6 Si
+03ACFPF437 Estado sólido                                                           1 04 106 3  0  3.0  0  07 02 6 Si
+03ACFPF438 Introducción a la nanobiotecnolo                                        1 04 106 3  0  3.0  0  07 02 6 Si
+03ACFPF439 Física nuclear                                                          1 04 106 3  0  3.0  0  07 02 6 Si
+03ACFPF440 Mecánica celeste                                                        1 04 106 3  0  3.0  0  07 02 6 Si
+03ACFPF441 Física del medio interestelar                                           1 04 106 3  0  3.0  0  07 02 6 Si
+03ACFPF442 Láseres                                                                 1 04 106 3  0  3.0  0  07 02 6 Si
+
+                                   Semestre:09
+       340 Seminario para el Desempeño Prof                                        1 04 106 2  0  2.0  0  08 01 6 Si
+04ACFPF443 Estructura y evolución estelar                                          1 04 106 3  0  3.0  0  07 02 6 Si
+04ACFPF444 Radioastronimía general                                                 1 04 106 3  0  3.0  0  07 02 6 Si
+04ACFPF445 Seminario de física                                                     1 04 106 3  0  3.0  0  07 02 6 Si
+04ACFPF446 Química computacional                                                   1 04 106 3  0  3.0  0  07 02 6 Si
+04ACFPF447 Geometría diferencia: superficie                                        1 04 106 3  0  3.0  0  07 02 6 Si
+04ACFPF448 Fibras ópticas y guías de ondas                                         1 04 106 3  0  3.0  0  07 02 6 Si
+05ACFPF448 Fibras ópticas y guías de ondas                                         1 04 106 3  0  3.0  0  07 02 6 No
+05ACFPF449 Modelado científico                                                     1 04 106 3  0  3.0  0  07 02 6 Si
+05ACFPF450 Materias nanoestructuradas                                              1 04 106 3  0  3.0  0  07 02 6 Si
+05ACFPF451 Física del sistema solar                                                1 04 106 3  0  3.0  0  07 02 6 Si
+05ACFPF452 Astrofísica a orden de magnitud                                         1 04 106 3  0  3.0  0  07 02 6 Si
+05ACFPF453 Dispositivos fotónicos                                                  1 04 106 3  0  3.0  0  07 02 6 Si
+05ACFPF454 Física de procesos estocásticos                                         1 04 106 3  0  3.0  0  07 02 6 Si
+06ACFPF448 Fibras ópticas y guías de ondas                                         1 04 106 5  0  3.0  0  07 02 6 Si
+06ACFPF455 Física médica                                                           1 04 106 3  0  3.0  0  07 02 6 Si
+06ACFPF456 Computación cuántica                                                    1 04 106 3  0  3.0  0  07 02 6 Si
+06ACFPF457 Fundamentos de física espacial                                          1 04 106 3  0  3.0  0  07 02 6 Si
+06ACFPF458 Astrofísica multimensajero                                              1 04 106 3  0  3.0  0  07 02 6 Si
+06ACFPF459 Instrumentación optoelectrónica                                         1 04 106 3  0  3.0  0  07 02 6 Si
+06ACFPF460 Aplicaciones en nanociencia y na                                        1 04 106 3  0  3.0  0  07 02 6 Si
+
+                                   Semestre:11
+       430 Didáctica general                                                       1 04 106 3  0  3.0  0  08 02 6 Si
+       437 Estado sólido                                                           1 04 106 3  0  3.0  0  08 02 6 Si
+       439 Física nuclear                                                          1 04 106 3  0  3.0  0  08 02 6 Si
+       440 Mecánica celeste                                                        1 04 106 3  0  3.0  0  08 02 6 Si
+       441 Física del medio interestelar                                           1 04 106 3  0  3.0  0  08 02 6 Si
+       442 Láseres                                                                 1 04 106 3  0  3.0  0  08 02 6 Si
+       448 Fibras ópticas y guías de ondas                                         1 04 106 3  0  3.0  0  08 02 6 Si
+       461 Seminario de investigación                                              1 04 106 2  0 16.0  0  08 02 6 Si
+       C01 Certificación general: administr                                        1 04 106 3  0  2.0  0  08 02 1 Si
+       C02 Certificación general: innovació                                        1 04 106 3  0  2.0  0  08 02 1 Si
+       C03 Certificación general: investiga                                        1 04 106 3  0  2.0  0  08 02 1 Si
+       C04 Certificación general: producció                                        1 04 106 3  0  2.0  0  08 02 1 Si
+       C05 Certificación general: servicios                                        1 04 106 3  0  2.0  0  08 02 1 Si
+       C06 Certificación especializada: ana                                        1 04 106 3  0  2.0  0  08 02 1 Si
+       C07 Certificación especializada: int                                        1 04 106 3  0  2.0  0  08 02 1 Si
+       C08 Certificación especializada: arq                                        1 04 106 3  0  2.0  0  08 02 1 Si
+       P15 Prácticas profesionales                                                 1 04 106 2  0 16.0  0  08 02 6 Si
+
+
+
+
+    F  = Funcion                  P  = Programa                   SP = Subprograma
+    FC = Frecuencia Clase         VC = Valor Creditos Clase       O = Oportunidad a Cursar
+    CU = Formacion Curricular     UA = Unidad de Aprendizaje      TReq = Tipo Requisito 1 = Obligatorio 2 = Cursando
+
+

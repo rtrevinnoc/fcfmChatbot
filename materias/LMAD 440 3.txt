@@ -1,0 +1,134 @@
+               09/03/26             UNIVERSIDAD AUTONOMA DE NUEVO LEON                                           Pag  1
+                                   FACULTAD DE CIENCIAS FÍSICO MATEMÁTICAS                                        16:26
+                                            SECRETARIA ESCOLAR
+        REQUISITOS DE LICENCIATURA EN MULTIMEDIA Y ANIMACION D DEL PLAN 440 Modelo Academico 2022 MIXTA EN      440 - 05
+------------------------------------------------------------------------------------------------------------------------
+Opta  Materia                                      Requisito                  TReq F P  SP  FC FL VCC VCL CU UA O Act
+------------------------------------------------------------------------------------------------------------------------
+
+                                   Semestre:01
+       007 Liderazgo, emprendimiento e inno                                        1 04 109 2  0  2.0  0  09 01 6 Si
+       008 Responsabilidad social y desarro                                        1 04 109 2  0  2.0  0  09 01 6 Si
+       179 Metodología de la programación                                          1 04 109 5  0  4.0  0  10 01 6 Si
+       301 Álgebra                                                                 1 04 109 5  0  4.0  0  11 01 6 Si
+       302 Cálculo diferencial                                                     1 04 109 5  0  4.0  0  11 01 6 Si
+       303 Geometría analítica                                                     1 04 109 5  0  4.0  0  11 01 6 Si
+
+                                   Semestre:02
+       045 Cultura de paz y derechos humano                                        1 04 109 2  0  2.0  0  09 01 6 Si
+       038 Ética, transparencia y cultura d                                        1 04 109 2  0  2.0  0  09 01 6 Si
+       039 Igualdad de género, diversidad s                                        1 04 109 2  0  2.0  0  09 01 6 Si
+       304 Tópicos de álgebra                                                      1 04 109 5  0  4.0  0  11 01 6 Si
+       305 Cálculo integral                                                        1 04 109 5  0  4.0  0  11 01 6 Si
+       306 Mecánica traslacional y rotacion                                        1 04 109 5  0  4.0  0  11 01 6 Si
+       307 Programación básica                                                     1 04 109 5  0  4.0  0  11 01 6 Si
+
+                                   Semestre:03
+       500 Programación estructurada                                               1 04 109 3  0  3.0  0  12 01 6 Si
+       501 Laboratorio de programación estr                                        1 04 109 2  0  2.0  0  12 01 6 Si
+       502 Relaciones espaciales para video                                        1 04 109 3  0  3.0  0  12 01 6 Si
+       503 Producción multimedia                                                   1 04 109 3  0  3.0  0  12 01 6 Si
+       504 Fundamentos del dibujo artístico                                        1 04 109 3  0  3.0  0  12 01 6 Si
+       505 Metodologías ágiles de trabajo                                          1 04 109 3  0  3.0  0  12 01 6 Si
+       506 Proyección de negocios tecnológi                                        1 04 109 3  0  3.0  0  12 01 6 Si
+       507 Modelado arquitectónico                                                 1 04 109 3  0  3.0  0  12 01 6 Si
+
+                                   Semestre:04
+       508 Programación avanzada              500 Programación estructurada      1 1 04 109 3  0  3.0  0  12 01 6 Si
+       509 Transformaciones gráficas para v   502 Relaciones espaciales par      1 1 04 109 3  0  3.0  0  12 01 6 Si
+       510 Fundamentos de los videojuegos                                          1 04 109 3  0  3.0  0  12 01 6 Si
+       511 Tecnologías multimedia             503 Producción multimedia          1 1 04 109 3  0  3.0  0  12 01 6 Si
+       512 Fotografía digital                                                      1 04 109 3  0  3.0  0  12 01 6 Si
+       513 Modelo de administración de dato   500 Programación estructurada      1 1 04 109 3  0  3.0  0  12 01 6 Si
+       514 Laboratorio de modelo de adminis   500 Programación estructurada      1 1 04 109 2  0  2.0  0  12 01 6 Si
+       515 Fundamentos de la animación                                             1 04 109 3  0  3.0  0  12 01 6 Si
+01PF01 549 Modelado orgánico                                                       1 04 109 3  0  3.0  0  13 02 6 Si
+01PF01 550 Interfaz de programación de apli                                        1 04 109 3  0  3.0  0  13 02 6 Si
+
+                                   Semestre:05
+       516 Interfaz y experiencia de usuari                                        1 04 109 3  0  3.0  0  13 01 6 Si
+       517 Lógica digital                     509 Transformaciones gráficas      1 1 04 109 3  0  3.0  0  13 01 6 Si
+       518 Producción de guiones                                                   1 04 109 3  0  3.0  0  13 01 6 Si
+       519 Iluminación y audio                                                     1 04 109 3  0  3.0  0  13 01 6 Si
+       520 Programación orientada a objetos   508 Programación avanzada          2 1 04 109 3  0  3.0  0  13 01 6 Si
+       521 Laboratorio de programación orie   508 Programación avanzada          2 1 04 109 2  0  2.0  0  13 01 6 Si
+02PF02 551 Modelado en alto poligonaje        549 Modelado orgánico              1 1 04 109 4  0  3.0  0  13 02 6 Si
+02PF02 552 Preproducción para series animad   549 Modelado orgánico              1 1 04 109 4  0  3.0  0  13 02 6 Si
+02PF02 553 Programación de sistemas móviles   550 Interfaz de programación       1 1 04 109 4  0  3.0  0  13 02 6 Si
+       522 Programación en entornos bidimen   508 Programación avanzada          1 1 04 109 4  0  4.0  0  14 01 6 Si
+
+                                   Semestre:06
+       523 Diseño de hápticos                 517 Lógica digital                 1 1 04 109 3  0  3.0  0  13 01 6 Si
+       524 Redes computacionales              517 Lógica digital                 1 1 04 109 3  0  3.0  0  13 01 6 Si
+       525 Laboratorio de redes computacion   517 Lógica digital                 1 1 04 109 2  0  2.0  0  13 01 6 Si
+       526 Fundamentos y producción cinemat                                        1 04 109 3  0  3.0  0  13 01 6 Si
+03PF03 554 Esqueletos de personajes           551 Modelado en alto poligona      1 1 04 109 4  0  3.0  0  13 02 6 Si
+03PF03 555 Diseño de personajes para animac   552 Preproducción para series      1 1 04 109 4  0  3.0  0  13 02 6 Si
+03PF03 556 Programación de sistemas móviles   553 Programación de sistemas       1 1 04 109 4  0  3.0  0  13 02 6 Si
+04PF04 557 Control de calidad en software     553 Programación de sistemas       1 1 04 109 4  0  3.0  0  13 02 6 Si
+04PF04 558 Modelado tridimensional            551 Modelado en alto poligona      1 1 04 109 4  0  3.0  0  13 02 6 Si
+04PF04 559 Ilustración digital                552 Preproducción para series      1 1 04 109 4  0  3.0  0  13 02 6 Si
+       527 Programación en entornos tridime   522 Programación en entornos       1 1 04 109 4  0  4.0  0  14 01 6 Si
+       528 Escenarios de videojuegos                                               1 04 109 4  0  4.0  0  14 01 6 Si
+
+                                   Semestre:07
+       529 Procesamiento de imágenes                                               1 04 109 3  0  3.0  0  13 01 6 Si
+               09/03/26             UNIVERSIDAD AUTONOMA DE NUEVO LEON                                           Pag  2
+                                   FACULTAD DE CIENCIAS FÍSICO MATEMÁTICAS                                        16:26
+                                            SECRETARIA ESCOLAR
+        REQUISITOS DE LICENCIATURA EN MULTIMEDIA Y ANIMACION D DEL PLAN 440 Modelo Academico 2022 MIXTA EN      440 - 05
+------------------------------------------------------------------------------------------------------------------------
+Opta  Materia                                      Requisito                  TReq F P  SP  FC FL VCC VCL CU UA O Act
+------------------------------------------------------------------------------------------------------------------------
+       530 Programación de sitios web                                              1 04 109 3  0  3.0  0  13 01 6 Si
+       531 Laboratorio de programación de s                                        1 04 109 2  0  2.0  0  13 01 6 Si
+       532 Introducción a efectos visuales    519 Iluminación y audio            1 1 04 109 3  0  3.0  0  13 01 6 Si
+       533 Administración de proyectos mult                                        1 04 109 4  0  3.0  0  13 01 6 Si
+05PF05 560 Animación por computadora          554 Esqueletos de personajes       1 1 04 109 4  0  3.0  0  13 02 6 Si
+                                              558 Modelado tridimensional        1
+05PF05 561 Principios de la animación tradi   555 Diseño de personajes para      1 1 04 109 4  0  3.0  0  13 02 6 Si
+                                              559 Ilustración digital            1
+05PF05 562 Ingeniería de software             556 Programación de sistemas       1 1 04 109 4  0  3.0  0  13 02 6 Si
+                                              557 Control de calidad en sof      1
+       534 Gráficas computacionales           527 Programación en entornos       1 1 04 109 4  0  4.0  0  14 01 6 Si
+       535 Optimización de videojuegos        528 Escenarios de videojuegos      1 1 04 109 4  0  4.0  0  14 01 6 Si
+
+                                   Semestre:08
+       536 Interfaces y aplicaciones web      530 Programación de sitios we      1 1 04 109 3  0  3.0  0  13 01 6 Si
+       537 Laboratorio de interfaces y apli   530 Programación de sitios we      1 1 04 109 2  0  2.0  0  13 01 6 Si
+       538 Gestión y producción de efectos    532 Introducción a efectos vi      1 1 04 109 3  0  3.0  0  13 01 6 Si
+       539 Propiedad intelectual                                                   1 04 109 3  0  3.0  0  13 01 6 Si
+06PF06 563 Actuación y dirección para anima   560 Animación por computadora      1 1 04 109 4  0  3.0  0  13 02 6 Si
+06PF06 564 Ingeniería en la nube              562 Ingeniería de software         1 1 04 109 4  0  3.0  0  13 02 6 Si
+06PF06 571 Animación tradicional avanzada     561 Principios de la animació      1 1 04 109 4  0  3.0  0  13 02 6 Si
+       540 Escenarios digitales               528 Escenarios de videojuegos      1 1 04 109 4  0  4.0  0  14 01 6 Si
+       541 Realidad virtual y aumentada                                            1 04 109 4  0  4.0  0  14 01 6 Si
+       542 Diseño de videojuegos en línea     535 Optimización de videojueg      1 1 04 109 4  0  4.0  0  14 01 6 Si
+
+                                   Semestre:09
+       543 Inglés para tecnologías                                                 1 04 109 4  0  3.0  0  13 01 6 Si
+       544 Mercadotecnia                                                           1 04 109 4  0  3.0  0  13 01 6 Si
+07PF07 565 Texturizado de la nueva generaci   563 Actuación y dirección par      1 1 04 109 4  0  3.0  0  13 02 6 Si
+07PF07 566 Animación digital de personajes    571 Animación tradicional ava      1 1 04 109 4  0  3.0  0  13 02 6 Si
+07PF07 567 Programación de algoritmos avanz   564 Ingeniería en la nube          1 1 04 109 4  0  3.0  0  13 02 6 Si
+       545 Gráficas computacionales en web    534 Gráficas computacionales       1 1 04 109 4  0  4.0  0  14 01 6 Si
+       546 Laboratorio de gráficas computac   534 Gráficas computacionales       1 1 04 109 2  0  2.0  0  14 01 6 Si
+       547 Investigación y desarrollo         541 Realidad virtual y aument      1 1 04 109 4  0  4.0  0  14 01 6 Si
+                                              542 Diseño de videojuegos en       1
+       548 Programación multiplataforma       536 Interfaces y aplicaciones      1 1 04 109 4  0  4.0  0  14 01 6 Si
+
+                                   Semestre:10
+09PF08 568 Postproducción para entornos vir   565 Texturizado de la nueva g      1 1 04 109 4  0  4.0  0  13 02 6 Si
+09PF08 569 Postproducción para series anima   566 Animación digital de pers      1 1 04 109 4  0  4.0  0  13 02 6 Si
+09PF08 570 Inteligencia artificial y cienci   567 Programación de algoritmo      1 1 04 109 4  0  4.0  0  13 02 6 Si
+       046 Seminario para el desempeño prof                                        1 04 109 2  0  2.0  0  14 01 6 Si
+       930 Servicio social                                                         1 04 109 2  0 16.0  0  14 01 6 Si
+
+
+
+
+    F  = Funcion                  P  = Programa                   SP = Subprograma
+    FC = Frecuencia Clase         VC = Valor Creditos Clase       O = Oportunidad a Cursar
+    CU = Formacion Curricular     UA = Unidad de Aprendizaje      TReq = Tipo Requisito 1 = Obligatorio 2 = Cursando
+
+

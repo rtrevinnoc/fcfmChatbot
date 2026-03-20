@@ -1,0 +1,196 @@
+               09/03/26             UNIVERSIDAD AUTONOMA DE NUEVO LEON                                           Pag  1
+                                   FACULTAD DE CIENCIAS FÍSICO MATEMÁTICAS                                        16:25
+                                            SECRETARIA ESCOLAR
+        REQUISITOS DE LICENCIATURA EN CIENCIAS COMPUTACIONALES DEL PLAN 440 Modelo Academico 2022 MIXTA EN      440 - 03
+------------------------------------------------------------------------------------------------------------------------
+Opta  Materia                                      Requisito                  TReq F P  SP  FC FL VCC VCL CU UA O Act
+------------------------------------------------------------------------------------------------------------------------
+
+                                   Semestre:01
+       301 Álgebra                                                                 1 04 105 5  0  4.0  0  11 01 6 Si
+       302 Cálculo diferencial                                                     1 04 105 5  0  4.0  0  11 01 6 Si
+       303 Geometría analítica                                                     1 04 105 5  0  4.0  0  11 01 6 Si
+       179 Metodología de la programación                                          1 04 105 5  0  4.0  0  10 01 6 Si
+       007 Liderazgo, emprendimiento e inno                                        1 04 105 2  0  2.0  0  09 01 6 Si
+       008 Responsabilidad social y desarro                                        1 04 105 2  0  2.0  0  09 01 6 Si
+
+                                   Semestre:02
+       305 Cálculo integral                                                        1 04 105 5  0  4.0  0  11 01 6 Si
+       306 Mecánica traslacional y rotacion                                        1 04 105 5  0  4.0  0  11 01 6 Si
+       307 Programación básica                                                     1 04 105 5  0  4.0  0  11 01 6 Si
+       304 Tópicos de álgebra                                                      1 04 105 5  0  4.0  0  11 01 6 Si
+       039 Igualdad de género, diversidad s                                        1 04 105 2  0  2.0  0  09 01 6 Si
+       038 Ética, transparencia y cultura d                                        1 04 105 2  0  2.0  0  09 01 6 Si
+       045 Cultura de paz y derechos humano                                        1 04 105 2  0  2.0  0  09 01 6 Si
+
+                                   Semestre:03
+       308 Matemáticas discretas                                                   1 04 105 5  0  4.0  0  12 01 6 Si
+       309 Álgebra lineal                                                          1 04 105 5  0  4.0  0  12 01 6 Si
+       310 Fundamentos de sistemas operativ                                        1 04 105 5  0  4.0  0  12 01 6 Si
+       311 Programación estructurada                                               1 04 105 5  0  4.0  0  12 01 6 Si
+       312 Laboratorio de programación estr                                        1 04 105 2  0  2.0  0  12 01 6 Si
+       313 Física para computación                                                 1 04 105 5  0  4.0  0  12 01 6 Si
+       314 Laboratorio de física para compu                                        1 04 105 2  0  2.0  0  12 01 6 Si
+
+                                   Semestre:04
+       315 Estructura de datos                311 Programación estructurada      1 1 04 105 5  0  4.0  0  12 01 6 Si
+                                              312 Laboratorio de programaci      1
+       316 Teoría de autómatas                308 Matemáticas discretas          1 1 04 105 5  0  4.0  0  12 01 6 Si
+       317 Circuitos digitales                313 Física para computación        2 1 04 105 3  0  3.0  0  13 01 6 Si
+                                              314 Laboratorio de física par      2
+       318 Laboratorio de circuitos digital   313 Física para computación        2 1 04 105 2  0  2.0  0  13 01 6 Si
+                                              314 Laboratorio de física par      2
+       319 Teoría de la información           309 Álgebra lineal                 1 1 04 105 5  0  4.0  0  12 01 6 Si
+       320 Fundamentos de redes               313 Física para computación        2 1 04 105 3  0  3.0  0  13 01 6 Si
+                                              314 Laboratorio de física par      2
+       321 Laboratorio de fundamentos de re   313 Física para computación        2 1 04 105 2  0  2.0  0  13 01 6 Si
+                                              314 Laboratorio de física par      2
+
+                                   Semestre:05
+       322 Bases de datos                                                          1 04 105 3  0  3.0  0  13 01 6 Si
+       323 Laboratorio de bases de datos                                           1 04 105 2  0  2.0  0  13 01 6 Si
+       324 Teoría de la información aplicad   319 Teoría de la información       1 1 04 105 5  0  4.0  0  13 01 6 Si
+       325 Algoritmia y optimización          315 Estructura de datos            1 1 04 105 3  0  3.0  0  13 01 6 Si
+       326 Programación orientada a objetos   311 Programación estructurada      1 1 04 105 3  0  3.0  0  13 01 6 Si
+                                              312 Laboratorio de programaci      1
+       327 Laboratorio de programación orie   311 Programación estructurada      1 1 04 105 2  0  2.0  0  13 01 6 Si
+                                              312 Laboratorio de programaci      1
+       328 Análisis numérico para programac   309 Álgebra lineal                 1 1 04 105 5  0  4.0  0  13 01 6 Si
+
+                                   Semestre:06
+       329 Programación lineal                328 Análisis numérico para pr      2 1 04 105 5  0  4.0  0  13 01 6 Si
+       330 Arquitectura computacional                                              1 04 105 3  0  3.0  0  13 01 6 Si
+       331 Inglés para tecnologías                                                 1 04 105 5  0  4.0  0  13 01 6 Si
+       332 Inteligencia artificial            324 Teoría de la información       2 1 04 105 5  0  4.0  0  13 01 6 Si
+01PF01 349 Fundamentos de administración                                           1 04 105 4  0  4.0  0  13 02 6 Si
+01PF01 350 Contabilidad                                                            1 04 105 4  0  4.0  0  13 02 6 Si
+01PF01 351 Aplicaciones móviles               322 Bases de datos                 2 1 04 105 4  0  4.0  0  13 02 6 Si
+                                              323 Laboratorio de bases de d      2
+                                              326 Programación orientada a       2
+                                              327 Laboratorio de programaci      2
+01PF01 352 Sistemas electrónicos                                                   1 04 105 4  0  4.0  0  13 02 6 Si
+01PF01 353 Sistema administrador de base de   322 Bases de datos                 2 1 04 105 4  0  4.0  0  13 02 6 Si
+                                              323 Laboratorio de bases de d      2
+01PF01 354 Redes inalámbricas y móviles       320 Fundamentos de redes           2 1 04 105 4  0  4.0  0  13 02 6 Si
+                                              321 Laboratorio de fundamento      2
+               09/03/26             UNIVERSIDAD AUTONOMA DE NUEVO LEON                                           Pag  2
+                                   FACULTAD DE CIENCIAS FÍSICO MATEMÁTICAS                                        16:25
+                                            SECRETARIA ESCOLAR
+        REQUISITOS DE LICENCIATURA EN CIENCIAS COMPUTACIONALES DEL PLAN 440 Modelo Academico 2022 MIXTA EN      440 - 03
+------------------------------------------------------------------------------------------------------------------------
+Opta  Materia                                      Requisito                  TReq F P  SP  FC FL VCC VCL CU UA O Act
+------------------------------------------------------------------------------------------------------------------------
+01PF01 355 Conmutación de redes locales       320 Fundamentos de redes           2 1 04 105 4  0  4.0  0  13 02 6 Si
+                                              321 Laboratorio de fundamento      2
+01PF01 356 Lenguaje ensamblador                                                    1 04 105 4  0  4.0  0  13 02 6 Si
+02PF02 349 Fundamentos de administración                                           1 04 105 4  0  4.0  0  13 02 6 Si
+02PF02 350 Contabilidad                                                            1 04 105 4  0  4.0  0  13 02 6 Si
+02PF02 351 Aplicaciones móviles               322 Bases de datos                 2 1 04 105 4  0  4.0  0  13 02 6 Si
+                                              323 Laboratorio de bases de d      2
+                                              326 Programación orientada a       2
+                                              327 Laboratorio de programaci      2
+02PF02 352 Sistemas electrónicos                                                   1 04 105 4  0  4.0  0  13 02 6 Si
+02PF02 353 Sistema administrador de base de   322 Bases de datos                 2 1 04 105 4  0  4.0  0  13 02 6 Si
+                                              323 Laboratorio de bases de d      2
+02PF02 354 Redes inalámbricas y móviles       320 Fundamentos de redes           2 1 04 105 4  0  4.0  0  13 02 6 Si
+                                              321 Laboratorio de fundamento      2
+02PF02 355 Conmutación de redes locales       320 Fundamentos de redes           2 1 04 105 4  0  4.0  0  13 02 6 Si
+                                              321 Laboratorio de fundamento      2
+02PF02 356 Lenguaje ensamblador                                                    1 04 105 4  0  4.0  0  13 02 6 Si
+
+                                   Semestre:07
+       333 Investigación de operaciones       329 Programación lineal            1 1 04 105 4  0  3.0  0  13 01 6 Si
+       334 Cómputo en la nube                                                      1 04 105 4  0  3.0  0  13 01 6 Si
+       335 Fundamentos de seguridad informá                                        1 04 105 4  0  3.0  0  13 01 6 Si
+       336 Compiladores                                                            1 04 105 4  0  3.0  0  13 01 6 Si
+       337 Minería de datos                   322 Bases de datos                 1 1 04 105 4  0  3.0  0  13 01 6 Si
+                                              323 Laboratorio de bases de d      1
+03PF03 357 Desarrollo web: tecnologías serv   322 Bases de datos                 2 1 04 105 4  0  4.0  0  13 02 6 Si
+                                              323 Laboratorio de bases de d      2
+                                              326 Programación orientada a       2
+                                              327 Laboratorio de programaci      2
+03PF03 358 Microprocesadores                                                       1 04 105 4  0  4.0  0  13 02 6 Si
+03PF03 359 Sistemas embebidos                                                      1 04 105 4  0  4.0  0  13 02 6 Si
+03PF03 360 Desarrollo de videojuegos                                               1 04 105 4  0  4.0  0  13 02 6 Si
+03PF03 361 Tópicos de tecnologías                                                  1 04 105 4  0  4.0  0  13 02 6 Si
+03PF03 362 Interconexión de redes locales     355 Conmutación de redes loca      2 1 04 105 4  0  4.0  0  13 02 6 Si
+03PF03 363 Comportamiento organizacional                                           1 04 105 4  0  4.0  0  13 02 6 Si
+03PF03 364 Criptografía                                                            1 04 105 4  0  4.0  0  13 02 6 Si
+03PF03 365 Administración de datos a gran e                                        1 04 105 4  0  4.0  0  13 02 6 Si
+03PF03 366 Introducción al aprendizaje auto   332 Inteligencia artificial        2 1 04 105 4  0  4.0  0  13 02 6 Si
+04PF04 357 Desarrollo web: tecnologías serv   322 Bases de datos                 2 1 04 105 4  0  4.0  0  13 02 6 Si
+                                              323 Laboratorio de bases de d      2
+                                              326 Programación orientada a       2
+                                              327 Laboratorio de programaci      2
+04PF04 358 Microprocesadores                                                       1 04 105 4  0  4.0  0  13 02 6 Si
+04PF04 359 Sistemas embebidos                                                      1 04 105 4  0  4.0  0  13 02 6 Si
+04PF04 360 Desarrollo de videojuegos                                               1 04 105 4  0  4.0  0  13 02 6 Si
+04PF04 361 Tópicos de tecnologías                                                  1 04 105 4  0  4.0  0  13 02 6 Si
+04PF04 362 Interconexión de redes locales     355 Conmutación de redes loca      2 1 04 105 4  0  4.0  0  13 02 6 Si
+04PF04 363 Comportamiento organizacional                                           1 04 105 4  0  4.0  0  13 02 6 Si
+04PF04 364 Criptografía                                                            1 04 105 4  0  4.0  0  13 02 6 Si
+04PF04 365 Administración de datos a gran e                                        1 04 105 4  0  4.0  0  13 02 6 Si
+04PF04 366 Introducción al aprendizaje auto   332 Inteligencia artificial        2 1 04 105 4  0  4.0  0  13 02 6 Si
+
+                                   Semestre:08
+       338 Análisis de sistemas                                                    1 04 105 4  0  3.0  0  13 01 6 Si
+       339 Investigación y desarrollo         331 Inglés para tecnologías        1 1 04 105 4  0  4.0  0  13 01 6 Si
+05PF05 367 Nuevas tecnologías                                                      1 04 105 4  0  4.0  0  13 02 6 Si
+05PF05 368 Desarrollo web: tecnologías clie   357 Desarrollo web: tecnologí      2 1 04 105 4  0  4.0  0  13 02 6 Si
+05PF05 369 Sistemas embebidos avanzados       359 Sistemas embebidos             2 1 04 105 4  0  4.0  0  13 02 6 Si
+05PF05 370 Interconexión de redes globales    362 Interconexión de redes lo      2 1 04 105 4  0  4.0  0  13 02 6 Si
+05PF05 371 Introducción al aprendizaje prof   366 Introducción al aprendiza      2 1 04 105 4  0  4.0  0  13 02 6 Si
+05PF05 372 Desarrollo y operaciones de tecn   334 Cómputo en la nube             2 1 04 105 4  0  4.0  0  13 02 6 Si
+05PF05 373 Simulación                         333 Investigación de operacio      2 1 04 105 4  0  4.0  0  13 02 6 Si
+05PF05 374 Ingeniería inversa                 356 Lenguaje ensamblador           2 1 04 105 4  0  4.0  0  13 02 6 Si
+05PF05 375 Desarrollo de software seguro                                           1 04 105 4  0  4.0  0  13 02 6 Si
+06PF06 367 Nuevas tecnologías                                                      1 04 105 4  0  4.0  0  13 02 6 Si
+06PF06 368 Desarrollo web: tecnologías clie   357 Desarrollo web: tecnologí      2 1 04 105 4  0  4.0  0  13 02 6 Si
+06PF06 369 Sistemas embebidos avanzados       359 Sistemas embebidos             2 1 04 105 4  0  4.0  0  13 02 6 Si
+06PF06 370 Interconexión de redes globales    362 Interconexión de redes lo      2 1 04 105 4  0  4.0  0  13 02 6 Si
+               09/03/26             UNIVERSIDAD AUTONOMA DE NUEVO LEON                                           Pag  3
+                                   FACULTAD DE CIENCIAS FÍSICO MATEMÁTICAS                                        16:25
+                                            SECRETARIA ESCOLAR
+        REQUISITOS DE LICENCIATURA EN CIENCIAS COMPUTACIONALES DEL PLAN 440 Modelo Academico 2022 MIXTA EN      440 - 03
+------------------------------------------------------------------------------------------------------------------------
+Opta  Materia                                      Requisito                  TReq F P  SP  FC FL VCC VCL CU UA O Act
+------------------------------------------------------------------------------------------------------------------------
+06PF06 371 Introducción al aprendizaje prof   366 Introducción al aprendiza      2 1 04 105 4  0  4.0  0  13 02 6 Si
+06PF06 372 Desarrollo y operaciones de tecn   334 Cómputo en la nube             2 1 04 105 4  0  4.0  0  13 02 6 Si
+06PF06 373 Simulación                         333 Investigación de operacio      2 1 04 105 4  0  4.0  0  13 02 6 Si
+06PF06 374 Ingeniería inversa                 356 Lenguaje ensamblador           2 1 04 105 4  0  4.0  0  13 02 6 Si
+06PF06 375 Desarrollo de software seguro                                           1 04 105 4  0  4.0  0  13 02 6 Si
+
+                                   Semestre:09
+       340 Cómputo de alto rendimiento        334 Cómputo en la nube             2 1 04 105 5  0  4.0  0  13 01 6 Si
+       341 Ingeniería de software             338 Análisis de sistemas           2 1 04 105 4  0  3.0  0  13 01 6 Si
+       930 Servicio social                                                         1 04 105 2  0 16.0  0  14 01 6 Si
+07PF07 376 Nuevos paradigmas tecnológicos                                          1 04 105 4  0  4.0  0  13 02 6 Si
+07PF07 377 Seminario de análisis empresaria                                        1 04 105 4  0  4.0  0  13 02 6 Si
+07PF07 378 Aplicaciones basadas en cadenas                                         1 04 105 4  0  4.0  0  13 02 6 Si
+07PF07 379 Internet de las cosas                                                   1 04 105 4  0  4.0  0  13 02 6 Si
+07PF07 380 Sistemas de comunicaciones por f                                        1 04 105 4  0  4.0  0  13 02 6 Si
+
+                                   Semestre:10
+       342 Taller para examen de egreso                                            1 04 105 2  0  3.0  0  14 01 6 Si
+       046 Seminario para el desempeño prof                                        1 04 105 2  0  2.0  0  14 01 6 Si
+       344 Administración de proyectos tecn                                        1 04 105 4  0  4.0  0  13 01 6 Si
+       345 Modelo de negocios                                                      1 04 105 3  0  3.0  0  13 01 6 Si
+       346 Analítica de datos e inteligenci                                        1 04 105 4  0  3.0  0  13 01 6 Si
+       347 Transformación digital                                                  1 04 105 3  0  3.0  0  13 01 6 Si
+
+                                   Semestre:11
+08PI08 381 Estancias de investigación                                              1 04 105 2  0 11.0  0  14 02 6 Si
+08PI08 382 Certificación en tecnologías de                                         1 04 105 2  0 11.0  0  14 02 6 Si
+08PI08 600 Estancia de Investigación                                               1 04 105 5  0 11.0  0  14 02 6 Si
+08PI08 P14 Práctica profesional                                                    1 04 105 2  0 11.0  0  14 02 6 Si
+08PI08 P15 Práctica profesional                                                    1 04 105 2  0 16.0  0  14 02 6 Si
+
+
+
+
+    F  = Funcion                  P  = Programa                   SP = Subprograma
+    FC = Frecuencia Clase         VC = Valor Creditos Clase       O = Oportunidad a Cursar
+    CU = Formacion Curricular     UA = Unidad de Aprendizaje      TReq = Tipo Requisito 1 = Obligatorio 2 = Cursando
+
+

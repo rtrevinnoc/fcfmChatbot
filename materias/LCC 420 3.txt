@@ -1,0 +1,190 @@
+               09/03/26             UNIVERSIDAD AUTONOMA DE NUEVO LEON                                           Pag  1
+                                   FACULTAD DE CIENCIAS FÍSICO MATEMÁTICAS                                        16:28
+                                            SECRETARIA ESCOLAR
+        REQUISITOS DE LICENCIADO EN CIENCIAS COMPUTACIONALES DEL PLAN 420 Mod. Edu V2 / Mod. Acad. V3 ESCO      420 - 03
+------------------------------------------------------------------------------------------------------------------------
+Opta  Materia                                      Requisito                  TReq F P  SP  FC FL VCC VCL CU UA O Act
+------------------------------------------------------------------------------------------------------------------------
+
+                                   Semestre:01
+       A04 Metodología de la programación                                          1 04 105 5  0  4.0  0  06 01 6 Si
+       A05 Física básica                                                           1 04 105 5  0  4.0  0  06 01 6 Si
+       A03 Geometría analítica                                                     1 04 105 5  0  4.0  0  06 01 6 Si
+       A01 Álgebra                                                                 1 04 105 5  0  4.0  0  06 01 6 Si
+       A02 Cálculo diferencial                                                     1 04 105 5  0  4.0  0  06 01 6 Si
+
+                                   Semestre:02
+       A07 Cálculo integral                   A01 Álgebra                        1 1 04 105 5  0  4.0  0  06 01 6 Si
+                                              A02 Cálculo diferencial            1
+                                              A03 Geometría analítica            1
+       801 Matemáticas Discretas              A01 Álgebra                        1 1 04 105 5  0  4.0  0  06 01 6 Si
+                                              A02 Cálculo diferencial            1
+       301 Programación Estructurada          A04 Metodología de la program      1 1 04 105 5  0  4.0  0  07 01 6 Si
+       302 Física                             A05 Física básica                  1 1 04 105 5  0  4.0  0  06 01 6 Si
+       A06 Tópicos de álgebra                 A01 Álgebra                        1 1 04 105 5  0  4.0  0  06 01 6 Si
+       303 Laboratorio de Programación Estr   A04 Metodología de la program      1 1 04 105 2  0  2.0  0  07 01 6 Si
+       304 Laboratorio de Física              A05 Física básica                  1 1 04 105 2  0  2.0  0  06 01 6 Si
+
+                                   Semestre:03
+       305 Programación Orientada a Objetos   301 Programación Estructurada      1 1 04 105 3  0  3.0  0  07 01 6 Si
+                                              303 Laboratorio de Programaci      1
+       306 Circuitos Digitales                302 Física                         1 1 04 105 3  0  3.0  0  07 01 6 Si
+                                              304 Laboratorio de Física          1
+       A12 Álgebra lineal                     A06 Tópicos de álgebra             1 1 04 105 5  0  4.0  0  06 01 6 Si
+       307 Tecnologías Multimedia                                                  1 04 105 3  0  3.0  0  07 01 6 Si
+       A13 Cálculo de varias variables        A06 Tópicos de álgebra             1 1 04 105 5  0  4.0  0  06 01 6 Si
+                                              A07 Cálculo integral               1
+       308 Estructura de Datos                301 Programación Estructurada      1 1 04 105 5  0  4.0  0  07 01 6 Si
+                                              303 Laboratorio de Programaci      1
+       309 Laboratorio de Programación Orie   301 Programación Estructurada      1 1 04 105 2  0  2.0  0  07 01 6 Si
+                                              303 Laboratorio de Programaci      1
+       310 Laboratorio de Circuitos Digital   302 Física                         1 1 04 105 2  0  2.0  0  07 01 6 Si
+                                              304 Laboratorio de Física          1
+
+                                   Semestre:04
+       311 Aplicaciones Móviles               305 Programación Orientada a       1 1 04 105 3  0  3.0  0  07 01 6 Si
+                                              309 Laboratorio de Programaci      1
+       312 Base de Datos                      308 Estructura de Datos            1 1 04 105 3  0  3.0  0  07 01 6 Si
+       313 Teoría de Autómatas                308 Estructura de Datos            1 1 04 105 5  0  4.0  0  07 01 6 Si
+       A18 Ecuaciones diferenciales           A12 Álgebra lineal                 1 1 04 105 5  0  4.0  0  06 01 6 Si
+                                              A13 Cálculo de varias variabl      1
+       809 Probabilidad                       A13 Cálculo de varias variabl      1 1 04 105 5  0  4.0  0  06 01 6 Si
+       010 Cultura de Paz                                                          1 04 105 2  0  2.0  0  01 01 6 Si
+       314 Laboratorio de Aplicaciones Móvi   305 Programación Orientada a       1 1 04 105 2  0  2.0  0  07 01 6 Si
+                                              309 Laboratorio de Programaci      1
+       315 Laboratorio de Base Datos          308 Estructura de Datos            1 1 04 105 2  0  2.0  0  07 01 6 Si
+
+                                   Semestre:05
+       316 Análisis Numérico                  A18 Ecuaciones diferenciales       1 1 04 105 3  0  3.0  0  07 01 6 Si
+       317 Sistemas Electrónicos              306 Circuitos Digitales            1 1 04 105 3  0  3.0  0  07 01 6 Si
+                                              310 Laboratorio de Circuitos       1
+       318 Organización y Arquitectura de C                                        1 04 105 5  0  4.0  0  07 01 6 Si
+       319 Lenguajes Modernos de Programaci   311 Aplicaciones Móviles           1 1 04 105 3  0  3.0  0  07 01 6 Si
+                                              314 Laboratorio de Aplicacion      1
+       810 Estadística                        809 Probabilidad                   1 1 04 105 5  0  4.0  0  07 01 6 Si
+       811 Programación Lineal                A12 Álgebra lineal                 1 1 04 105 5  0  4.0  0  07 01 6 Si
+                                              A13 Cálculo de varias variabl      1
+       008 Responsabilidad Social y Desarro                                        1 04 105 2  0  2.0  0  01 01 6 Si
+       320 Laboratorio de Sistemas Electrón   306 Circuitos Digitales            1 1 04 105 2  0  2.0  0  07 01 6 Si
+                                              310 Laboratorio de Circuitos       1
+
+                                   Semestre:06
+       321 MIcroprocesadores                  317 Sistemas Electrónicos          1 1 04 105 3  0  3.0  0  07 01 6 Si
+                                              320 Laboratorio de Sistemas E      1
+       322 Redes de Computadores                                                   1 04 105 3  0  3.0  0  07 01 6 Si
+01ACFPF134 Introducción a las Telecomunicac                                        1 04 105 3  0  3.0  0  07 02 6 Si
+               09/03/26             UNIVERSIDAD AUTONOMA DE NUEVO LEON                                           Pag  2
+                                   FACULTAD DE CIENCIAS FÍSICO MATEMÁTICAS                                        16:28
+                                            SECRETARIA ESCOLAR
+        REQUISITOS DE LICENCIADO EN CIENCIAS COMPUTACIONALES DEL PLAN 420 Mod. Edu V2 / Mod. Acad. V3 ESCO      420 - 03
+------------------------------------------------------------------------------------------------------------------------
+Opta  Materia                                      Requisito                  TReq F P  SP  FC FL VCC VCL CU UA O Act
+------------------------------------------------------------------------------------------------------------------------
+01ACFPF135 Tópicos de Tecnología                                                   1 04 105 3  0  3.0  0  07 02 6 Si
+01ACFPF136 Lenguaje Ensamblador                                                    1 04 105 3  0  3.0  0  07 02 6 Si
+01ACFPF137 Fundamentos de Networking                                               1 04 105 3  0  3.0  0  07 02 6 Si
+01ACFPF138 Videojuegos                                                             1 04 105 3  0  3.0  0  07 02 6 Si
+01ACFPF139 Compiladores                                                            1 04 105 3  0  3.0  0  07 02 6 Si
+01ACFPF140 Sistemas Embebidos                                                      1 04 105 3  0  3.0  0  07 02 6 Si
+01ACFPF141 Sistema Administrador de Base de                                        1 04 105 3  0  3.0  0  07 02 6 Si
+01ACFPF142 Desarrollo Web:Back-end                                                 1 04 105 3  0  3.0  0  07 02 6 Si
+02ACFPF134 Introducción a las Telecomunicac                                        1 04 105 3  0  3.0  0  07 02 6 Si
+02ACFPF135 Tópicos de Tecnología                                                   1 04 105 3  0  3.0  0  07 02 6 Si
+02ACFPF136 Lenguaje Ensamblador                                                    1 04 105 3  0  3.0  0  07 02 6 Si
+02ACFPF137 Fundamentos de Networking                                               1 04 105 3  0  3.0  0  07 02 6 Si
+02ACFPF138 Videojuegos                                                             1 04 105 3  0  3.0  0  07 02 6 Si
+02ACFPF139 Compiladores                                                            1 04 105 3  0  3.0  0  07 02 6 Si
+02ACFPF140 Sistemas Embebidos                                                      1 04 105 3  0  3.0  0  07 02 6 Si
+02ACFPF141 Sistema Administrador de Base de                                        1 04 105 3  0  3.0  0  07 02 6 Si
+02ACFPF142 Desarrollo Web:Back-end                                                 1 04 105 3  0  3.0  0  07 02 6 Si
+       007 Liderazgo Emprendimiento e Innov                                        1 04 105 2  0  2.0  0  01 01 6 Si
+       325 Inteligencia Artificial            809 Probabilidad                   1 1 04 105 5  0  4.0  0  07 01 6 Si
+       326 Laboratorio de Microprocesadores   317 Sistemas Electrónicos          1 1 04 105 2  0  2.0  0  07 01 6 Si
+                                              320 Laboratorio de Sistemas E      1
+       327 Laboratorio de Redes de Computad                                        1 04 105 2  0  2.0  0  07 01 6 Si
+       821 Investigación de Operaciones       809 Probabilidad                   1 1 04 105 5  0  4.0  0  07 01 6 Si
+                                              811 Programación Lineal            1
+
+                                   Semestre:07
+       328 Sistemas Operativos                321 MIcroprocesadores              1 1 04 105 3  0  3.0  0  07 01 6 Si
+                                              326 Laboratorio de Microproce      1
+       104 Administración                                                          1 04 105 3  0  3.0  0  07 01 6 Si
+       329 Análisis de Sistemas                                                    1 04 105 3  0  3.0  0  07 01 6 Si
+       330 Criptografía y Seguridad                                                1 04 105 3  0  3.0  0  07 01 6 Si
+       009 Ética y Cultura de la Legalidad                                         1 04 105 2  0  2.0  0  01 01 6 Si
+03ACFPF144 Contabilidad                                                            1 04 105 3  0  3.0  0  07 02 6 Si
+03ACFPF145 Redes Inalámbricas y Móviles                                            1 04 105 3  0  3.0  0  07 02 6 Si
+03ACFPF146 Minería de Datos                                                        1 04 105 3  0  3.0  0  07 02 6 Si
+03ACFPF147 Estándares y Protocolos de Enrut   137 Fundamentos de Networking      1 1 04 105 3  0  3.0  0  07 02 6 Si
+                                              322 Redes de Computadores          1
+                                              327 Laboratorio de Redes de C      1
+03ACFPF148 Diseño de Soluciones Computacion                                        1 04 105 3  0  3.0  0  07 02 6 Si
+03ACFPF149 Nanotecnología                                                          1 04 105 3  0  3.0  0  07 02 6 Si
+03ACFPF150 Biotecnología                                                           1 04 105 3  0  3.0  0  07 02 6 Si
+03ACFPF151 Desarrollo Web: Front-end          142 Desarrollo Web:Back-end        1 1 04 105 3  0  3.0  0  07 02 6 Si
+03ACFPF152 Seguridad de Desarrollo de Softw                                        1 04 105 3  0  3.0  0  07 02 6 Si
+03ACFPF153 Introducción al Aprendizaje Auto   325 Inteligencia Artificial        1 1 04 105 3  0  3.0  0  07 02 6 Si
+03ACFPFA34 Simulación                         810 Estadística                    1 1 04 105 3  0  3.0  0  07 02 6 Si
+                                              821 Investigación de Operacio      1
+04ACFPF144 Contabilidad                                                            1 04 105 3  0  3.0  0  07 02 6 Si
+04ACFPF145 Redes Inalámbricas y Móviles                                            1 04 105 3  0  3.0  0  07 02 6 Si
+04ACFPF146 Minería de Datos                                                        1 04 105 3  0  3.0  0  07 02 6 Si
+04ACFPF147 Estándares y Protocolos de Enrut   137 Fundamentos de Networking      1 1 04 105 3  0  3.0  0  07 02 6 Si
+                                              322 Redes de Computadores          1
+                                              327 Laboratorio de Redes de C      1
+04ACFPF148 Diseño de Soluciones Computacion                                        1 04 105 3  0  3.0  0  07 02 6 Si
+04ACFPF149 Nanotecnología                                                          1 04 105 3  0  3.0  0  07 02 6 Si
+04ACFPF150 Biotecnología                                                           1 04 105 3  0  3.0  0  07 02 6 Si
+04ACFPF151 Desarrollo Web: Front-end          142 Desarrollo Web:Back-end        1 1 04 105 3  0  3.0  0  07 02 6 Si
+04ACFPF152 Seguridad de Desarrollo de Softw                                        1 04 105 3  0  3.0  0  07 02 6 Si
+04ACFPF153 Introducción al Aprendizaje Auto   325 Inteligencia Artificial        1 1 04 105 3  0  3.0  0  07 02 6 Si
+04ACFPFA34 Simulación                         810 Estadística                    1 1 04 105 3  0  3.0  0  07 02 6 Si
+                                              821 Investigación de Operacio      1
+
+                                   Semestre:08
+       333 Seminario de Computación                                                1 04 105 3  0  3.0  0  07 01 6 Si
+05ACFPF154 Sistemas Embebidos Avanzados       140 Sistemas Embebidos             1 1 04 105 3  0  3.0  0  07 02 6 Si
+05ACFPF155 Ingeniería de Software             329 Análisis de Sistemas           1 1 04 105 3  0  3.0  0  07 02 6 Si
+05ACFPF156 Técnicas para Presentaciones Eje                                        1 04 105 3  0  3.0  0  07 02 6 Si
+05ACFPF157 Estándares y Protocolos de Conmu   147 Estándares y Protocolos d      1 1 04 105 3  0  3.0  0  07 02 6 Si
+05ACFPF158 Proyectos de Software Enfocados                                         1 04 105 3  0  3.0  0  07 02 6 Si
+               09/03/26             UNIVERSIDAD AUTONOMA DE NUEVO LEON                                           Pag  3
+                                   FACULTAD DE CIENCIAS FÍSICO MATEMÁTICAS                                        16:28
+                                            SECRETARIA ESCOLAR
+        REQUISITOS DE LICENCIADO EN CIENCIAS COMPUTACIONALES DEL PLAN 420 Mod. Edu V2 / Mod. Acad. V3 ESCO      420 - 03
+------------------------------------------------------------------------------------------------------------------------
+Opta  Materia                                      Requisito                  TReq F P  SP  FC FL VCC VCL CU UA O Act
+------------------------------------------------------------------------------------------------------------------------
+05ACFPF159 Estimación de Proyectos de Softw                                        1 04 105 3  0  3.0  0  07 02 6 Si
+05ACFPF160 Seguridad Avanzada en Tecnología                                        1 04 105 3  0  3.0  0  07 02 6 Si
+05ACFPF161 Introducción al Aprendizaje Prof   153 Introducción al Aprendiza      1 1 04 105 3  0  3.0  0  07 02 6 Si
+                                              325 Inteligencia Artificial        1
+06ACFPF154 Sistemas Embebidos Avanzados       140 Sistemas Embebidos             1 1 04 105 3  0  3.0  0  07 02 6 Si
+06ACFPF155 Ingeniería de Software             329 Análisis de Sistemas           1 1 04 105 3  0  3.0  0  07 02 6 Si
+06ACFPF156 Técnicas para Presentaciones Eje                                        1 04 105 3  0  3.0  0  07 02 6 Si
+06ACFPF157 Estándares y Protocolos de Conmu   147 Estándares y Protocolos d      1 1 04 105 3  0  3.0  0  07 02 6 Si
+06ACFPF158 Proyectos de Software Enfocados                                         1 04 105 3  0  3.0  0  07 02 6 Si
+06ACFPF159 Estimación de Proyectos de Softw                                        1 04 105 3  0  3.0  0  07 02 6 Si
+06ACFPF160 Seguridad Avanzada en Tecnología                                        1 04 105 3  0  3.0  0  07 02 6 Si
+06ACFPF161 Introducción al Aprendizaje Prof   153 Introducción al Aprendiza      1 1 04 105 3  0  3.0  0  07 02 6 Si
+                                              325 Inteligencia Artificial        1
+       336 Comportamiento Organizacional      104 Administración                 1 1 04 105 3  0  3.0  0  07 01 6 Si
+
+                                   Semestre:09
+07ACFPF162 Nuevas Tecnologías                                                      1 04 105 3  0  3.0  0  07 02 6 Si
+07ACFPF163 Seminario de Análisis Empresaria                                        1 04 105 3  0  3.0  0  07 02 6 Si
+07ACFPF164 Interconectividad Segura de Rede   157 Estándares y Protocolos d      1 1 04 105 3  0  3.0  0  07 02 6 Si
+07ACFPF165 Modelos de Negocio                                                      1 04 105 3  0  3.0  0  07 02 6 Si
+       338 Administración de Proyectos de S   329 Análisis de Sistemas           1 1 04 105 3  0  3.0  0  07 01 6 Si
+       930 Servicio social                                                         1 04 105 2  0 16.0  0  08 01 6 Si
+       339 Seminario de Egreso                                                     1 04 105 1  0  1.0  0  08 01 6 Si
+       340 Seminario para el Desempeño Prof                                        1 04 105 1  0  1.0  0  08 01 6 Si
+
+
+
+
+    F  = Funcion                  P  = Programa                   SP = Subprograma
+    FC = Frecuencia Clase         VC = Valor Creditos Clase       O = Oportunidad a Cursar
+    CU = Formacion Curricular     UA = Unidad de Aprendizaje      TReq = Tipo Requisito 1 = Obligatorio 2 = Cursando
+
+

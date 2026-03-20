@@ -1,0 +1,112 @@
+               09/03/26             UNIVERSIDAD AUTONOMA DE NUEVO LEON                                           Pag  1
+                                   FACULTAD DE CIENCIAS FÍSICO MATEMÁTICAS                                        16:29
+                                            SECRETARIA ESCOLAR
+        REQUISITOS DE LIC. EN MULTIMEDIA Y ANIMACION DIGITAL DEL PLAN 420 Mod. Edu V2 / Mod. Acad. V3 ESCO      420 - 05
+------------------------------------------------------------------------------------------------------------------------
+Opta  Materia                                      Requisito                  TReq F P  SP  FC FL VCC VCL CU UA O Act
+------------------------------------------------------------------------------------------------------------------------
+
+                                   Semestre:01
+       A04 Metodología de la programación                                          1 04 109 5  0  4.0  0  06 01 6 Si
+       A01 Álgebra                                                                 1 04 109 5  0  4.0  0  06 01 6 Si
+       A03 Geometría analítica                                                     1 04 109 5  0  4.0  0  06 01 6 Si
+       A02 Cálculo diferencial                                                     1 04 109 5  0  4.0  0  06 01 6 Si
+       A05 Física básica                                                           1 04 109 5  0  4.0  0  06 01 6 Si
+
+                                   Semestre:02
+       500 Programación básica                A04 Metodología de la program      1 1 04 109 3  0  4.0  0  06 01 6 Si
+       501 Matemáticas para videojuegos I     A01 Álgebra                        1 1 04 109 3  0  4.0  0  06 01 6 Si
+                                              A03 Geometría analítica            1
+       502 Tecnologías multimedia                                                  1 04 109 3  0  4.0  0  06 01 6 Si
+       503 Dibujo de la anatomía humana                                            1 04 109 3  0  4.0  0  06 01 6 Si
+       504 Expresiones artísticas y sociocu                                        1 04 109 3  0  4.0  0  06 01 6 Si
+       008 Responsabilidad Social y Desarro                                        1 04 109 2  0  2.0  0  01 01 6 Si
+
+                                   Semestre:03
+       505 Programación avanzada              500 Programación básica            1 1 04 109 3  0  4.0  0  06 01 6 Si
+       506 Matemáticas para videojuegos II    501 Matemáticas para videojue      1 1 04 109 3  0  4.0  0  06 01 6 Si
+       507 Producción multimedia              502 Tecnologías multimedia         1 1 04 109 3  0  4.0  0  07 01 6 Si
+       508 Fundamentos de los videojuegos                                          1 04 109 3  0  4.0  0  06 01 6 Si
+       509 Modelado arquitectónico                                                 1 04 109 3  0  4.0  0  07 01 6 Si
+       009 Ética y Cultura de la Legalidad                                         1 04 109 2  0  2.0  0  01 01 6 Si
+
+                                   Semestre:04
+       510 Programación orientada a objetos   505 Programación avanzada          1 1 04 109 3  0  4.0  0  06 01 6 Si
+       511 Estructura de datos                505 Programación avanzada          1 1 04 109 3  0  4.0  0  06 01 6 Si
+       512 Lógica digital                     501 Matemáticas para videojue      1 1 04 109 3  0  4.0  0  06 01 6 Si
+       513 Sistemas operativos                                                     1 04 109 3  0  4.0  0  07 01 6 Si
+       514 Propiedad intelectual                                                   1 04 109 3  0  4.0  0  07 01 6 Si
+01ACFPF114 Modelado orgánico                                                       1 04 109 3  0  4.0  0  07 02 6 Si
+01ACFPF115 Lenguaje ensamblador                                                    1 04 109 3  0  4.0  0  07 02 6 Si
+       010 Cultura de Paz                                                          1 04 109 2  0  2.0  0  01 01 6 Si
+
+                                   Semestre:05
+       516 Gráficas computacionales I         506 Matemáticas para videojue      1 1 04 109 3  0  4.0  0  07 01 6 Si
+                                              510 Programación orientada a       1
+       517 Modelos de administración de dat   510 Programación orientada a       1 1 04 109 3  0  4.0  0  07 01 6 Si
+                                              511 Estructura de datos            1
+       518 Diseño de hápticos                 512 Lógica digital                 1 1 04 109 3  0  4.0  0  07 01 6 Si
+       519 Fotografía digital                                                      1 04 109 3  0  4.0  0  07 01 6 Si
+       520 Cinematografía                                                          1 04 109 3  0  4.0  0  07 01 6 Si
+       007 Liderazgo Emprendimiento e Innov                                        1 04 109 2  0  2.0  0  01 01 6 Si
+02ACFPF116 Animación básica                   114 Modelado orgánico              1 1 04 109 3  0  4.0  0  07 02 6 Si
+02ACFPF117 Preproducción 2D                   114 Modelado orgánico              1 1 04 109 3  0  4.0  0  07 02 6 Si
+02ACFPF118 Preproducción video                114 Modelado orgánico              1 1 04 109 3  0  4.0  0  07 02 6 Si
+02ACFPF119 Administración de alto volumen d   115 Lenguaje ensamblador           1 1 04 109 3  0  4.0  0  07 02 6 Si
+
+                                   Semestre:06
+       522 Gráficas computacionales II        516 Gráficas computacionales       1 1 04 109 3  0  4.0  0  07 01 6 Si
+       523 Programación web I                                                      1 04 109 3  0  4.0  0  07 01 6 Si
+       524 Redes computacionales              518 Diseño de hápticos             1 1 04 109 3  0  4.0  0  07 01 6 Si
+       525 Escenarios de videojuegos          518 Diseño de hápticos             1 1 04 109 3  0  4.0  0  07 01 6 Si
+       526 Guionismo                          520 Cinematografía                 1 1 04 109 3  0  4.0  0  07 01 6 Si
+03ACFPF120 Modelado en alto poligonaje        116 Animación básica               1 1 04 109 3  0  4.0  0  07 02 6 Si
+03ACFPF121 Ilustración digital                117 Preproducción 2D               1 1 04 109 3  0  4.0  0  07 02 6 Si
+03ACFPF122 Efectos visuales I                 118 Preproducción video            1 1 04 109 3  0  4.0  0  07 02 6 Si
+03ACFPF123 Interface y experiencia de usuar   119 Administración de alto vo      1 1 04 109 3  0  4.0  0  07 02 6 Si
+
+                                   Semestre:07
+       528 Gráficas computacionales en web    522 Gráficas computacionales       1 1 04 109 3  0  4.0  0  07 01 6 Si
+       529 Base de datos multimedia           517 Modelos de administración      1 1 04 109 3  0  4.0  0  07 01 6 Si
+                                              523 Programación web I             1
+       530 Programación orientada a la inte   524 Redes computacionales          1 1 04 109 3  0  4.0  0  07 01 6 Si
+       531 Optimización de videojuegos        525 Escenarios de videojuegos      1 1 04 109 3  0  4.0  0  07 01 6 Si
+       532 Administración de proyectos                                             1 04 109 3  0  4.0  0  07 01 6 Si
+       533 Programación web de capa interme   523 Programación web I             1 1 04 109 3  0  3.0  0  07 01 6 Si
+               09/03/26             UNIVERSIDAD AUTONOMA DE NUEVO LEON                                           Pag  2
+                                   FACULTAD DE CIENCIAS FÍSICO MATEMÁTICAS                                        16:29
+                                            SECRETARIA ESCOLAR
+        REQUISITOS DE LIC. EN MULTIMEDIA Y ANIMACION DIGITAL DEL PLAN 420 Mod. Edu V2 / Mod. Acad. V3 ESCO      420 - 05
+------------------------------------------------------------------------------------------------------------------------
+Opta  Materia                                      Requisito                  TReq F P  SP  FC FL VCC VCL CU UA O Act
+------------------------------------------------------------------------------------------------------------------------
+04ACFPF124 Actuación y dirección para anima   120 Modelado en alto poligona      1 1 04 109 3  0  4.0  0  07 02 6 Si
+04ACFPF125 Animación tradicional de humanos   121 Ilustración digital            1 1 04 109 3  0  4.0  0  07 02 6 Si
+04ACFPF126 Efectos visuales II                122 Efectos visuales I             1 1 04 109 3  0  4.0  0  07 02 6 Si
+04ACFPF127 Programación de sistemas móviles   123 Interface y experiencia d      1 1 04 109 3  0  4.0  0  07 02 6 Si
+
+                                   Semestre:08
+       535 Realidad virtual                                                        1 04 109 3  0  4.0  0  07 01 6 Si
+       536 Programación web II                                                     1 04 109 3  0  4.0  0  07 01 6 Si
+       537 Procesamiento de imágenes                                               1 04 109 3  0  4.0  0  07 01 6 Si
+       538 Diseño de videojuegos en línea     531 Optimización de videojueg      1 1 04 109 3  0  4.0  0  07 01 6 Si
+       539 Mercadotecnia                                                           1 04 109 3  0  4.0  0  07 01 6 Si
+05ACFPF128 Esqueletos de personajes           124 Actuación y dirección par      1 1 04 109 3  0  4.0  0  07 02 6 Si
+05ACFPF129 Animación tradicional de escenar   125 Animación tradicional de       1 1 04 109 3  0  4.0  0  07 02 6 Si
+05ACFPF130 Iluminación y audio                126 Efectos visuales II            1 1 04 109 3  0  4.0  0  07 02 6 Si
+05ACFPF131 Administración de servidores       127 Programación de sistemas       1 1 04 109 3  0  4.0  0  07 02 6 Si
+
+                                   Semestre:09
+       930 Servicio social                                                         1 04 109 2  0 16.0  0  08 01 6 Si
+       541 Proyección personal y de product                                        1 04 109 4  0  4.0  0  08 01 6 Si
+06ACFPF132 Postproducción                                                          1 04 109 3  0  3.0  0  07 02 6 Si
+06ACFPF133 Ingeniería de software             127 Programación de sistemas       1 1 04 105 3  0  3.0  0  07 02 6 Si
+
+
+
+
+    F  = Funcion                  P  = Programa                   SP = Subprograma
+    FC = Frecuencia Clase         VC = Valor Creditos Clase       O = Oportunidad a Cursar
+    CU = Formacion Curricular     UA = Unidad de Aprendizaje      TReq = Tipo Requisito 1 = Obligatorio 2 = Cursando
+
+

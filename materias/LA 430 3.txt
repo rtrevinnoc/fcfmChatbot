@@ -1,0 +1,122 @@
+               09/03/26             UNIVERSIDAD AUTONOMA DE NUEVO LEON                                           Pag  1
+                                   FACULTAD DE CIENCIAS FÍSICO MATEMÁTICAS                                        16:24
+                                            SECRETARIA ESCOLAR
+                REQUISITOS DE LICENCIATURA EN ACTUARIA DEL PLAN 430 Modelo Academico 2020 MIXTA                 430 - 04
+------------------------------------------------------------------------------------------------------------------------
+Opta  Materia                                      Requisito                  TReq F P  SP  FC FL VCC VCL CU UA O Act
+------------------------------------------------------------------------------------------------------------------------
+
+                                   Semestre:01
+       178 Álgebra                                                                 1 04 618 5  0  4.0  0  10 01 6 Si
+       177 Cálculo diferencial                                                     1 04 618 5  0  4.0  0  10 01 6 Si
+       180 Geometría analítica                                                     1 04 618 5  0  4.0  0  10 01 6 Si
+       179 Metodología de la programación                                          1 04 618 5  0  4.0  0  10 01 6 Si
+       008 Responsabilidad social y desarro                                        1 04 618 2  0  2.0  0  09 01 6 Si
+       010 Cultura de paz                                                          1 04 618 2  0  2.0  0  09 01 6 Si
+
+                                   Semestre:02
+       183 Tópicos de álgebra                                                      1 04 618 5  0  4.0  0  10 01 6 Si
+       182 Cálculo integral                                                        1 04 618 5  0  4.0  0  10 01 6 Si
+       181 Mecánica traslacional y rotacion                                        1 04 618 5  0  4.0  0  10 01 6 Si
+       502 Programación básica                                                     1 04 618 5  0  4.0  0  11 01 6 Si
+       009 Ética y cultura de la legalidad                                         1 04 618 2  0  2.0  0  09 01 6 Si
+       007 Liderazgo, emprendimiento e inno                                        1 04 618 2  0  2.0  0  09 01 6 Si
+       094 Cultura de género                                                       1 04 618 2  0  2.0  0  09 01 6 Si
+
+                                   Semestre:03
+       305 Cálculo de varias variables                                             1 04 618 5  0  4.0  0  12 01 6 Si
+       306 Álgebra lineal                                                          1 04 618 5  0  4.0  0  12 01 6 Si
+       601 Seguro de vida                                                          1 04 618 3  0  3.0  0  13 01 6 Si
+       602 Matemáticas financieras                                                 1 04 618 5  0  4.0  0  13 01 6 Si
+       603 Análisis de datos                                                       1 04 618 5  0  4.0  0  12 01 6 Si
+       604 Probabilidad básica                                                     1 04 618 5  0  4.0  0  13 01 6 Si
+       605 Contexto económico geopolítico                                          1 04 618 3  0  3.0  0  13 01 6 Si
+
+                                   Semestre:04
+       606 Probabilidad avanzada              604 Probabilidad básica            1 1 04 618 5  0  4.0  0  13 01 6 Si
+       309 Ecuaciones diferenciales           305 Cálculo de varias variabl      1 1 04 618 5  0  4.0  0  12 01 6 Si
+                                              306 Álgebra lineal                 1
+       607 Economía                           605 Contexto económico geopol      2 1 04 618 5  0  4.0  0  13 01 6 Si
+       608 Seguro de daños                    601 Seguro de vida                 1 1 04 618 3  0  3.0  0  13 01 6 Si
+       322 Programación lineal                305 Cálculo de varias variabl      1 1 04 618 5  0  4.0  0  13 01 6 Si
+                                              306 Álgebra lineal                 1
+       609 Matemáticas financieras avanzada   602 Matemáticas financieras        1 1 04 618 5  0  4.0  0  13 01 6 Si
+       610 Contabilidad                       602 Matemáticas financieras        1 1 04 618 5  0  4.0  0  13 01 6 Si
+                                              603 Análisis de datos              1
+
+                                   Semestre:05
+       328 Investigación de operaciones       322 Programación lineal            1 1 04 618 5  0  4.0  0  13 01 6 Si
+                                              606 Probabilidad avanzada          1
+       611 Inferencia estadística             606 Probabilidad avanzada          1 1 04 618 5  0  4.0  0  13 01 6 Si
+       612 Contabilidad de seguros            610 Contabilidad                   1 1 04 618 5  0  4.0  0  13 01 6 Si
+       613 Portafolio de inversión            609 Matemáticas financieras a      1 1 04 618 5  0  4.0  0  13 01 6 Si
+       614 Cálculo actuarial                  606 Probabilidad avanzada          1 1 04 618 5  0  4.0  0  13 01 6 Si
+                                              609 Matemáticas financieras a      1
+01PF01 630 Mercadotecnia                      609 Matemáticas financieras a      2 1 04 618 3  0  3.0  0  13 02 6 Si
+                                              610 Contabilidad                   2
+01PF01 631 Administración                     609 Matemáticas financieras a      2 1 04 618 3  0  3.0  0  13 02 6 Si
+                                              610 Contabilidad                   2
+02PF02 337 Análisis numérico                  322 Programación lineal            2 1 04 618 5  0  4.0  0  13 02 6 Si
+                                              606 Probabilidad avanzada          2
+02PF02 632 Inteligencia artificial            322 Programación lineal            2 1 04 618 5  0  4.0  0  13 02 6 Si
+                                              606 Probabilidad avanzada          2
+
+                                   Semestre:06
+       344 Simulación                         328 Investigación de operacio      2 1 04 618 5  0  4.0  0  13 01 6 Si
+                                              606 Probabilidad avanzada          2
+       615 Procesos estocásticos              309 Ecuaciones diferenciales       2 1 04 618 5  0  4.0  0  13 01 6 Si
+                                              606 Probabilidad avanzada          2
+       616 Métodos estadísticos               611 Inferencia estadística         1 1 04 618 5  0  4.0  0  13 01 6 Si
+       617 Planeación estratégica             609 Matemáticas financieras a      2 1 04 618 3  0  3.0  0  13 01 6 Si
+       618 Matemáticas actuariales del segu   614 Cálculo actuarial              1 1 04 618 5  0  4.0  0  13 01 6 Si
+03PF03 633 Comportamiento organizacional                                           1 04 618 3  0  3.0  0  13 02 6 Si
+03PF03 634 Legislación de seguros                                                  1 04 618 3  0  3.0  0  13 02 6 Si
+
+                                   Semestre:07
+               09/03/26             UNIVERSIDAD AUTONOMA DE NUEVO LEON                                           Pag  2
+                                   FACULTAD DE CIENCIAS FÍSICO MATEMÁTICAS                                        16:24
+                                            SECRETARIA ESCOLAR
+                REQUISITOS DE LICENCIATURA EN ACTUARIA DEL PLAN 430 Modelo Academico 2020 MIXTA                 430 - 04
+------------------------------------------------------------------------------------------------------------------------
+Opta  Materia                                      Requisito                  TReq F P  SP  FC FL VCC VCL CU UA O Act
+------------------------------------------------------------------------------------------------------------------------
+       619 Estadística aplicada               616 Métodos estadísticos           1 1 04 618 5  0  4.0  0  13 01 6 Si
+       620 Demografía                         616 Métodos estadísticos           2 1 04 618 3  0  3.0  0  13 01 6 Si
+       621 Productos financieros derivados    613 Portafolio de inversión        2 1 04 618 5  0  4.0  0  13 01 6 Si
+       622 Matemáticas actuariales del segu   618 Matemáticas actuariales d      2 1 04 618 5  0  4.0  0  13 01 6 Si
+       623 Pensiones                          618 Matemáticas actuariales d      1 1 04 618 5  0  4.0  0  13 01 6 Si
+04PF04 339 Muestreo                           616 Métodos estadísticos           2 1 04 618 5  0  4.0  0  13 02 6 Si
+04PF04 635 Econometría financiera             616 Métodos estadísticos           2 1 04 618 5  0  4.0  0  13 02 6 Si
+04PF04 636 Estadística multivariada           616 Métodos estadísticos           2 1 04 618 5  0  4.0  0  13 02 6 Si
+
+                                   Semestre:08
+       624 Finanzas corporativas              621 Productos financieros der      1 1 04 618 5  0  4.0  0  13 01 6 Si
+       625 Administración del riesgo empres   617 Planeación estratégica         2 1 04 618 3  0  3.0  0  13 01 6 Si
+                                              620 Demografía                     2
+       626 Teoría del riesgo                  615 Procesos estocásticos          1 1 04 618 5  0  4.0  0  13 01 6 Si
+       930 Servicio social                                                         1 04 618 2  0 16.0  0  14 01 6 Si
+
+                                   Semestre:09
+       627 Administración actuarial           622 Matemáticas actuariales d      2 1 04 618 5  0  4.0  0  13 01 6 Si
+                                              625 Administración del riesgo      2
+       628 Administración del riesgo empres   625 Administración del riesgo      2 1 04 618 3  0  3.0  0  13 01 6 Si
+       629 Minería de datos                   619 Estadística aplicada           2 1 04 618 5  0  4.0  0  13 01 6 Si
+05PF05 637 Teoría del comportamiento          625 Administración del riesgo      2 1 04 618 3  0  3.0  0  13 02 6 Si
+05PF05 638 Inteligencia de negocios           625 Administración del riesgo      2 1 04 618 3  0  3.0  0  13 02 6 Si
+06PF06 340 Teoría de juegos                   624 Finanzas corporativas          2 1 04 618 5  0  4.0  0  13 02 6 Si
+06PF06 639 Auditoria actuarial                624 Finanzas corporativas          2 1 04 618 5  0  4.0  0  13 02 6 Si
+06PF06 640 Tópicos de consultoría actuarial   623 Pensiones                      2 1 04 618 5  0  4.0  0  13 02 6 Si
+06PF06 641 Riesgos financieros                626 Teoría del riesgo              2 1 04 618 5  0  4.0  0  13 02 6 Si
+
+                                   Semestre:11
+       642 Seminario de investigación         628 Administración del riesgo      2 1 04 618 3  0  5.0  0  14 02 6 Si
+       P10 Prácticas profesionales                                                 1 04 618 2  0  5.0  0  14 02 6 Si
+
+
+
+
+    F  = Funcion                  P  = Programa                   SP = Subprograma
+    FC = Frecuencia Clase         VC = Valor Creditos Clase       O = Oportunidad a Cursar
+    CU = Formacion Curricular     UA = Unidad de Aprendizaje      TReq = Tipo Requisito 1 = Obligatorio 2 = Cursando
+
+
