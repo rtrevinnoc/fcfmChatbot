@@ -1,3 +1,4 @@
+import asyncio
 import os, math, sqlite3, secrets
 from fastapi import FastAPI, Request, Query, Depends, HTTPException, status
 from fastapi.responses import PlainTextResponse, JSONResponse, Response, HTMLResponse
@@ -9,6 +10,7 @@ from utils.text_utils import CharacterTextSplitter, TextFileLoader, PDFLoader
 from utils.openai_utils.prompts import UserRolePrompt, SystemRolePrompt
 from utils.vectordatabase import VectorDatabase
 from utils.openai_utils.chatmodel import ChatOpenAI
+from utils.web_scraper import scrape_program_pages
 from passlib.context import CryptContext
 from dotenv import load_dotenv
 
@@ -32,8 +34,14 @@ FILES_MAP = {
     "alumni": "faqEgresados.pdf"
 }
 
-# Global dictionary to hold multiple vector databases
+# Global dictionary to hold multiple vector databases (one per user segment)
 vector_dbs = {}
+
+# Web-scraped vector DB: built from live UANL/FCFM program pages at startup
+# and refreshed every 24 hours.  Used as a supplemental source for aspirant
+# and undergraduate queries about programs, requirements, and career fields.
+web_db: VectorDatabase | None = None
+WEB_DB_REFRESH_HOURS = 24
 
 DB_PATH = "chat_history.db"
 
@@ -141,149 +149,31 @@ def get_current_username(credentials: HTTPBasicCredentials = Depends(security)):
         )
     return credentials.username
 
-# Static course plans sourced directly from faqUndergraduate.pdf (most recent plan per career).
-# Keyed by lowercase keywords that identify each career in a user query.
-FCFM_COURSE_PLANS = {
-    "computacionales": {
-        "nombre": "Licenciado en Ciencias Computacionales",
-        "plan": "Plan 440",
-        "semestres": {
-            1: ["Álgebra", "Cálculo diferencial", "Geometría analítica", "Metodología de la programación", "Liderazgo emprendimiento e innovación", "Responsabilidad social y desarrollo"],
-            2: ["Cálculo integral", "Mecánica traslacional y rotación", "Programación básica", "Tópicos de álgebra", "Igualdad de género diversidad y sexualidad", "Ética transparencia y cultura de la legalidad", "Cultura de paz y derechos humanos"],
-            3: ["Matemáticas discretas", "Álgebra lineal", "Fundamentos de sistemas operativos", "Programación estructurada", "Laboratorio de programación estructurada", "Física para computación", "Laboratorio de física para computación"],
-            4: ["Estructura de datos", "Teoría de autómatas", "Circuitos digitales", "Laboratorio de circuitos digitales", "Teoría de la información", "Fundamentos de redes", "Laboratorio de fundamentos de redes"],
-            5: ["Bases de datos", "Laboratorio de bases de datos", "Teoría de la información aplicada", "Algoritmia y optimización", "Programación orientada a objetos", "Laboratorio de programación orientada a objetos", "Análisis numérico para programación"],
-            6: ["Programación lineal", "Arquitectura computacional", "Inglés para tecnologías", "Inteligencia artificial"],
-            7: ["Investigación de operaciones", "Cómputo en la nube", "Fundamentos de seguridad informática", "Compiladores", "Minería de datos"],
-            8: ["Análisis de sistemas", "Investigación y desarrollo"],
-            9: ["Cómputo de alto rendimiento", "Ingeniería de software", "Servicio social"],
-            10: ["Taller para examen de egreso", "Seminario para el desempeño profesional", "Administración de proyectos tecnológicos", "Modelo de negocios", "Analítica de datos e inteligencia", "Transformación digital"],
-            11: ["Estancias de investigación", "Certificación en tecnologías de información", "Prácticas profesionales"],
-        }
-    },
-    "actuaría": {
-        "nombre": "Licenciado en Actuaría",
-        "plan": "Plan 430",
-        "semestres": {
-            1: ["Álgebra", "Cálculo diferencial", "Geometría analítica", "Metodología de la programación", "Responsabilidad social y desarrollo", "Cultura de paz"],
-            2: ["Tópicos de álgebra", "Cálculo integral", "Mecánica traslacional y rotación", "Programación básica", "Ética y cultura de la legalidad", "Liderazgo emprendimiento e innovación", "Cultura de género"],
-            3: ["Cálculo de varias variables", "Álgebra lineal", "Seguro de vida", "Matemáticas financieras", "Análisis de datos", "Probabilidad básica", "Contexto económico geopolítico"],
-            4: ["Probabilidad avanzada", "Ecuaciones diferenciales", "Economía", "Seguro de daños", "Programación lineal", "Matemáticas financieras avanzada", "Contabilidad"],
-            5: ["Investigación de operaciones", "Inferencia estadística", "Contabilidad de seguros", "Portafolio de inversión", "Cálculo actuarial", "Mercadotecnia", "Administración"],
-            6: ["Simulación", "Procesos estocásticos", "Métodos estadísticos", "Planeación estratégica", "Matemáticas actuariales del seguro", "Comportamiento organizacional", "Legislación de seguros", "Modelado matemático", "Muestreo"],
-            7: ["Estadística aplicada", "Demografía", "Productos financieros derivados", "Matemáticas actuariales del seguro", "Pensiones", "Econometría financiera", "Estadística multivariada", "Modelo de negocios", "Minería de datos"],
-            8: ["Finanzas corporativas", "Administración del riesgo empresarial", "Teoría del riesgo", "Servicio social"],
-            9: ["Administración actuarial", "Administración del riesgo empresarial", "Minería de datos", "Teoría del comportamiento", "Teoría de juegos", "Auditoría actuarial"],
-            11: ["Seminario de investigación", "Prácticas profesionales"],
-        }
-    },
-    "física": {
-        "nombre": "Licenciado en Física",
-        "plan": "Plan 430",
-        "semestres": {
-            1: ["Álgebra", "Cálculo diferencial", "Geometría analítica", "Metodología de la programación", "Responsabilidad social y desarrollo", "Cultura de paz"],
-            2: ["Tópicos de álgebra", "Cálculo integral", "Programación básica", "Ética y cultura de la legalidad", "Mecánica traslacional y rotación", "Liderazgo emprendimiento e innovación", "Cultura de género"],
-            3: ["Cálculo de varias variables", "Álgebra lineal", "Métodos diferenciales", "Gravitación fluidos y calor", "Laboratorio de gravitación fluidos y calor", "Probabilidad y estadística", "Lenguajes de programación"],
-            4: ["Cálculo vectorial", "Variable compleja", "Electricidad", "Métodos numéricos", "Mecánica teórica", "Diseño experimental", "Didáctica de la física"],
-            5: ["Métodos de la física teórica", "Termodinámica", "Ondas y magnetismo", "Laboratorio de ondas y magnetismo", "Mecánica de sistemas con restricciones", "Física moderna"],
-            6: ["Cálculo variacional y tensorial", "Física estadística", "Teoría electrostática", "Introducción a la mecánica cuántica", "Circuitos eléctricos", "Física computacional"],
-            7: ["Astrofísica de galaxias", "Práctica docente", "Relatividad", "Óptica y aplicaciones", "Ciencia de materiales", "Aplicaciones de física estadística", "Teoría electrodinámica", "Mecánica cuántica", "Electrónica", "Física experimental"],
-            8: ["Servicio social", "Óptica", "Física instrumental"],
-            9: ["Seminario para el desempeño profesional"],
-            11: ["Seminario de investigación", "Prácticas profesionales"],
-        }
-    },
-    "matemáticas": {
-        "nombre": "Licenciado en Matemáticas",
-        "plan": "Plan 430",
-        "semestres": {
-            1: ["Álgebra", "Cálculo diferencial", "Geometría analítica", "Metodología de la programación", "Responsabilidad social y desarrollo", "Cultura de paz"],
-            2: ["Tópicos de álgebra", "Cálculo integral", "Programación básica", "Mecánica traslacional y rotación", "Ética y cultura de la legalidad", "Liderazgo emprendimiento e innovación", "Cultura de género"],
-            3: ["Cálculo de varias variables", "Álgebra lineal", "Programación estructurada", "Laboratorio de programación estructurada", "Matemáticas discretas", "Geometría moderna"],
-            4: ["Ecuaciones diferenciales", "Variable compleja", "Matemáticas computacionales", "Tópicos de álgebra lineal", "Cálculo vectorial", "Probabilidad"],
-            5: ["Estadística", "Teoría de grupos", "Tópicos de ecuaciones diferenciales", "Historia de las matemáticas", "Tópicos de variable compleja"],
-            6: ["Análisis matemático", "Minería de datos", "Programación lineal", "Teoría de anillos y campos", "Matemática educativa"],
-            7: ["Tópicos de análisis matemático", "Topología", "Enseñanza de las ciencias físico matemáticas", "Investigación de operaciones", "Programación entera", "Estructura de datos", "Análisis numérico", "Teoría de grafos", "Muestreo", "Teoría de juegos", "Lógica y conjuntos", "Didáctica de las matemáticas"],
-            8: ["Teoría de la medida", "Servicio social", "Simulación", "Tópicos de álgebra abstracta", "Diseño de experimentos", "Didáctica de las matemáticas"],
-            9: ["Geometría diferencial", "Métodos de optimización", "Análisis funcional", "Investigación educativa", "Tópicos de topología", "Optimización de aplicaciones industriales", "Análisis de algoritmos"],
-            11: ["Seminario de investigación", "Taller para examen de egreso", "Seminario para el desempeño profesional"],
-        }
-    },
-    "multimedia": {
-        "nombre": "Licenciado en Multimedia y Animación Digital",
-        "plan": "Plan 440",
-        "semestres": {
-            1: ["Liderazgo emprendimiento e innovación", "Responsabilidad social y desarrollo", "Metodología de la programación", "Álgebra", "Cálculo diferencial", "Geometría analítica"],
-            2: ["Cultura de paz y derechos humanos", "Ética transparencia y cultura de la legalidad", "Igualdad de género diversidad y sexualidad", "Tópicos de álgebra", "Cálculo integral", "Mecánica traslacional y rotación", "Programación básica"],
-            3: ["Programación estructurada", "Laboratorio de programación estructurada", "Relaciones espaciales para video", "Producción multimedia", "Fundamentos del dibujo artístico", "Metodologías ágiles de trabajo", "Proyección de negocios tecnológicos", "Modelado arquitectónico"],
-            4: ["Programación avanzada", "Transformaciones gráficas para videojuegos", "Fundamentos de los videojuegos", "Tecnologías multimedia", "Fotografía digital", "Modelo de administración de datos", "Laboratorio de modelo de administración de datos", "Fundamentos de la animación"],
-            5: ["Interfaz y experiencia de usuario", "Lógica digital", "Producción de guiones", "Iluminación y audio", "Programación orientada a objetos", "Laboratorio de programación orientada a objetos"],
-            6: ["Diseño de hápticos", "Redes computacionales", "Laboratorio de redes computacionales", "Fundamentos y producción cinematográfica"],
-            7: ["Procesamiento de imágenes", "Programación de sitios web", "Laboratorio de programación de sitios web", "Introducción a efectos visuales", "Administración de proyectos multimedia", "Gráficas computacionales", "Optimización de videojuegos"],
-            8: ["Interfaces y aplicaciones web", "Laboratorio de interfaces y aplicaciones web", "Gestión y producción de efectos visuales", "Propiedad intelectual", "Escenarios digitales", "Realidad virtual y aumentada", "Diseño de videojuegos en línea"],
-            9: ["Inglés para tecnologías", "Mercadotecnia"],
-            10: ["Postproducción para entornos virtuales", "Postproducción para series animadas", "Inteligencia artificial y ciencia de datos", "Seminario para el desempeño profesional", "Servicio social"],
-        }
-    },
-    "seguridad": {
-        "nombre": "Licenciado en Seguridad en Tecnologías de Información",
-        "plan": "Plan 430",
-        "semestres": {
-            1: ["Cultura de paz", "Responsabilidad social y desarrollo", "Metodología de la programación", "Álgebra", "Cálculo diferencial", "Geometría analítica"],
-            2: ["Liderazgo emprendimiento e innovación", "Ética y cultura de la legalidad", "Cultura de género", "Tópicos de álgebra", "Cálculo integral", "Mecánica traslacional y rotación", "Programación básica"],
-            3: ["Álgebra lineal", "Matemáticas discretas", "Señales de transmisión", "Fundamentos de la seguridad informática", "Fundamentos de sistemas operativos", "Programación para ciberseguridad"],
-            4: ["Teoría de autómatas", "Criptografía", "Teoría de la información", "Programa de seguridad", "Fundamentos de redes", "Laboratorio de fundamentos de redes", "Normatividad y regulaciones de datos"],
-            5: ["Seguridad en base de datos", "Laboratorio de seguridad en base de datos", "Conmutación de redes locales", "Laboratorio de conmutación de redes locales", "Seguridad en aplicaciones", "Laboratorio de seguridad en aplicaciones", "Teoría de la información aplicada", "Administración de riesgos de seguridad"],
-            6: ["Derecho informático", "Diseño de políticas de seguridad", "Inglés para tecnologías", "Interconexión de redes locales", "Laboratorio de interconexión de redes"],
-            7: ["Control de accesos", "Laboratorio de control de accesos", "Diseño de arquitecturas de seguridad", "Operación de la seguridad", "Gobierno riesgo y cumplimiento"],
-            8: ["Pruebas de vulnerabilidades", "Laboratorio de pruebas de vulnerabilidades", "Continuidad de negocio y recuperación ante desastres"],
-            9: ["Cómputo forense", "Gestión de incidentes de seguridad", "Servicio social"],
-            10: ["Modelo de negocios", "Amenazas operativas y dependencias empresariales", "Programa de amenazas internas", "Transformación digital"],
-            11: ["Estancias de investigación", "Certificación en tecnologías de información", "Prácticas profesionales"],
-        }
-    },
-}
-
-def _find_career_plan(query: str) -> str | None:
-    """Return a formatted course plan if the query mentions a specific FCFM career."""
-    q = query.lower()
-    for keyword, plan in FCFM_COURSE_PLANS.items():
-        if keyword in q:
-            lines = [f"Plan de estudios: {plan['nombre']} ({plan['plan']})"]
-            for sem, materias in sorted(plan["semestres"].items()):
-                lines.append(f"  Semestre {sem}: {', '.join(materias)}")
-            return "\n".join(lines)
-    return None
-
-
 class RetrievalAugmentedQAPipeline:
     def __init__(self, llm: ChatOpenAI, profile: dict):
         self.llm = llm
         self.profile = profile
-        # Determine which vector DB to use
+        # Determine which FAQ vector DB to use for this user segment
         db_key = profile['level'] if profile['status'] == 'student' else profile['status']
         self.vector_db = vector_dbs.get(db_key)
-        # Aspirants may ask about available careers; supplement with the undergraduate DB
-        self.supplemental_db = vector_dbs.get("undergraduate") if db_key == "applying" else None
+        # Aspirants and undergraduate students may ask about programs/careers;
+        # supplement with the live web_db built from UANL/FCFM program pages.
+        self.use_web_db = db_key in ("applying", "undergraduate")
 
     async def arun_pipeline(self, user_query: str, user_id: str):
-        # Retrieve context from the SPECIFIC vector DB
+        # Retrieve context from the segment-specific FAQ vector DB
         context_prompt = ""
         if self.vector_db:
             context_list = self.vector_db.search_by_text(user_query, k=4)
             context_prompt = "\n".join([context[0] for context in context_list])
-        # For aspirants: if the query mentions a specific career, inject the exact
-        # structured course plan (avoids cross-career contamination from vector search).
-        # For other cross-cutting questions, fall back to supplemental vector search.
-        if self.supplemental_db:
-            career_plan = _find_career_plan(user_query)
-            if career_plan:
-                context_prompt = (context_prompt + "\n" + career_plan) if context_prompt else career_plan
-            else:
-                supplemental_list = self.supplemental_db.search_by_text(user_query, k=4)
-                supplemental_text = "\n".join([context[0] for context in supplemental_list])
-                if supplemental_text:
-                    context_prompt = (context_prompt + "\n" + supplemental_text) if context_prompt else supplemental_text
+
+        # For aspirants and undergrads, also search the live web DB
+        # (covers program descriptions, requirements, career fields, etc.)
+        if self.use_web_db and web_db:
+            web_results = web_db.search_by_text(user_query, k=4)
+            web_text = "\n".join([r[0] for r in web_results])
+            if web_text:
+                context_prompt = (context_prompt + "\n" + web_text) if context_prompt else web_text
 
         history = get_user_history(user_id)
         
@@ -318,35 +208,20 @@ class RetrievalAugmentedQAPipeline:
 
         current_omissions = omit_desc.get(self.profile['level'] or self.profile['status'], "")
 
-        # Static facts guaranteed to be correct for FCFM — injected so the model
-        # never has to guess them from a potentially-missing context chunk.
-        FCFM_CAREERS = (
-            "Las carreras que ofrece la FCFM son:\n"
-            "• Licenciado en Actuaría\n"
-            "• Licenciado en Ciencias Computacionales\n"
-            "• Licenciado en Física\n"
-            "• Licenciado en Matemáticas\n"
-            "• Licenciado en Multimedia y Animación Digital\n"
-            "• Licenciado en Seguridad en Tecnologías de Información"
-        )
-
-        static_facts = FCFM_CAREERS if (self.profile['level'] or self.profile['status']) in ("applying", "undergraduate") else ""
-
         messages = [
             {
                 "role": "system",
                 "content": (
                     f"Eres un {current_role} en la Facultad de Ciencias Físico Matemáticas (FCFM) de la Universidad Autónoma de Nuevo León en Monterrey, México. "
                     f"Tu objetivo es ayudar exclusivamente con temas de {current_topic}. "
-                    "IMPORTANTE: Responde ÚNICAMENTE con base en el contexto y los hechos conocidos proporcionados a continuación. "
-                    "Si la información solicitada no se encuentra en el contexto ni en los hechos conocidos, indícalo claramente y sugiere al usuario que visite la página oficial de la UANL o se comunique directamente con la facultad. "
-                    "NO inventes ni supongas información que no esté en el contexto o los hechos conocidos. "
+                    "IMPORTANTE: Responde ÚNICAMENTE con base en el contexto proporcionado a continuación. "
+                    "Si la información solicitada no se encuentra en el contexto, indícalo claramente y sugiere al usuario que visite la página oficial de la UANL o se comunique directamente con la facultad. "
+                    "NO inventes ni supongas información que no esté en el contexto. "
                     "NO menciones carreras, programas ni servicios de otras facultades a menos que el contexto lo indique explícitamente. "
                     "Realiza preguntas para averiguar lo que busca el usuario cuando no cuentes con información suficiente. "
                     f"{current_omissions}. "
                     "Responde siempre en español. Sé conciso pero muestra toda la información relevante con la que cuentes. Mantén la conversación sencilla y haz solo una pregunta a la vez.\n\n"
-                    + (f"Hechos conocidos de la FCFM:\n{static_facts}\n\n" if static_facts else "")
-                    + f"Contexto relevante:\n{context_prompt}"
+                    f"Contexto relevante:\n{context_prompt}"
                 )
             }
         ] + history + [{"role": "user", "content": user_query}]
@@ -380,13 +255,47 @@ async def prepare_vector_db(file_path):
     await vector_db.abuild_from_list(texts)
     return vector_db
 
+async def build_web_db() -> VectorDatabase | None:
+    """Scrape UANL/FCFM program pages and build a fresh VectorDatabase."""
+    try:
+        documents = await scrape_program_pages()
+        if not documents:
+            print("[WebDB] No documents scraped — web_db not updated")
+            return None
+        splitter = CharacterTextSplitter()
+        chunks = splitter.split_texts(documents)
+        db = VectorDatabase()
+        await db.abuild_from_list(chunks)
+        print(f"[WebDB] Built web_db with {len(chunks)} chunks from {len(documents)} pages")
+        return db
+    except Exception as exc:
+        print(f"[WebDB] Failed to build web_db: {exc}")
+        return None
+
+
+async def _web_db_refresh_loop():
+    """Background task: rebuild web_db every WEB_DB_REFRESH_HOURS hours."""
+    global web_db
+    while True:
+        await asyncio.sleep(WEB_DB_REFRESH_HOURS * 3600)
+        print("[WebDB] Starting scheduled refresh...")
+        fresh = await build_web_db()
+        if fresh:
+            web_db = fresh
+
+
 @app.on_event("startup")
 async def startup_event():
-    global vector_dbs
+    global vector_dbs, web_db
+    # Build FAQ vector DBs from local PDFs
     for key, path in FILES_MAP.items():
         if os.path.exists(path):
             vector_dbs[key] = await prepare_vector_db(path)
-    print("All Vector DBs initialized")
+    print("All FAQ Vector DBs initialized")
+    # Build web DB from live UANL/FCFM program pages
+    web_db = await build_web_db()
+    # Schedule daily refresh in the background
+    asyncio.create_task(_web_db_refresh_loop())
 
 @app.get("/webhook")
 async def verify(
