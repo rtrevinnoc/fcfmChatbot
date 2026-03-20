@@ -221,6 +221,8 @@ class RetrievalAugmentedQAPipeline:
                     "Si la información solicitada no se encuentra en el contexto, indícalo claramente y sugiere al usuario que visite la página oficial de la UANL o se comunique directamente con la facultad. "
                     "NO inventes ni supongas información que no esté en el contexto. "
                     "NO menciones carreras, programas ni servicios de otras facultades a menos que el contexto lo indique explícitamente. "
+                    "El contexto puede incluir tablas de planes de estudio con el formato: 'código nombre_materia requisito créditos'. "
+                    "Cuando el contexto contenga ese formato, extrae los nombres de las materias y preséntalos ordenados por semestre, ignorando los códigos numéricos. "
                     "Realiza preguntas para averiguar lo que busca el usuario cuando no cuentes con información suficiente. "
                     f"{current_omissions}. "
                     "Responde siempre en español. Sé conciso pero muestra toda la información relevante con la que cuentes. Mantén la conversación sencilla y haz solo una pregunta a la vez.\n\n"
