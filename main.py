@@ -44,7 +44,43 @@ vector_dbs = {}
 # Used as a supplemental source for aspirant and undergraduate queries.
 programs_db: VectorDatabase | None = None
 PROGRAMS_DB_REFRESH_HOURS = 24
-MATERIAS_DIR = "materias"
+
+# Absolute path so the systemd service finds the folder regardless of cwd
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+MATERIAS_DIR = os.path.join(BASE_DIR, "materias")
+
+# Maps career name keywords → ordered list of materias txt files (newest plan first).
+# When a user asks about a specific career's courses, we read the file directly
+# (grep-style) instead of relying on vector similarity, which mixes plans together.
+CAREER_FILE_MAP: dict[str, list[str]] = {
+    "computacionales": ["LCC 440 3.txt", "LCC 420 3.txt"],
+    "actuaría":        ["LA 430 3.txt",  "LA 420 3.txt"],
+    "actuaria":        ["LA 430 3.txt",  "LA 420 3.txt"],
+    "física":          ["LF 430 3.txt",  "LF 420 3.txt"],
+    "fisica":          ["LF 430 3.txt",  "LF 420 3.txt"],
+    "matemáticas":     ["LM 430 3.txt",  "LM 420 3.txt"],
+    "matematicas":     ["LM 430 3.txt",  "LM 420 3.txt"],
+    "multimedia":      ["LMAD 440 3.txt","LMAD 420 3.txt"],
+    "animación":       ["LMAD 440 3.txt","LMAD 420 3.txt"],
+    "animacion":       ["LMAD 440 3.txt","LMAD 420 3.txt"],
+    # "seguridad" has no txt file yet — falls through to vector search
+}
+
+def get_career_materias_context(query: str) -> str:
+    """
+    If the query mentions a specific career, read its materias file directly
+    and return the full raw content as context (the 'grep' path).
+    Returns "" when no career keyword matches — falls through to vector search.
+    """
+    q = query.lower()
+    for keyword, filenames in CAREER_FILE_MAP.items():
+        if keyword in q:
+            for fname in filenames:
+                fpath = os.path.join(MATERIAS_DIR, fname)
+                if os.path.exists(fpath):
+                    with open(fpath, "r", encoding="utf-8") as f:
+                        return f.read()
+    return ""
 
 DB_PATH = "chat_history.db"
 
@@ -170,13 +206,19 @@ class RetrievalAugmentedQAPipeline:
             context_list = self.vector_db.search_by_text(user_query, k=4)
             context_prompt = "\n".join([context[0] for context in context_list])
 
-        # For aspirants and undergrads, also search the programs DB
-        # (materias course plans + downloaded PDFs + live web program pages)
-        if self.use_programs_db and programs_db:
-            prog_results = programs_db.search_by_text(user_query, k=12)
-            prog_text = "\n".join([r[0] for r in prog_results])
-            if prog_text:
-                context_prompt = (context_prompt + "\n" + prog_text) if context_prompt else prog_text
+        # For aspirants and undergrads, supplement with program/course data.
+        if self.use_programs_db:
+            # ── Grep path: query names a specific career → read its file directly.
+            # This guarantees the full, un-mixed course plan for that career.
+            career_context = get_career_materias_context(user_query)
+            if career_context:
+                context_prompt = (context_prompt + "\n" + career_context) if context_prompt else career_context
+            elif programs_db:
+                # ── Vector path: general query (e.g. "qué carreras ofrecen")
+                prog_results = programs_db.search_by_text(user_query, k=6)
+                prog_text = "\n".join([r[0] for r in prog_results])
+                if prog_text:
+                    context_prompt = (context_prompt + "\n" + prog_text) if context_prompt else prog_text
 
         history = get_user_history(user_id)
         
