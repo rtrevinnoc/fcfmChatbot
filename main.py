@@ -1,3 +1,4 @@
+import asyncio
 import os, math, sqlite3, secrets
 from fastapi import FastAPI, Request, Query, Depends, HTTPException, status
 from fastapi.responses import PlainTextResponse, JSONResponse, Response, HTMLResponse
@@ -9,6 +10,7 @@ from utils.text_utils import CharacterTextSplitter, TextFileLoader, PDFLoader
 from utils.openai_utils.prompts import UserRolePrompt, SystemRolePrompt
 from utils.vectordatabase import VectorDatabase
 from utils.openai_utils.chatmodel import ChatOpenAI
+from utils.web_scraper import scrape_program_pages
 from passlib.context import CryptContext
 from dotenv import load_dotenv
 
@@ -32,8 +34,17 @@ FILES_MAP = {
     "alumni": "faqEgresados.pdf"
 }
 
-# Global dictionary to hold multiple vector databases
+# Global dictionary to hold multiple vector databases (one per user segment)
 vector_dbs = {}
+
+# Programs vector DB — built at startup from three sources and refreshed daily:
+#   1. materias/*.txt   — authoritative semester-by-semester course plans
+#   2. downloaded_pdfs/ — plan de estudios / malla curricular PDFs from UANL
+#   3. live web pages   — program descriptions, requirements, career fields
+# Used as a supplemental source for aspirant and undergraduate queries.
+programs_db: VectorDatabase | None = None
+PROGRAMS_DB_REFRESH_HOURS = 24
+MATERIAS_DIR = "materias"
 
 DB_PATH = "chat_history.db"
 
@@ -145,16 +156,27 @@ class RetrievalAugmentedQAPipeline:
     def __init__(self, llm: ChatOpenAI, profile: dict):
         self.llm = llm
         self.profile = profile
-        # Determine which vector DB to use
+        # Determine which FAQ vector DB to use for this user segment
         db_key = profile['level'] if profile['status'] == 'student' else profile['status']
         self.vector_db = vector_dbs.get(db_key)
+        # Aspirants and undergraduate students may ask about programs, careers,
+        # and course plans; supplement with programs_db (materias + PDFs + web).
+        self.use_programs_db = db_key in ("applying", "undergraduate")
 
     async def arun_pipeline(self, user_query: str, user_id: str):
-        # Retrieve context from the SPECIFIC vector DB
+        # Retrieve context from the segment-specific FAQ vector DB
         context_prompt = ""
         if self.vector_db:
             context_list = self.vector_db.search_by_text(user_query, k=4)
             context_prompt = "\n".join([context[0] for context in context_list])
+
+        # For aspirants and undergrads, also search the programs DB
+        # (materias course plans + downloaded PDFs + live web program pages)
+        if self.use_programs_db and programs_db:
+            prog_results = programs_db.search_by_text(user_query, k=6)
+            prog_text = "\n".join([r[0] for r in prog_results])
+            if prog_text:
+                context_prompt = (context_prompt + "\n" + prog_text) if context_prompt else prog_text
 
         history = get_user_history(user_id)
         
@@ -166,27 +188,41 @@ class RetrievalAugmentedQAPipeline:
             "graduate": "asistente académico de POSGRADO",
             "alumni": "asistente de TRAMITES Y TITULACION para egresados"
         }
-        
+
         current_role = role_desc.get(self.profile['level'] or self.profile['status'], "asistente administrativo")
 
+        role_topic = {
+            "applying": "admisión y proceso de ingreso para aspirantes",
+            "enrolled": "reinscripción e inscripciones para alumnos de reingreso",
+            "undergraduate": "licenciatura",
+            "graduate": "posgrado",
+            "alumni": "trámites de titulación y servicios para egresados"
+        }
+
+        current_topic = role_topic.get(self.profile['level'] or self.profile['status'], "atención a la comunidad universitaria")
+
         omit_desc = {
-            "applying": "No incluyas información acerca de precios",
-            "enrolled": "No inlcuyas información promocional ni de costos, el alumno ya está inscrito",
-            "undergraduate": "No incluyas información acerca de precios, ni promociones, ni información de posgrado ya que el estudiante ya está inscrito en licenciatura",
-            "graduate": "No incluyas información de precios, ni promociones, ni información de licenciatura ya que el estudiante ya está inscrito en posgrado",
+            "applying": "No incluyas información sobre costos de colegiaturas ni pagos que no correspondan al proceso de admisión",
+            "enrolled": "No incluyas información promocional. El alumno ya está inscrito, evita hablar de costos de nueva admisión",
+            "undergraduate": "No incluyas información de posgrado ya que el estudiante está inscrito en licenciatura. Evita mencionar costos de nueva admisión o promociones",
+            "graduate": "No incluyas información de licenciatura ya que el estudiante está inscrito en posgrado. Evita mencionar costos de nueva admisión o promociones",
             "alumni": "El usuario ya terminó sus estudios, enfócate en trámites de titulación o servicios para ex-alumnos"
         }
-        
+
         current_omissions = omit_desc.get(self.profile['level'] or self.profile['status'], "")
 
         messages = [
             {
                 "role": "system",
                 "content": (
-                    f"Eres un {current_role} en la Facultad de Ciencias Físico Matemáticas de la Universidad Autónoma de Nuevo León en Monterrey, México. "
-                    f"Tu objetivo es ayudar exclusivamente con temas de {self.profile['status']}. "
-                    "Realiza preguntas para averiguar lo que busca el usuario cuando no cuentes con información suficiente, ya que puede no saber qué es lo que necesita y debes apoyarlo."
-                    f"{current_omissions}."
+                    f"Eres un {current_role} en la Facultad de Ciencias Físico Matemáticas (FCFM) de la Universidad Autónoma de Nuevo León en Monterrey, México. "
+                    f"Tu objetivo es ayudar exclusivamente con temas de {current_topic}. "
+                    "IMPORTANTE: Responde ÚNICAMENTE con base en el contexto proporcionado a continuación. "
+                    "Si la información solicitada no se encuentra en el contexto, indícalo claramente y sugiere al usuario que visite la página oficial de la UANL o se comunique directamente con la facultad. "
+                    "NO inventes ni supongas información que no esté en el contexto. "
+                    "NO menciones carreras, programas ni servicios de otras facultades a menos que el contexto lo indique explícitamente. "
+                    "Realiza preguntas para averiguar lo que busca el usuario cuando no cuentes con información suficiente. "
+                    f"{current_omissions}. "
                     "Responde siempre en español. Sé conciso pero muestra toda la información relevante con la que cuentes. Mantén la conversación sencilla y haz solo una pregunta a la vez.\n\n"
                     f"Contexto relevante:\n{context_prompt}"
                 )
@@ -222,13 +258,79 @@ async def prepare_vector_db(file_path):
     await vector_db.abuild_from_list(texts)
     return vector_db
 
+async def build_programs_db() -> VectorDatabase | None:
+    """
+    Build the programs VectorDatabase from three sources:
+      1. materias/*.txt  — semester-by-semester course plans (local, authoritative)
+      2. downloaded PDFs — plan de estudios / malla curricular fetched from UANL
+      3. live web pages  — program descriptions, requirements, career fields
+    """
+    try:
+        splitter = CharacterTextSplitter()
+        all_chunks: list[str] = []
+
+        # ── Source 1: materias/*.txt ──────────────────────────────────────
+        if os.path.isdir(MATERIAS_DIR):
+            materias_loader = TextFileLoader(MATERIAS_DIR)
+            materias_docs = materias_loader.load_documents()
+            all_chunks.extend(splitter.split_texts(materias_docs))
+            print(f"[ProgramsDB] Loaded {len(materias_docs)} materias files")
+        else:
+            print(f"[ProgramsDB] Warning: {MATERIAS_DIR}/ not found, skipping")
+
+        # ── Sources 2 & 3: web scraping + PDF downloads ───────────────────
+        web_docs, pdf_paths = await scrape_program_pages()
+
+        # Web text chunks
+        if web_docs:
+            all_chunks.extend(splitter.split_texts(web_docs))
+
+        # Downloaded PDF chunks
+        for pdf_path in pdf_paths:
+            try:
+                pdf_loader = PDFLoader(pdf_path)
+                pdf_docs = pdf_loader.load_documents()
+                all_chunks.extend(splitter.split_texts(pdf_docs))
+            except Exception as exc:
+                print(f"[ProgramsDB] Could not load PDF {pdf_path}: {exc}")
+
+        if not all_chunks:
+            print("[ProgramsDB] No content collected — programs_db not updated")
+            return None
+
+        db = VectorDatabase()
+        await db.abuild_from_list(all_chunks)
+        print(f"[ProgramsDB] Built with {len(all_chunks)} chunks total")
+        return db
+
+    except Exception as exc:
+        print(f"[ProgramsDB] Failed to build: {exc}")
+        return None
+
+
+async def _programs_db_refresh_loop():
+    """Background task: rebuild programs_db every PROGRAMS_DB_REFRESH_HOURS hours."""
+    global programs_db
+    while True:
+        await asyncio.sleep(PROGRAMS_DB_REFRESH_HOURS * 3600)
+        print("[ProgramsDB] Starting scheduled refresh...")
+        fresh = await build_programs_db()
+        if fresh:
+            programs_db = fresh
+
+
 @app.on_event("startup")
 async def startup_event():
-    global vector_dbs
+    global vector_dbs, programs_db
+    # Build FAQ vector DBs from local PDFs
     for key, path in FILES_MAP.items():
         if os.path.exists(path):
             vector_dbs[key] = await prepare_vector_db(path)
-    print("All Vector DBs initialized")
+    print("All FAQ Vector DBs initialized")
+    # Build programs DB (materias + downloaded PDFs + live web)
+    programs_db = await build_programs_db()
+    # Schedule daily refresh in the background
+    asyncio.create_task(_programs_db_refresh_loop())
 
 @app.get("/webhook")
 async def verify(
