@@ -268,7 +268,9 @@ async def build_programs_db() -> VectorDatabase | None:
       2. live web pages  — program descriptions, requirements, career fields
       3. downloaded PDFs — plan de estudios / malla curricular from UANL
     """
-    splitter = CharacterTextSplitter()
+    # Large chunks keep carreras_fcfm.txt in one piece and preserve whole
+    # semester blocks inside each materias file instead of slicing headers.
+    splitter = CharacterTextSplitter(chunk_size=3000, chunk_overlap=200)
     all_chunks: list[str] = []
 
     # ── Source 1: materias/*.txt (local — must never fail) ────────────────
