@@ -157,9 +157,10 @@ class RetrievalAugmentedQAPipeline:
         if self.vector_db:
             context_list = self.vector_db.search_by_text(user_query, k=4)
             context_prompt = "\n".join([context[0] for context in context_list])
-        # For aspirants: also pull relevant chunks from the undergraduate FAQ (e.g. career listings)
+        # For aspirants: also pull relevant chunks from the undergraduate FAQ
+        # (e.g. career listings, course plans). k=8 covers a full major's semester plan.
         if self.supplemental_db:
-            supplemental_list = self.supplemental_db.search_by_text(user_query, k=2)
+            supplemental_list = self.supplemental_db.search_by_text(user_query, k=8)
             supplemental_text = "\n".join([context[0] for context in supplemental_list])
             if supplemental_text:
                 context_prompt = context_prompt + "\n" + supplemental_text if context_prompt else supplemental_text
@@ -221,6 +222,7 @@ class RetrievalAugmentedQAPipeline:
                     "Si la información solicitada no se encuentra en el contexto ni en los hechos conocidos, indícalo claramente y sugiere al usuario que visite la página oficial de la UANL o se comunique directamente con la facultad. "
                     "NO inventes ni supongas información que no esté en el contexto o los hechos conocidos. "
                     "NO menciones carreras, programas ni servicios de otras facultades a menos que el contexto lo indique explícitamente. "
+                    "Cuando el contexto contenga planes de estudio en formato de tabla (con códigos numéricos), extrae únicamente los nombres de las materias y preséntalos de forma ordenada por semestre, omitiendo los códigos y columnas numéricas. "
                     "Realiza preguntas para averiguar lo que busca el usuario cuando no cuentes con información suficiente. "
                     f"{current_omissions}. "
                     "Responde siempre en español. Sé conciso pero muestra toda la información relevante con la que cuentes. Mantén la conversación sencilla y haz solo una pregunta a la vez.\n\n"
