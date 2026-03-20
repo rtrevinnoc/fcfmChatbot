@@ -173,7 +173,7 @@ class RetrievalAugmentedQAPipeline:
         # For aspirants and undergrads, also search the programs DB
         # (materias course plans + downloaded PDFs + live web program pages)
         if self.use_programs_db and programs_db:
-            prog_results = programs_db.search_by_text(user_query, k=6)
+            prog_results = programs_db.search_by_text(user_query, k=12)
             prog_text = "\n".join([r[0] for r in prog_results])
             if prog_text:
                 context_prompt = (context_prompt + "\n" + prog_text) if context_prompt else prog_text
