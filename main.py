@@ -197,20 +197,35 @@ class RetrievalAugmentedQAPipeline:
 
         current_omissions = omit_desc.get(self.profile['level'] or self.profile['status'], "")
 
+        # Static facts guaranteed to be correct for FCFM — injected so the model
+        # never has to guess them from a potentially-missing context chunk.
+        FCFM_CAREERS = (
+            "Las carreras que ofrece la FCFM son:\n"
+            "• Licenciado en Actuaría\n"
+            "• Licenciado en Ciencias Computacionales\n"
+            "• Licenciado en Física\n"
+            "• Licenciado en Matemáticas\n"
+            "• Licenciado en Multimedia y Animación Digital\n"
+            "• Licenciado en Seguridad en Tecnologías de Información"
+        )
+
+        static_facts = FCFM_CAREERS if (self.profile['level'] or self.profile['status']) in ("applying", "undergraduate") else ""
+
         messages = [
             {
                 "role": "system",
                 "content": (
                     f"Eres un {current_role} en la Facultad de Ciencias Físico Matemáticas (FCFM) de la Universidad Autónoma de Nuevo León en Monterrey, México. "
                     f"Tu objetivo es ayudar exclusivamente con temas de {current_topic}. "
-                    "IMPORTANTE: Responde ÚNICAMENTE con base en el contexto proporcionado a continuación. "
-                    "Si la información solicitada no se encuentra en el contexto, indícalo claramente y sugiere al usuario que visite la página oficial de la UANL o se comunique directamente con la facultad. "
-                    "NO inventes ni supongas información que no esté en el contexto. "
+                    "IMPORTANTE: Responde ÚNICAMENTE con base en el contexto y los hechos conocidos proporcionados a continuación. "
+                    "Si la información solicitada no se encuentra en el contexto ni en los hechos conocidos, indícalo claramente y sugiere al usuario que visite la página oficial de la UANL o se comunique directamente con la facultad. "
+                    "NO inventes ni supongas información que no esté en el contexto o los hechos conocidos. "
                     "NO menciones carreras, programas ni servicios de otras facultades a menos que el contexto lo indique explícitamente. "
                     "Realiza preguntas para averiguar lo que busca el usuario cuando no cuentes con información suficiente. "
                     f"{current_omissions}. "
                     "Responde siempre en español. Sé conciso pero muestra toda la información relevante con la que cuentes. Mantén la conversación sencilla y haz solo una pregunta a la vez.\n\n"
-                    f"Contexto relevante:\n{context_prompt}"
+                    + (f"Hechos conocidos de la FCFM:\n{static_facts}\n\n" if static_facts else "")
+                    + f"Contexto relevante:\n{context_prompt}"
                 )
             }
         ] + history + [{"role": "user", "content": user_query}]
