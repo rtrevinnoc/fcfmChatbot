@@ -59,7 +59,7 @@ async def main():
     print("=" * 60)
     print("STEP 3 — Split into chunks")
     print("=" * 60)
-    splitter = CharacterTextSplitter()
+    splitter = CharacterTextSplitter(chunk_size=3000, chunk_overlap=200)
     chunks = splitter.split_texts(docs)
     print(f"Total chunks: {len(chunks)}")
     print(f"Sample chunk[0]: {repr(chunks[0][:200])}")
