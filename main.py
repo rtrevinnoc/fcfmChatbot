@@ -166,27 +166,41 @@ class RetrievalAugmentedQAPipeline:
             "graduate": "asistente académico de POSGRADO",
             "alumni": "asistente de TRAMITES Y TITULACION para egresados"
         }
-        
+
         current_role = role_desc.get(self.profile['level'] or self.profile['status'], "asistente administrativo")
 
+        role_topic = {
+            "applying": "admisión y proceso de ingreso para aspirantes",
+            "enrolled": "reinscripción e inscripciones para alumnos de reingreso",
+            "undergraduate": "licenciatura",
+            "graduate": "posgrado",
+            "alumni": "trámites de titulación y servicios para egresados"
+        }
+
+        current_topic = role_topic.get(self.profile['level'] or self.profile['status'], "atención a la comunidad universitaria")
+
         omit_desc = {
-            "applying": "No incluyas información acerca de precios",
-            "enrolled": "No inlcuyas información promocional ni de costos, el alumno ya está inscrito",
-            "undergraduate": "No incluyas información acerca de precios, ni promociones, ni información de posgrado ya que el estudiante ya está inscrito en licenciatura",
-            "graduate": "No incluyas información de precios, ni promociones, ni información de licenciatura ya que el estudiante ya está inscrito en posgrado",
+            "applying": "No incluyas información sobre costos de colegiaturas ni pagos que no correspondan al proceso de admisión",
+            "enrolled": "No incluyas información promocional. El alumno ya está inscrito, evita hablar de costos de nueva admisión",
+            "undergraduate": "No incluyas información de posgrado ya que el estudiante está inscrito en licenciatura. Evita mencionar costos de nueva admisión o promociones",
+            "graduate": "No incluyas información de licenciatura ya que el estudiante está inscrito en posgrado. Evita mencionar costos de nueva admisión o promociones",
             "alumni": "El usuario ya terminó sus estudios, enfócate en trámites de titulación o servicios para ex-alumnos"
         }
-        
+
         current_omissions = omit_desc.get(self.profile['level'] or self.profile['status'], "")
 
         messages = [
             {
                 "role": "system",
                 "content": (
-                    f"Eres un {current_role} en la Facultad de Ciencias Físico Matemáticas de la Universidad Autónoma de Nuevo León en Monterrey, México. "
-                    f"Tu objetivo es ayudar exclusivamente con temas de {self.profile['status']}. "
-                    "Realiza preguntas para averiguar lo que busca el usuario cuando no cuentes con información suficiente, ya que puede no saber qué es lo que necesita y debes apoyarlo."
-                    f"{current_omissions}."
+                    f"Eres un {current_role} en la Facultad de Ciencias Físico Matemáticas (FCFM) de la Universidad Autónoma de Nuevo León en Monterrey, México. "
+                    f"Tu objetivo es ayudar exclusivamente con temas de {current_topic}. "
+                    "IMPORTANTE: Responde ÚNICAMENTE con base en el contexto proporcionado a continuación. "
+                    "Si la información solicitada no se encuentra en el contexto, indícalo claramente y sugiere al usuario que visite la página oficial de la UANL o se comunique directamente con la facultad. "
+                    "NO inventes ni supongas información que no esté en el contexto. "
+                    "NO menciones carreras, programas ni servicios de otras facultades a menos que el contexto lo indique explícitamente. "
+                    "Realiza preguntas para averiguar lo que busca el usuario cuando no cuentes con información suficiente. "
+                    f"{current_omissions}. "
                     "Responde siempre en español. Sé conciso pero muestra toda la información relevante con la que cuentes. Mantén la conversación sencilla y haz solo una pregunta a la vez.\n\n"
                     f"Contexto relevante:\n{context_prompt}"
                 )
