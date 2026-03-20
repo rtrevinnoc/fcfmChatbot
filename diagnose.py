@@ -12,6 +12,10 @@ import sys
 # ── Make sure project imports work ───────────────────────────────────────────
 sys.path.insert(0, os.path.dirname(__file__))
 
+# Load .env so OPENAI_API_KEY is available (same as main.py does)
+from dotenv import load_dotenv
+load_dotenv()
+
 from utils.text_utils import CharacterTextSplitter, TextFileLoader, PDFLoader
 from utils.vectordatabase import VectorDatabase
 
