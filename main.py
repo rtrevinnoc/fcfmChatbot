@@ -1,3 +1,4 @@
+import asyncio
 import os, math, sqlite3, secrets
 from fastapi import FastAPI, Request, Query, Depends, HTTPException, status
 from fastapi.responses import PlainTextResponse, JSONResponse, Response, HTMLResponse
@@ -9,6 +10,7 @@ from utils.text_utils import CharacterTextSplitter, TextFileLoader, PDFLoader
 from utils.openai_utils.prompts import UserRolePrompt, SystemRolePrompt
 from utils.vectordatabase import VectorDatabase
 from utils.openai_utils.chatmodel import ChatOpenAI
+from utils.web_scraper import scrape_program_pages
 from passlib.context import CryptContext
 from dotenv import load_dotenv
 
@@ -32,8 +34,14 @@ FILES_MAP = {
     "alumni": "faqEgresados.pdf"
 }
 
-# Global dictionary to hold multiple vector databases
+# Global dictionary to hold multiple vector databases (one per user segment)
 vector_dbs = {}
+
+# Web-scraped vector DB: built from live UANL/FCFM program pages at startup
+# and refreshed every 24 hours.  Used as a supplemental source for aspirant
+# and undergraduate queries about programs, requirements, and career fields.
+web_db: VectorDatabase | None = None
+WEB_DB_REFRESH_HOURS = 24
 
 DB_PATH = "chat_history.db"
 
@@ -145,25 +153,27 @@ class RetrievalAugmentedQAPipeline:
     def __init__(self, llm: ChatOpenAI, profile: dict):
         self.llm = llm
         self.profile = profile
-        # Determine which vector DB to use
+        # Determine which FAQ vector DB to use for this user segment
         db_key = profile['level'] if profile['status'] == 'student' else profile['status']
         self.vector_db = vector_dbs.get(db_key)
-        # Aspirants may ask about available careers; supplement with the undergraduate DB
-        self.supplemental_db = vector_dbs.get("undergraduate") if db_key == "applying" else None
+        # Aspirants and undergraduate students may ask about programs/careers;
+        # supplement with the live web_db built from UANL/FCFM program pages.
+        self.use_web_db = db_key in ("applying", "undergraduate")
 
     async def arun_pipeline(self, user_query: str, user_id: str):
-        # Retrieve context from the SPECIFIC vector DB
+        # Retrieve context from the segment-specific FAQ vector DB
         context_prompt = ""
         if self.vector_db:
             context_list = self.vector_db.search_by_text(user_query, k=4)
             context_prompt = "\n".join([context[0] for context in context_list])
-        # For aspirants: also pull relevant chunks from the undergraduate FAQ
-        # (e.g. career listings, course plans). k=8 covers a full major's semester plan.
-        if self.supplemental_db:
-            supplemental_list = self.supplemental_db.search_by_text(user_query, k=8)
-            supplemental_text = "\n".join([context[0] for context in supplemental_list])
-            if supplemental_text:
-                context_prompt = context_prompt + "\n" + supplemental_text if context_prompt else supplemental_text
+
+        # For aspirants and undergrads, also search the live web DB
+        # (covers program descriptions, requirements, career fields, etc.)
+        if self.use_web_db and web_db:
+            web_results = web_db.search_by_text(user_query, k=4)
+            web_text = "\n".join([r[0] for r in web_results])
+            if web_text:
+                context_prompt = (context_prompt + "\n" + web_text) if context_prompt else web_text
 
         history = get_user_history(user_id)
         
@@ -198,36 +208,20 @@ class RetrievalAugmentedQAPipeline:
 
         current_omissions = omit_desc.get(self.profile['level'] or self.profile['status'], "")
 
-        # Static facts guaranteed to be correct for FCFM — injected so the model
-        # never has to guess them from a potentially-missing context chunk.
-        FCFM_CAREERS = (
-            "Las carreras que ofrece la FCFM son:\n"
-            "• Licenciado en Actuaría\n"
-            "• Licenciado en Ciencias Computacionales\n"
-            "• Licenciado en Física\n"
-            "• Licenciado en Matemáticas\n"
-            "• Licenciado en Multimedia y Animación Digital\n"
-            "• Licenciado en Seguridad en Tecnologías de Información"
-        )
-
-        static_facts = FCFM_CAREERS if (self.profile['level'] or self.profile['status']) in ("applying", "undergraduate") else ""
-
         messages = [
             {
                 "role": "system",
                 "content": (
                     f"Eres un {current_role} en la Facultad de Ciencias Físico Matemáticas (FCFM) de la Universidad Autónoma de Nuevo León en Monterrey, México. "
                     f"Tu objetivo es ayudar exclusivamente con temas de {current_topic}. "
-                    "IMPORTANTE: Responde ÚNICAMENTE con base en el contexto y los hechos conocidos proporcionados a continuación. "
-                    "Si la información solicitada no se encuentra en el contexto ni en los hechos conocidos, indícalo claramente y sugiere al usuario que visite la página oficial de la UANL o se comunique directamente con la facultad. "
-                    "NO inventes ni supongas información que no esté en el contexto o los hechos conocidos. "
+                    "IMPORTANTE: Responde ÚNICAMENTE con base en el contexto proporcionado a continuación. "
+                    "Si la información solicitada no se encuentra en el contexto, indícalo claramente y sugiere al usuario que visite la página oficial de la UANL o se comunique directamente con la facultad. "
+                    "NO inventes ni supongas información que no esté en el contexto. "
                     "NO menciones carreras, programas ni servicios de otras facultades a menos que el contexto lo indique explícitamente. "
-                    "Cuando el contexto contenga planes de estudio en formato de tabla (con códigos numéricos), extrae únicamente los nombres de las materias y preséntalos de forma ordenada por semestre, omitiendo los códigos y columnas numéricas. "
                     "Realiza preguntas para averiguar lo que busca el usuario cuando no cuentes con información suficiente. "
                     f"{current_omissions}. "
                     "Responde siempre en español. Sé conciso pero muestra toda la información relevante con la que cuentes. Mantén la conversación sencilla y haz solo una pregunta a la vez.\n\n"
-                    + (f"Hechos conocidos de la FCFM:\n{static_facts}\n\n" if static_facts else "")
-                    + f"Contexto relevante:\n{context_prompt}"
+                    f"Contexto relevante:\n{context_prompt}"
                 )
             }
         ] + history + [{"role": "user", "content": user_query}]
@@ -261,13 +255,47 @@ async def prepare_vector_db(file_path):
     await vector_db.abuild_from_list(texts)
     return vector_db
 
+async def build_web_db() -> VectorDatabase | None:
+    """Scrape UANL/FCFM program pages and build a fresh VectorDatabase."""
+    try:
+        documents = await scrape_program_pages()
+        if not documents:
+            print("[WebDB] No documents scraped — web_db not updated")
+            return None
+        splitter = CharacterTextSplitter()
+        chunks = splitter.split_texts(documents)
+        db = VectorDatabase()
+        await db.abuild_from_list(chunks)
+        print(f"[WebDB] Built web_db with {len(chunks)} chunks from {len(documents)} pages")
+        return db
+    except Exception as exc:
+        print(f"[WebDB] Failed to build web_db: {exc}")
+        return None
+
+
+async def _web_db_refresh_loop():
+    """Background task: rebuild web_db every WEB_DB_REFRESH_HOURS hours."""
+    global web_db
+    while True:
+        await asyncio.sleep(WEB_DB_REFRESH_HOURS * 3600)
+        print("[WebDB] Starting scheduled refresh...")
+        fresh = await build_web_db()
+        if fresh:
+            web_db = fresh
+
+
 @app.on_event("startup")
 async def startup_event():
-    global vector_dbs
+    global vector_dbs, web_db
+    # Build FAQ vector DBs from local PDFs
     for key, path in FILES_MAP.items():
         if os.path.exists(path):
             vector_dbs[key] = await prepare_vector_db(path)
-    print("All Vector DBs initialized")
+    print("All FAQ Vector DBs initialized")
+    # Build web DB from live UANL/FCFM program pages
+    web_db = await build_web_db()
+    # Schedule daily refresh in the background
+    asyncio.create_task(_web_db_refresh_loop())
 
 @app.get("/webhook")
 async def verify(
