@@ -37,11 +37,14 @@ FILES_MAP = {
 # Global dictionary to hold multiple vector databases (one per user segment)
 vector_dbs = {}
 
-# Web-scraped vector DB: built from live UANL/FCFM program pages at startup
-# and refreshed every 24 hours.  Used as a supplemental source for aspirant
-# and undergraduate queries about programs, requirements, and career fields.
-web_db: VectorDatabase | None = None
-WEB_DB_REFRESH_HOURS = 24
+# Programs vector DB — built at startup from three sources and refreshed daily:
+#   1. materias/*.txt   — authoritative semester-by-semester course plans
+#   2. downloaded_pdfs/ — plan de estudios / malla curricular PDFs from UANL
+#   3. live web pages   — program descriptions, requirements, career fields
+# Used as a supplemental source for aspirant and undergraduate queries.
+programs_db: VectorDatabase | None = None
+PROGRAMS_DB_REFRESH_HOURS = 24
+MATERIAS_DIR = "materias"
 
 DB_PATH = "chat_history.db"
 
@@ -156,9 +159,9 @@ class RetrievalAugmentedQAPipeline:
         # Determine which FAQ vector DB to use for this user segment
         db_key = profile['level'] if profile['status'] == 'student' else profile['status']
         self.vector_db = vector_dbs.get(db_key)
-        # Aspirants and undergraduate students may ask about programs/careers;
-        # supplement with the live web_db built from UANL/FCFM program pages.
-        self.use_web_db = db_key in ("applying", "undergraduate")
+        # Aspirants and undergraduate students may ask about programs, careers,
+        # and course plans; supplement with programs_db (materias + PDFs + web).
+        self.use_programs_db = db_key in ("applying", "undergraduate")
 
     async def arun_pipeline(self, user_query: str, user_id: str):
         # Retrieve context from the segment-specific FAQ vector DB
@@ -167,13 +170,13 @@ class RetrievalAugmentedQAPipeline:
             context_list = self.vector_db.search_by_text(user_query, k=4)
             context_prompt = "\n".join([context[0] for context in context_list])
 
-        # For aspirants and undergrads, also search the live web DB
-        # (covers program descriptions, requirements, career fields, etc.)
-        if self.use_web_db and web_db:
-            web_results = web_db.search_by_text(user_query, k=4)
-            web_text = "\n".join([r[0] for r in web_results])
-            if web_text:
-                context_prompt = (context_prompt + "\n" + web_text) if context_prompt else web_text
+        # For aspirants and undergrads, also search the programs DB
+        # (materias course plans + downloaded PDFs + live web program pages)
+        if self.use_programs_db and programs_db:
+            prog_results = programs_db.search_by_text(user_query, k=6)
+            prog_text = "\n".join([r[0] for r in prog_results])
+            if prog_text:
+                context_prompt = (context_prompt + "\n" + prog_text) if context_prompt else prog_text
 
         history = get_user_history(user_id)
         
@@ -255,47 +258,79 @@ async def prepare_vector_db(file_path):
     await vector_db.abuild_from_list(texts)
     return vector_db
 
-async def build_web_db() -> VectorDatabase | None:
-    """Scrape UANL/FCFM program pages and build a fresh VectorDatabase."""
+async def build_programs_db() -> VectorDatabase | None:
+    """
+    Build the programs VectorDatabase from three sources:
+      1. materias/*.txt  — semester-by-semester course plans (local, authoritative)
+      2. downloaded PDFs — plan de estudios / malla curricular fetched from UANL
+      3. live web pages  — program descriptions, requirements, career fields
+    """
     try:
-        documents = await scrape_program_pages()
-        if not documents:
-            print("[WebDB] No documents scraped — web_db not updated")
-            return None
         splitter = CharacterTextSplitter()
-        chunks = splitter.split_texts(documents)
+        all_chunks: list[str] = []
+
+        # ── Source 1: materias/*.txt ──────────────────────────────────────
+        if os.path.isdir(MATERIAS_DIR):
+            materias_loader = TextFileLoader(MATERIAS_DIR)
+            materias_docs = materias_loader.load_documents()
+            all_chunks.extend(splitter.split_texts(materias_docs))
+            print(f"[ProgramsDB] Loaded {len(materias_docs)} materias files")
+        else:
+            print(f"[ProgramsDB] Warning: {MATERIAS_DIR}/ not found, skipping")
+
+        # ── Sources 2 & 3: web scraping + PDF downloads ───────────────────
+        web_docs, pdf_paths = await scrape_program_pages()
+
+        # Web text chunks
+        if web_docs:
+            all_chunks.extend(splitter.split_texts(web_docs))
+
+        # Downloaded PDF chunks
+        for pdf_path in pdf_paths:
+            try:
+                pdf_loader = PDFLoader(pdf_path)
+                pdf_docs = pdf_loader.load_documents()
+                all_chunks.extend(splitter.split_texts(pdf_docs))
+            except Exception as exc:
+                print(f"[ProgramsDB] Could not load PDF {pdf_path}: {exc}")
+
+        if not all_chunks:
+            print("[ProgramsDB] No content collected — programs_db not updated")
+            return None
+
         db = VectorDatabase()
-        await db.abuild_from_list(chunks)
-        print(f"[WebDB] Built web_db with {len(chunks)} chunks from {len(documents)} pages")
+        await db.abuild_from_list(all_chunks)
+        print(f"[ProgramsDB] Built with {len(all_chunks)} chunks total")
         return db
+
     except Exception as exc:
-        print(f"[WebDB] Failed to build web_db: {exc}")
+        print(f"[ProgramsDB] Failed to build: {exc}")
         return None
 
 
-async def _web_db_refresh_loop():
-    """Background task: rebuild web_db every WEB_DB_REFRESH_HOURS hours."""
-    global web_db
+async def _programs_db_refresh_loop():
+    """Background task: rebuild programs_db every PROGRAMS_DB_REFRESH_HOURS hours."""
+    global programs_db
     while True:
-        await asyncio.sleep(WEB_DB_REFRESH_HOURS * 3600)
-        print("[WebDB] Starting scheduled refresh...")
-        fresh = await build_web_db()
+        await asyncio.sleep(PROGRAMS_DB_REFRESH_HOURS * 3600)
+        print("[ProgramsDB] Starting scheduled refresh...")
+        fresh = await build_programs_db()
         if fresh:
-            web_db = fresh
+            programs_db = fresh
 
 
 @app.on_event("startup")
 async def startup_event():
-    global vector_dbs, web_db
+    global vector_dbs, programs_db
     # Build FAQ vector DBs from local PDFs
     for key, path in FILES_MAP.items():
         if os.path.exists(path):
             vector_dbs[key] = await prepare_vector_db(path)
     print("All FAQ Vector DBs initialized")
-    # Build web DB from live UANL/FCFM program pages
-    web_db = await build_web_db()
+    # Build programs DB (materias + downloaded PDFs + live web)
+    programs_db = await build_programs_db()
     # Schedule daily refresh in the background
-    asyncio.create_task(_web_db_refresh_loop())
+    asyncio.create_task(_programs_db_refresh_loop())
 
 @app.get("/webhook")
 async def verify(
