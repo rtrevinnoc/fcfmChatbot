@@ -148,6 +148,8 @@ class RetrievalAugmentedQAPipeline:
         # Determine which vector DB to use
         db_key = profile['level'] if profile['status'] == 'student' else profile['status']
         self.vector_db = vector_dbs.get(db_key)
+        # Aspirants may ask about available careers; supplement with the undergraduate DB
+        self.supplemental_db = vector_dbs.get("undergraduate") if db_key == "applying" else None
 
     async def arun_pipeline(self, user_query: str, user_id: str):
         # Retrieve context from the SPECIFIC vector DB
@@ -155,6 +157,12 @@ class RetrievalAugmentedQAPipeline:
         if self.vector_db:
             context_list = self.vector_db.search_by_text(user_query, k=4)
             context_prompt = "\n".join([context[0] for context in context_list])
+        # For aspirants: also pull relevant chunks from the undergraduate FAQ (e.g. career listings)
+        if self.supplemental_db:
+            supplemental_list = self.supplemental_db.search_by_text(user_query, k=2)
+            supplemental_text = "\n".join([context[0] for context in supplemental_list])
+            if supplemental_text:
+                context_prompt = context_prompt + "\n" + supplemental_text if context_prompt else supplemental_text
 
         history = get_user_history(user_id)
         
