@@ -1,11 +1,11 @@
 import asyncio
 import os, math, sqlite3, secrets
-from fastapi import FastAPI, Request, Query, Depends, HTTPException, status
+from fastapi import FastAPI, Request, Query, Depends, HTTPException, status, BackgroundTasks
 from fastapi.responses import PlainTextResponse, JSONResponse, Response, HTMLResponse
 from fastapi.templating import Jinja2Templates
 from fastapi.security import HTTPBasic, HTTPBasicCredentials
-from flask import request
 from twilio.twiml.messaging_response import MessagingResponse
+from twilio.rest import Client as TwilioClient
 from utils.text_utils import CharacterTextSplitter, TextFileLoader, PDFLoader
 from utils.openai_utils.prompts import UserRolePrompt, SystemRolePrompt
 from utils.vectordatabase import VectorDatabase
@@ -20,6 +20,9 @@ PLATFORM = os.getenv("MESSAGING_PLATFORM", "twilio").lower()
 VERIFY_TOKEN = os.getenv("VERIFY_TOKEN")
 PAGE_ACCESS_TOKEN = os.getenv("PAGE_ACCESS_TOKEN")
 DEFAULT_ADMIN_PASSWORD = os.getenv("DEFAULT_ADMIN_PASSWORD")
+TWILIO_ACCOUNT_SID = os.getenv("TWILIO_ACCOUNT_SID")
+TWILIO_AUTH_TOKEN = os.getenv("TWILIO_AUTH_TOKEN")
+TWILIO_FROM_NUMBER = os.getenv("TWILIO_FROM_NUMBER")
 if not os.getenv("OPENAI_API_KEY"):
     raise ValueError("OPENAI_API_KEY environment variable is not set")
 
@@ -401,9 +404,26 @@ async def respond_to_platform(user_id, text):
         twiml_resp.message(text)
         return Response(content=str(twiml_resp), media_type="application/xml")
 
+def send_twilio_message(to: str, body: str):
+    """Send a message via the Twilio REST API (used from background tasks)."""
+    client = TwilioClient(TWILIO_ACCOUNT_SID, TWILIO_AUTH_TOKEN)
+    client.messages.create(body=body, from_=TWILIO_FROM_NUMBER, to=to)
+
+async def process_and_reply(user_id: str, incoming_msg: str, profile: dict):
+    """Run the RAG pipeline and send the response via Twilio REST API.
+    Runs as a background task so the webhook can return immediately."""
+    try:
+        async with ChatOpenAI() as chat_openai:
+            qa_pipeline = RetrievalAugmentedQAPipeline(llm=chat_openai, profile=profile)
+            response_text = await qa_pipeline.arun_pipeline(incoming_msg, user_id)
+    except Exception as e:
+        print(f"[ERROR] Pipeline failed for {user_id}: {e}")
+        response_text = "Lo siento, ocurrió un error al procesar tu consulta. Por favor intenta de nuevo."
+    send_twilio_message(user_id, response_text)
+
 # 2. Unified Webhook (POST)
 @app.post("/webhook")
-async def unified_webhook(request: Request):
+async def unified_webhook(request: Request, background_tasks: BackgroundTasks):
     user_id = None
     incoming_msg = None
 
@@ -446,7 +466,7 @@ async def unified_webhook(request: Request):
         if "1" in incoming_msg or "aplicando" in incoming_msg.lower():
             update_user_profile(user_id, status="applying", step=3)
             return await respond_to_platform(user_id, "Entendido. ¿Qué dudas tienes sobre el proceso de admisión?")
-        
+
         elif "2" in incoming_msg or "inscribirme" in incoming_msg.lower():
             update_user_profile(user_id, status="enrolled", step=3)
             return await respond_to_platform(user_id, "Perfecto. Dime tus dudas sobre el reingreso.")
@@ -454,11 +474,11 @@ async def unified_webhook(request: Request):
         elif "3" in incoming_msg or "estudiante" in incoming_msg.lower():
             update_user_profile(user_id, status="student", step=2)
             return await respond_to_platform(user_id, "Excelente. ¿En qué grado estás?\n1️⃣\tLicenciatura\n2️⃣\tPosgrado")
-        
+
         elif "4" in incoming_msg or "egresado" in incoming_msg.lower() or "egresé" in incoming_msg.lower():
             update_user_profile(user_id, status="alumni", step=3)
             return await respond_to_platform(user_id, "¡Felicidades por egresar! ¿En qué trámite o consulta te puedo ayudar hoy?")
-        
+
         else:
             return await respond_to_platform(user_id, "Por favor, selecciona una opción válida (1, 2, 3 o 4).")
 
@@ -474,10 +494,21 @@ async def unified_webhook(request: Request):
             return await respond_to_platform(user_id, "Por favor selecciona 1 para Licenciatura o 2 para Posgrado.")
 
     # STEP 3: Normal RAG Flow
-    async with ChatOpenAI() as chat_openai:
-        qa_pipeline = RetrievalAugmentedQAPipeline(llm=chat_openai, profile=profile)
-        response_text = await qa_pipeline.arun_pipeline(incoming_msg, user_id)
-        return await respond_to_platform(user_id, response_text)
+    if PLATFORM == "meta":
+        # Meta has its own async send; no timeout concern, process inline
+        try:
+            async with ChatOpenAI() as chat_openai:
+                qa_pipeline = RetrievalAugmentedQAPipeline(llm=chat_openai, profile=profile)
+                response_text = await qa_pipeline.arun_pipeline(incoming_msg, user_id)
+                return await respond_to_platform(user_id, response_text)
+        except Exception as e:
+            print(f"[ERROR] Pipeline failed for {user_id}: {e}")
+            return await respond_to_platform(user_id, "Lo siento, ocurrió un error al procesar tu consulta. Por favor intenta de nuevo.")
+    else:
+        # Twilio: return empty TwiML immediately and process in background
+        # to avoid Twilio's 15-second webhook timeout on slow queries.
+        background_tasks.add_task(process_and_reply, user_id, incoming_msg, profile)
+        return Response(content=str(MessagingResponse()), media_type="application/xml")
 
 async def send_meta_message(recipient_id: str, text: str):
     url = f"https://graph.facebook.com/v19.0/me/messages?access_token={PAGE_ACCESS_TOKEN}"
