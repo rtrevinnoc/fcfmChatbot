@@ -407,7 +407,10 @@ async def respond_to_platform(user_id, text):
 def send_twilio_message(to: str, body: str):
     """Send a message via the Twilio REST API (used from background tasks)."""
     client = TwilioClient(TWILIO_ACCOUNT_SID, TWILIO_AUTH_TOKEN)
-    client.messages.create(body=body, from_=TWILIO_FROM_NUMBER, to=to)
+    limit = 1600
+    chunks = [body[i:i+limit] for i in range(0, len(body), limit)]
+    for chunk in chunks:
+        client.messages.create(body=chunk, from_=TWILIO_FROM_NUMBER, to=to)
 
 async def process_and_reply(user_id: str, incoming_msg: str, profile: dict):
     """Run the RAG pipeline and send the response via Twilio REST API.
