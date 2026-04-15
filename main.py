@@ -6,12 +6,14 @@ from fastapi.templating import Jinja2Templates
 from fastapi.security import HTTPBasic, HTTPBasicCredentials
 from twilio.twiml.messaging_response import MessagingResponse
 from twilio.rest import Client as TwilioClient
-from utils.text_utils import CharacterTextSplitter, TextFileLoader, PDFLoader
+import httpx
+from utils.text_utils import CharacterTextSplitter, TextFileLoader, PDFLoader, split_text_gracefully
 from utils.openai_utils.prompts import UserRolePrompt, SystemRolePrompt
 from utils.vectordatabase import VectorDatabase
 from utils.openai_utils.chatmodel import ChatOpenAI
 from utils.web_scraper import scrape_program_pages
 from passlib.context import CryptContext
+from pydantic import BaseModel
 from dotenv import load_dotenv
 
 load_dotenv()
@@ -401,14 +403,15 @@ async def respond_to_platform(user_id, text):
         return JSONResponse({"status": "ok"})
     else:
         twiml_resp = MessagingResponse()
-        twiml_resp.message(text)
+        chunks = split_text_gracefully(text)
+        for chunk in chunks:
+            twiml_resp.message(chunk)
         return Response(content=str(twiml_resp), media_type="application/xml")
 
 def send_twilio_message(to: str, body: str):
     """Send a message via the Twilio REST API (used from background tasks)."""
     client = TwilioClient(TWILIO_ACCOUNT_SID, TWILIO_AUTH_TOKEN)
-    limit = 1600
-    chunks = [body[i:i+limit] for i in range(0, len(body), limit)]
+    chunks = split_text_gracefully(body)
     for chunk in chunks:
         client.messages.create(body=chunk, from_=TWILIO_FROM_NUMBER, to=to)
 
@@ -515,16 +518,74 @@ async def unified_webhook(request: Request, background_tasks: BackgroundTasks):
 
 async def send_meta_message(recipient_id: str, text: str):
     url = f"https://graph.facebook.com/v19.0/me/messages?access_token={PAGE_ACCESS_TOKEN}"
+    chunks = split_text_gracefully(text)
     async with httpx.AsyncClient() as client:
-        await client.post(url, json={
-            "recipient": {"id": recipient_id},
-            "message": {"text": text}
-        })
+        for chunk in chunks:
+            await client.post(url, json={
+                "recipient": {"id": recipient_id},
+                "message": {"text": chunk}
+            })
 
-@app.get("/admin", response_class=HTMLResponse)
-async def admin_dashboard(request: Request, username: str = Depends(get_current_username)):
-    # We pass the 'request' object because Jinja2 requires it
-    return templates.TemplateResponse("admin.html", {"request": request})
+class WebChatMessage(BaseModel):
+    user_id: str
+    message: str
+
+@app.post("/api/web-chat")
+async def web_chat_endpoint(payload: WebChatMessage):
+    user_id = payload.user_id
+    incoming_msg = payload.message.strip()
+    if not incoming_msg:
+        return {"response": ""}
+
+    profile = get_user_profile(user_id)
+    
+    if not profile or profile['step'] == 0:
+        menu_text = (
+            "¡Hola! Para ayudarte mejor, selecciona tu situación actual:\n"
+            "1️⃣ Estoy aplicando (Aspirante)\n"
+            "2️⃣ Ya soy alumno, quiero consultar acerca del reingreso\n"
+            "3️⃣ Soy estudiante (Consulta de materias/plan)\n"
+            "4️⃣ Ya egresé (Trámites de titulación)\n"
+            "Consulta nuestro aviso de privacidad en https://www.uanl.mx/aviso-de-privacidad/"
+        )
+        update_user_profile(user_id, step=1)
+        return {"response": menu_text}
+
+    if profile['step'] == 1:
+        if "1" in incoming_msg or "aplicando" in incoming_msg.lower():
+            update_user_profile(user_id, status="applying", step=3)
+            return {"response": "Entendido. ¿Qué dudas tienes sobre el proceso de admisión?"}
+        elif "2" in incoming_msg or "inscribirme" in incoming_msg.lower():
+            update_user_profile(user_id, status="enrolled", step=3)
+            return {"response": "Perfecto. Dime tus dudas sobre el reingreso."}
+        elif "3" in incoming_msg or "estudiante" in incoming_msg.lower():
+            update_user_profile(user_id, status="student", step=2)
+            return {"response": "Excelente. ¿En qué grado estás?\n1️⃣ Licenciatura\n2️⃣ Posgrado"}
+        elif "4" in incoming_msg or "egresado" in incoming_msg.lower() or "egresé" in incoming_msg.lower():
+            update_user_profile(user_id, status="alumni", step=3)
+            return {"response": "¡Felicidades por egresar! ¿En qué trámite o consulta te puedo ayudar hoy?"}
+        else:
+            return {"response": "Por favor, selecciona una opción válida (1, 2, 3 o 4)."}
+
+    if profile['step'] == 2:
+        if "1" in incoming_msg or "licenciatura" in incoming_msg.lower():
+            update_user_profile(user_id, level="undergraduate", step=3)
+            return {"response": "¿En qué puedo ayudarte acerca de licenciatura?"}
+        elif "2" in incoming_msg or "posgrado" in incoming_msg.lower():
+            update_user_profile(user_id, level="graduate", step=3)
+            return {"response": "¿Qué dudas tienes respecto al posgrado?"}
+        else:
+            return {"response": "Por favor selecciona 1 para Licenciatura o 2 para Posgrado."}
+
+    if profile['step'] == 3:
+        try:
+            async with ChatOpenAI() as chat_openai:
+                qa_pipeline = RetrievalAugmentedQAPipeline(llm=chat_openai, profile=profile)
+                response_text = await qa_pipeline.arun_pipeline(incoming_msg, user_id)
+                return {"response": response_text}
+        except Exception as e:
+            print(f"[ERROR] Pipeline failed for {user_id}: {e}")
+            return {"response": "Lo siento, ocurrió un error al procesar tu consulta. Por favor intenta de nuevo."}
 
 @app.get("/api/profiles")
 async def get_all_profiles(
@@ -565,3 +626,13 @@ async def get_all_profiles(
         "current_page": page,
         "total_records": total_records
     }
+
+from fastapi.responses import FileResponse
+
+@app.get("/{full_path:path}")
+async def serve_angular_app(full_path: str):
+    base_dir = "web-app/dist/web-app/browser"
+    file_path = os.path.join(base_dir, full_path)
+    if os.path.exists(file_path) and os.path.isfile(file_path):
+        return FileResponse(file_path)
+    return FileResponse(os.path.join(base_dir, "index.html"))

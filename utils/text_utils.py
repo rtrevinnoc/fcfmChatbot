@@ -121,6 +121,59 @@ class PDFLoader:
         return self.documents
 
 
+def split_text_gracefully(text: str, limit: int = 1600) -> List[str]:
+    """
+    Splits text into chunks, trying to stay under the limit while
+    respecting boundaries like double newlines, single newlines, and spaces.
+    """
+    if len(text) <= limit:
+        return [text]
+
+    chunks = []
+    while text:
+        text = text.strip()
+        if not text:
+            break
+            
+        if len(text) <= limit:
+            chunks.append(text)
+            break
+            
+        # Try to find the best split point within the limit
+        split_at = -1
+        
+        # Priority: Double Newline > Single Newline > Space
+        # We find the LAST occurrence of each within the limit
+        dnl_idx = text.rfind("\n\n", 0, limit)
+        if dnl_idx != -1:
+            split_at = dnl_idx
+        else:
+            snl_idx = text.rfind("\n", 0, limit)
+            if snl_idx != -1:
+                split_at = snl_idx
+            else:
+                space_idx = text.rfind(" ", 0, limit)
+                if space_idx != -1:
+                    split_at = space_idx
+                else:
+                    # Force split at limit if no separators found
+                    split_at = limit
+            
+        chunk = text[:split_at].strip()
+        if chunk:
+            chunks.append(chunk)
+        
+        # Move past the separator if we found one
+        if split_at < len(text) and text[split_at:split_at+2] == "\n\n":
+            text = text[split_at+2:].strip()
+        elif split_at < len(text) and text[split_at:split_at+1] in ["\n", " "]:
+            text = text[split_at+1:].strip()
+        else:
+            text = text[split_at:].strip()
+        
+    return chunks
+
+
 if __name__ == "__main__":
     loader = TextFileLoader("data/KingLear.txt")
     loader.load()
