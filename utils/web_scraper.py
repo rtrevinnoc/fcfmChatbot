@@ -27,6 +27,8 @@ import httpx
 # directly.  The *content* of each page is still fetched live on every refresh.
 KNOWN_PROGRAM_URLS: List[str] = [
     # ── Undergraduate ──────────────────────────────────────────────────────
+    "https://www.uanl.mx/oferta/ingenieria-de-ciberseguridad-modalidad-mixta/",
+    "https://www.uanl.mx/oferta/ingenieria-de-ciberseguridad-modalidad-no-escolarizada/",
     "https://www.uanl.mx/oferta/licenciatura-en-actuaria/",
     "https://www.uanl.mx/oferta/licenciado-en-ciencias-computacionales/",
     "https://www.uanl.mx/oferta/licenciatura-en-ciencias-computacionales/",  # no-escolarizada variant

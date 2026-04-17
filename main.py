@@ -269,7 +269,7 @@ class RetrievalAugmentedQAPipeline:
                     "NO inventes ni supongas información que no esté en el contexto. "
                     "NO menciones carreras, programas ni servicios de otras facultades a menos que el contexto lo indique explícitamente. "
                     "El contexto puede incluir tablas de planes de estudio con el formato: 'código nombre_materia requisito créditos'. "
-                    "Cuando el contexto contenga ese formato, extrae los nombres de las materias y preséntalos ordenados por semestre, ignorando los códigos numéricos. "
+                    "Cuando el contexto contenga ese formato, extrae los nombres de las materias y preséntalos ordenados por semestre, ignorando los códigos numéricos. No consideres las materias optativas en el plan de estudios general a menos que el usuario pregunte específicamente por ellas. "
                     "Realiza preguntas para averiguar lo que busca el usuario cuando no cuentes con información suficiente. "
                     f"{current_omissions}. "
                     "Responde siempre en español. Sé conciso pero muestra toda la información relevante con la que cuentes. Mantén la conversación sencilla y haz solo una pregunta a la vez.\n\n"

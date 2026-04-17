@@ -39,19 +39,14 @@ export class Chatbot implements OnInit {
   constructor(private http: HttpClient) {}
 
   ngOnInit() {
-    let storedId = localStorage.getItem('chat_user_id');
-    if (!storedId) {
-      storedId = typeof crypto !== 'undefined' && crypto.randomUUID 
-        ? crypto.randomUUID() 
-        : 'user-' + Math.random().toString(36).substr(2, 9);
-      localStorage.setItem('chat_user_id', storedId);
-    }
+    const storedId = typeof crypto !== 'undefined' && crypto.randomUUID
+      ? crypto.randomUUID()
+      : 'user-' + Math.random().toString(36).substr(2, 9);
     this.userId = storedId;
-    
+
     // Trigger the initial flow in the backend
     this.sendMessage('Hola', true);
   }
-
   sendMessage(overrideMessage?: string, isInitial: boolean = false) {
     const text = overrideMessage || this.newMessage.trim();
     if (!text) return;
