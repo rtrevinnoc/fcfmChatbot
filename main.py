@@ -631,25 +631,8 @@ from fastapi.responses import FileResponse
 
 @app.get("/{full_path:path}")
 async def serve_angular_app(full_path: str):
-    base_dir = os.path.join(BASE_DIR, "web-app/dist/web-app/browser")
-    clean_path = full_path.lstrip("/")
-    if not clean_path:
-        clean_path = "index.html"
-    file_path = os.path.join(base_dir, clean_path)
-    
-    if os.path.isfile(file_path):
+    base_dir = "web-app/dist/web-app/browser"
+    file_path = os.path.join(base_dir, full_path)
+    if os.path.exists(file_path) and os.path.isfile(file_path):
         return FileResponse(file_path)
-    
-    # If the file is not found, but it looks like a static asset, return 404
-    # instead of index.html to avoid "text/html" MIME type errors in the browser.
-    if "." in clean_path:
-        ext = clean_path.split(".")[-1].lower()
-        if ext in ["js", "css", "ico", "png", "jpg", "jpeg", "svg", "woff", "woff2", "ttf", "map", "json"]:
-            raise HTTPException(status_code=404)
-        
-    # Fallback to index.html for Angular routing (SPA)
-    index_path = os.path.join(base_dir, "index.html")
-    if os.path.isfile(index_path):
-        return FileResponse(index_path)
-    
-    raise HTTPException(status_code=404)
+    return FileResponse(os.path.join(base_dir, "index.html"))
