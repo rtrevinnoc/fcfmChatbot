@@ -8,27 +8,31 @@ OFERTA EDUCATIVA - LICENCIATURAS
 
 La FCFM ofrece las siguientes licenciaturas:
 
-1. Licenciatura en Actuaría
+1. Ingeniería de Ciberseguridad
+   Duración: 10 semestres | Modalidad: Mixta (presencial y en línea) y No escolarizada (en línea)
+   Más información: https://www.uanl.mx/oferta/ingenieria-de-ciberseguridad-modalidad-mixta/
+
+2. Licenciatura en Actuaría
    Duración: 10 semestres | Modalidad: Presencial
    Más información: https://www.uanl.mx/oferta/licenciatura-en-actuaria/
 
-2. Licenciatura en Ciencias Computacionales
-   Duración: 10 semestres | Modalidad: Mixta (presencial y en línea)
+3. Licenciatura en Ciencias Computacionales
+   Duración: 10 semestres | Modalidad: Mixta (presencial y en línea) y No escolarizada (en línea)
    Más información: https://www.uanl.mx/oferta/licenciado-en-ciencias-computacionales/
 
-3. Licenciatura en Física
+4. Licenciatura en Física
    Duración: 10 semestres | Modalidad: Presencial
    Más información: https://www.uanl.mx/oferta/licenciado-en-fisica/
 
-4. Licenciatura en Matemáticas
+5. Licenciatura en Matemáticas
    Duración: 10 semestres | Modalidad: Presencial
    Más información: https://www.uanl.mx/oferta/licenciado-en-matematicas/
 
-5. Licenciatura en Multimedia y Animación Digital
+6. Licenciatura en Multimedia y Animación Digital
    Duración: 10 semestres | Modalidad: Mixta
    Más información: https://www.uanl.mx/oferta/licenciatura-en-multimedia-y-animacion-digital/
 
-6. Licenciatura en Seguridad en Tecnologías de Información
+7. Licenciatura en Seguridad en Tecnologías de Información
    Duración: 10 semestres | Modalidad: Presencial
    Más información: https://www.uanl.mx/oferta/licenciado-en-seguridad-en-tecnologias-de-informacion/
 

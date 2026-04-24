@@ -635,4 +635,54 @@ async def serve_angular_app(full_path: str):
     file_path = os.path.join(base_dir, full_path)
     if os.path.exists(file_path) and os.path.isfile(file_path):
         return FileResponse(file_path)
+    return FileResponse(os.path.join(base_dir, "index.html"))de nuevo."}
+
+@app.get("/api/profiles")
+async def get_all_profiles(
+    page: int = 1, 
+    size: int = 10, 
+    username: str = Depends(get_current_username)
+):
+    offset = (page - 1) * size
+    conn = sqlite3.connect(DB_PATH)
+    c = conn.cursor()
+    
+    # Get total count for pagination math
+    c.execute("SELECT COUNT(*) FROM user_profiles")
+    total_records = c.fetchone()[0]
+    total_pages = math.ceil(total_records / size)
+
+    # Get paginated data with message counts
+    c.execute("""
+        SELECT p.user_id, p.status, p.level, p.step, COUNT(h.id) 
+        FROM user_profiles p
+        LEFT JOIN history h ON p.user_id = h.user_id
+        GROUP BY p.user_id
+        ORDER BY p.user_id DESC
+        LIMIT ? OFFSET ?
+    """, (size, offset))
+    
+    rows = c.fetchall()
+    conn.close()
+
+    profiles = [
+        {"user_id": r[0], "status": r[1], "level": r[2], "step": r[3], "messages": r[4]}
+        for r in rows
+    ]
+    
+    return {
+        "profiles": profiles,
+        "total_pages": total_pages,
+        "current_page": page,
+        "total_records": total_records
+    }
+
+from fastapi.responses import FileResponse
+
+@app.get("/{full_path:path}")
+async def serve_angular_app(full_path: str):
+    base_dir = "web-app/dist/web-app/browser"
+    file_path = os.path.join(base_dir, full_path)
+    if os.path.exists(file_path) and os.path.isfile(file_path):
+        return FileResponse(file_path)
     return FileResponse(os.path.join(base_dir, "index.html"))

@@ -132,6 +132,56 @@ async def _download_pdf(client: httpx.AsyncClient, url: str) -> str | None:
 
 # ── Public API ────────────────────────────────────────────────────────────────
 
+async def scrape_fcfm_avisos() -> List[str]:
+    """
+    Fetch the main avisos page, extract links to individual notices,
+    fetch them, and return them as plain text documents.
+    """
+    documents: List[str] = []
+    avisos_url = "https://www.fcfm.uanl.mx/avisos/"
+
+    async with httpx.AsyncClient(headers=_HTTP_HEADERS) as client:
+        try:
+            main_raw = await _fetch_text(client, avisos_url)
+            if not main_raw:
+                return documents
+            
+            # Extract links to individual notices
+            matches = re.findall(r'href=["\'](https://www\.fcfm\.uanl\.mx/avisos/[^"\']+)["\']', main_raw)
+            # Filter out pagination, feed, and keep unique
+            notice_urls = []
+            for m in matches:
+                if "/page/" not in m and "/feed/" not in m:
+                    notice_urls.append(m)
+            
+            # Deduplicate preserving order
+            seen = set()
+            unique_urls = []
+            for url in notice_urls:
+                if url not in seen and url != avisos_url:
+                    seen.add(url)
+                    unique_urls.append(url)
+                    
+            # Fetch individual pages (limit to ~20 to avoid excessive loading if there are many)
+            unique_urls = unique_urls[:20]
+            
+            raw_pages = await asyncio.gather(
+                *[_fetch_text(client, url) for url in unique_urls]
+            )
+            
+            for url, raw in zip(unique_urls, raw_pages):
+                if raw:
+                    text = html_to_text(raw)
+                    if text:
+                        documents.append(f"[Aviso: {url}]\n{text}")
+                        
+            print(f"[WebScraper] Scraped {len(documents)} avisos from {avisos_url}")
+            
+        except Exception as exc:
+            print(f"[WebScraper] Error scraping avisos: {exc}")
+            
+    return documents
+
 async def scrape_program_pages() -> Tuple[List[str], List[str]]:
     """
     Fetch all known FCFM program pages, extract and download their linked PDFs.
