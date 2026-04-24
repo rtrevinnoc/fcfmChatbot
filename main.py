@@ -11,7 +11,7 @@ from utils.text_utils import CharacterTextSplitter, TextFileLoader, PDFLoader, s
 from utils.openai_utils.prompts import UserRolePrompt, SystemRolePrompt
 from utils.vectordatabase import VectorDatabase
 from utils.openai_utils.chatmodel import ChatOpenAI
-from utils.web_scraper import scrape_program_pages
+from utils.web_scraper import scrape_program_pages, scrape_fcfm_avisos
 from passlib.context import CryptContext
 from pydantic import BaseModel
 from dotenv import load_dotenv
@@ -68,8 +68,11 @@ CAREER_FILE_MAP: dict[str, list[str]] = {
     "multimedia":      ["LMAD 440 3.txt","LMAD 420 3.txt"],
     "animación":       ["LMAD 440 3.txt","LMAD 420 3.txt"],
     "animacion":       ["LMAD 440 3.txt","LMAD 420 3.txt"],
-    # "seguridad" has no txt file yet — falls through to vector search
+    "ciberseguridad":  [],
+    "seguridad":       [],
 }
+
+import re
 
 def get_career_materias_context(query: str) -> str:
     """
@@ -78,13 +81,53 @@ def get_career_materias_context(query: str) -> str:
     Returns "" when no career keyword matches — falls through to vector search.
     """
     q = query.lower()
+    wants_optativas = "optativa" in q
+
     for keyword, filenames in CAREER_FILE_MAP.items():
         if keyword in q:
             for fname in filenames:
                 fpath = os.path.join(MATERIAS_DIR, fname)
                 if os.path.exists(fpath):
                     with open(fpath, "r", encoding="utf-8") as f:
-                        return f.read()
+                        raw_text = f.read()
+                        
+                        if wants_optativas:
+                            return raw_text
+
+                        filtered_lines = []
+                        lines = raw_text.splitlines()
+                        i = 0
+                        
+                        # Use a more flexible regex for optativas: 6 to 10 non-space chars followed by space
+                        optativa_pattern = re.compile(r'^\S{6,10} ')
+                        # Course pattern: at least 7 spaces followed by alphanumeric
+                        course_pattern = re.compile(r'^ {7,}\w+')
+
+                        while i < len(lines) and "Semestre:" not in lines[i]:
+                            filtered_lines.append(lines[i])
+                            i += 1
+                        
+                        while i < len(lines):
+                            if "Semestre:" in lines[i]:
+                                header = lines[i]
+                                i += 1
+                                block = []
+                                while i < len(lines) and "Semestre:" not in lines[i]:
+                                    if optativa_pattern.match(lines[i]):
+                                        i += 1
+                                        continue
+                                    block.append(lines[i])
+                                    i += 1
+                                
+                                has_courses = any(course_pattern.match(l) for l in block)
+                                if has_courses:
+                                    filtered_lines.append(header)
+                                    filtered_lines.extend(block)
+                            else:
+                                filtered_lines.append(lines[i])
+                                i += 1
+                                
+                        return "\n".join(filtered_lines)
     return ""
 
 DB_PATH = "chat_history.db"
@@ -340,6 +383,10 @@ async def build_programs_db() -> VectorDatabase | None:
 
         if web_docs:
             all_chunks.extend(splitter.split_texts(web_docs))
+
+        avisos_docs = await scrape_fcfm_avisos()
+        if avisos_docs:
+            all_chunks.extend(splitter.split_texts(avisos_docs))
 
         for pdf_path in pdf_paths:
             try:
