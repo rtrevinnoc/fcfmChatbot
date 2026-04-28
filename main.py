@@ -11,7 +11,7 @@ from utils.text_utils import CharacterTextSplitter, TextFileLoader, PDFLoader, s
 from utils.openai_utils.prompts import UserRolePrompt, SystemRolePrompt
 from utils.vectordatabase import VectorDatabase
 from utils.openai_utils.chatmodel import ChatOpenAI
-from utils.web_scraper import scrape_program_pages, scrape_fcfm_avisos
+from utils.web_scraper import scrape_program_pages, scrape_fcfm_avisos, scrape_admissions_pages
 from passlib.context import CryptContext
 from pydantic import BaseModel
 from dotenv import load_dotenv
@@ -240,8 +240,12 @@ class RetrievalAugmentedQAPipeline:
     def __init__(self, llm: ChatOpenAI, profile: dict):
         self.llm = llm
         self.profile = profile
-        # Determine which FAQ vector DB to use for this user segment
-        db_key = profile['level'] if profile['status'] == 'student' else profile['status']
+        # Determine which FAQ vector DB to use for this user segment.
+        # Default to undergraduate when level is not explicitly set to 'graduate'.
+        if profile['status'] == 'student':
+            db_key = profile['level'] if profile['level'] == 'graduate' else 'undergraduate'
+        else:
+            db_key = profile['status']
         self.vector_db = vector_dbs.get(db_key)
         # Aspirants and undergraduate students may ask about programs, careers,
         # and course plans; supplement with programs_db (materias + PDFs + web).
@@ -279,7 +283,7 @@ class RetrievalAugmentedQAPipeline:
             "alumni": "asistente de TRAMITES Y TITULACION para egresados"
         }
 
-        current_role = role_desc.get(self.profile['level'] or self.profile['status'], "asistente administrativo")
+        current_role = role_desc.get(db_key, "asistente administrativo")
 
         role_topic = {
             "applying": "admisión y proceso de ingreso para aspirantes",
@@ -289,7 +293,7 @@ class RetrievalAugmentedQAPipeline:
             "alumni": "trámites de titulación y servicios para egresados"
         }
 
-        current_topic = role_topic.get(self.profile['level'] or self.profile['status'], "atención a la comunidad universitaria")
+        current_topic = role_topic.get(db_key, "atención a la comunidad universitaria")
 
         omit_desc = {
             "applying": "No incluyas información sobre costos de colegiaturas ni pagos que no correspondan al proceso de admisión",
@@ -299,7 +303,7 @@ class RetrievalAugmentedQAPipeline:
             "alumni": "El usuario ya terminó sus estudios, enfócate en trámites de titulación o servicios para ex-alumnos"
         }
 
-        current_omissions = omit_desc.get(self.profile['level'] or self.profile['status'], "")
+        current_omissions = omit_desc.get(db_key, "")
 
         messages = [
             {
@@ -387,6 +391,12 @@ async def build_programs_db() -> VectorDatabase | None:
         avisos_docs = await scrape_fcfm_avisos()
         if avisos_docs:
             all_chunks.extend(splitter.split_texts(avisos_docs))
+
+        # ── Admissions pages: undergraduate concurso de ingreso (for applicants)
+        admissions_docs, admissions_pdfs = await scrape_admissions_pages()
+        if admissions_docs:
+            all_chunks.extend(splitter.split_texts(admissions_docs))
+        pdf_paths = pdf_paths + admissions_pdfs
 
         for pdf_path in pdf_paths:
             try:

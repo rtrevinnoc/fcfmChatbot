@@ -22,6 +22,12 @@ from typing import List, Tuple
 
 import httpx
 
+# ── UANL admissions process pages (undergraduate) ────────────────────────────
+# Scraped specifically for applicant queries about the admissions process.
+ADMISSIONS_URLS: List[str] = [
+    "https://www.uanl.mx/tramites/concurso-de-ingreso-a-licenciatura/",
+]
+
 # ── Known FCFM program page URLs ─────────────────────────────────────────────
 # Index pages are JS-rendered and unreachable by httpx; we maintain this list
 # directly.  The *content* of each page is still fetched live on every refresh.
@@ -181,6 +187,47 @@ async def scrape_fcfm_avisos() -> List[str]:
             print(f"[WebScraper] Error scraping avisos: {exc}")
             
     return documents
+
+async def scrape_admissions_pages() -> Tuple[List[str], List[str]]:
+    """
+    Fetch UANL undergraduate admissions pages, extract and download linked PDFs.
+
+    Returns
+    -------
+    documents : list[str]
+        Plain-text content from each admissions page, labeled with source URL.
+    pdf_paths : list[str]
+        Local filesystem paths of successfully downloaded PDFs.
+    """
+    documents: List[str] = []
+    pdf_paths: List[str] = []
+    all_pdf_urls: set[str] = set()
+
+    async with httpx.AsyncClient(headers=_HTTP_HEADERS) as client:
+        raw_pages = await asyncio.gather(
+            *[_fetch_text(client, url) for url in ADMISSIONS_URLS]
+        )
+
+        for url, raw in zip(ADMISSIONS_URLS, raw_pages):
+            if not raw:
+                continue
+            text = html_to_text(raw)
+            if text:
+                documents.append(f"[Admisiones UANL: {url}]\n{text}")
+            all_pdf_urls.update(extract_pdf_urls(raw))
+
+        if all_pdf_urls:
+            results = await asyncio.gather(
+                *[_download_pdf(client, u) for u in all_pdf_urls]
+            )
+            pdf_paths = [p for p in results if p]
+
+    print(
+        f"[WebScraper] Fetched {len(documents)} admissions page documents, "
+        f"downloaded {len(pdf_paths)}/{len(all_pdf_urls)} PDFs"
+    )
+    return documents, pdf_paths
+
 
 async def scrape_program_pages() -> Tuple[List[str], List[str]]:
     """
