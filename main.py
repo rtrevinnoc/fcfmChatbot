@@ -243,13 +243,13 @@ class RetrievalAugmentedQAPipeline:
         # Determine which FAQ vector DB to use for this user segment.
         # Default to undergraduate when level is not explicitly set to 'graduate'.
         if profile['status'] == 'student':
-            db_key = profile['level'] if profile['level'] == 'graduate' else 'undergraduate'
+            self.db_key = profile['level'] if profile['level'] == 'graduate' else 'undergraduate'
         else:
-            db_key = profile['status']
-        self.vector_db = vector_dbs.get(db_key)
+            self.db_key = profile['status']
+        self.vector_db = vector_dbs.get(self.db_key)
         # Aspirants and undergraduate students may ask about programs, careers,
         # and course plans; supplement with programs_db (materias + PDFs + web).
-        self.use_programs_db = db_key in ("applying", "undergraduate")
+        self.use_programs_db = self.db_key in ("applying", "undergraduate")
 
     async def arun_pipeline(self, user_query: str, user_id: str):
         # Retrieve context from the segment-specific FAQ vector DB
@@ -283,7 +283,7 @@ class RetrievalAugmentedQAPipeline:
             "alumni": "asistente de TRAMITES Y TITULACION para egresados"
         }
 
-        current_role = role_desc.get(db_key, "asistente administrativo")
+        current_role = role_desc.get(self.db_key, "asistente administrativo")
 
         role_topic = {
             "applying": "admisión y proceso de ingreso para aspirantes",
@@ -293,7 +293,7 @@ class RetrievalAugmentedQAPipeline:
             "alumni": "trámites de titulación y servicios para egresados"
         }
 
-        current_topic = role_topic.get(db_key, "atención a la comunidad universitaria")
+        current_topic = role_topic.get(self.db_key, "atención a la comunidad universitaria")
 
         omit_desc = {
             "applying": "No incluyas información sobre costos de colegiaturas ni pagos que no correspondan al proceso de admisión",
@@ -303,7 +303,7 @@ class RetrievalAugmentedQAPipeline:
             "alumni": "El usuario ya terminó sus estudios, enfócate en trámites de titulación o servicios para ex-alumnos"
         }
 
-        current_omissions = omit_desc.get(db_key, "")
+        current_omissions = omit_desc.get(self.db_key, "")
 
         messages = [
             {
